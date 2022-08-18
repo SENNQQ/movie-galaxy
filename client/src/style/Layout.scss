@@ -1,0 +1,28 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: 8em 1fr;
+  grid-template-areas:
+        "sidebar main"
+        "sidebar main";
+  height: 100vh;
+}
+
+header {
+  grid-area: sidebar;
+}
+//header{
+//  grid-area: sidebar;
+//  position: fixed;
+//  z-index: 5;
+//  background-color: #000;
+//  width: 8rem;
+//  height: 100%;
+//  border-right: 1px solid #202124;
+//}
+
+main {
+  grid-area: main;
+  background-color: #f1f6fa;
+  min-height: calc(100vh - 90px);
+  overflow-x: hidden;
+}
