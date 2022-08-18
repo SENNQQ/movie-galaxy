@@ -7,7 +7,7 @@
 /.idea
 /client/node_modules
 /client/.idea
-
+.idea
 # testing
 /coverage
 
