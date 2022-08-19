@@ -1,0 +1,21 @@
+.rating{
+  display: flex;
+  align-items: center;
+  margin: 0 1.2rem 0 0;
+
+  .stars{
+    margin-right: 1rem;
+    background-image: url("../image/2f810a4.png");
+    background-repeat: no-repeat;
+    background-size: auto 100%;
+    width: 10.3rem;
+    height: 1.7rem;
+
+    &>div{
+      height: 100%;
+      background-image: url("../image/cd8b62a.png");
+      background-repeat: no-repeat;
+      background-size: auto 100%;
+    }
+  }
+}

@@ -1,11 +1,12 @@
 import React from 'react';
-import {Button} from "@mui/material";
+import PanelMovie from "../components/PanelMovie";
+import '../style/Common.scss';
 
 const Main = () => {
     return (
-        <div>
-            <Button variant="contained">Главная страница</Button>
-        </div>
+        <>
+            <PanelMovie/>
+        </>
     );
 };
 
