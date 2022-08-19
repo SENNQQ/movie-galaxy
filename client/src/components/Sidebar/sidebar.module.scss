@@ -20,18 +20,21 @@
     transition: all .2s;
     background: inherit;
   }
+
+  ul li {
+      flex: 0 1 auto;
+      height: 6rem;
+  }
+
+  .noList{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+  }
 }
 
 .noList{
   padding: 0;
   margin: 0;
   list-style: none;
-  display: flex;
-  height: 100%;
-  flex-direction: column;
-
-  li{
-    flex: 0 1 auto;
-    height: 6rem;
-  }
 }

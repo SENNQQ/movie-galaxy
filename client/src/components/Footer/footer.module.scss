@@ -1,0 +1,28 @@
+footer {
+  display: grid;
+  grid-template: 20% 20% min-content/1fr;
+  grid-gap: 10px;
+  color: #80868b;
+  height: 100%;
+  align-content: center;
+  p {
+    font-size: 1rem;
+  }
+
+
+  ul {
+    display: flex;
+
+    a{
+      display: flex;
+      align-items: center;
+      justify-content: start;
+      width: 3.4rem;
+    }
+  }
+
+  a {
+    color: #80868b!important;
+    text-decoration: underline;
+  }
+}
