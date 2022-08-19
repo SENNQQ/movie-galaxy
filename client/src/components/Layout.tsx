@@ -1,13 +1,13 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 import "../style/Layout.scss";
-import {MuiNavbar} from "./UI/MuiNavbar";
+import Sidebar from "./Sidebar";
 
 const Layout = () => {
     return (
         <div>
             <div className="wrapper">
-                <MuiNavbar/>
+                <Sidebar/>
                 <main>
                     <Outlet/>
                 </main>
