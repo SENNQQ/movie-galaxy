@@ -3,9 +3,15 @@ import PanelMovie from "../components/PanelMovie";
 import '../style/Common.scss';
 
 const Main = () => {
+
+
+
     return (
         <>
-            <PanelMovie/>
+            <div>
+                <PanelMovie/>
+            </div>
+
         </>
     );
 };

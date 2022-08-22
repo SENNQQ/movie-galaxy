@@ -80,6 +80,7 @@ body {
   font-family: "Segoe UI", serif;
   color: #212529;
   overflow-x: hidden;
+  background-color: rgba(20,20,20);
 }
 
 html {

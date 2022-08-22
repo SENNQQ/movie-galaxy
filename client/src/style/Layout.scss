@@ -1,6 +1,6 @@
 .wrapper {
   display: grid;
-  grid-template: 0.8fr 0.2fr/7em 1fr;
+  grid-template: max-content 0.2fr/7em 1fr;
   grid-gap: 25px 0;
   grid-template-areas:
         "sidebar main"
