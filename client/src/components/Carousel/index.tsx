@@ -39,16 +39,8 @@ const Carousel = () => {
                     <div className={st.card}>
                         <a href="" className="card__link">
                             <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
+                                <span>Explore All</span>
                             </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width:"82%"}}></div>
-                                </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096 </div>
-                            </div>
-
                         </a>
                     </div>
                     <div className={st.card}>
@@ -111,7 +103,6 @@ const Carousel = () => {
 
                         </a>
                     </div>
-
 
 
 
