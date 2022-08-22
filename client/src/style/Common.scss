@@ -8,8 +8,8 @@
     background-image: url("../image/2f810a4.png");
     background-repeat: no-repeat;
     background-size: auto 100%;
-    width: 10.3rem;
-    height: 1.7rem;
+    width: 9rem;
+    height: 22px;
 
     &>div{
       height: 100%;
@@ -18,4 +18,13 @@
       background-size: auto 100%;
     }
   }
+}
+
+.button_icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button .icon, a.button .icon {
+  margin-right: 1rem;
 }

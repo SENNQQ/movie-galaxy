@@ -9,7 +9,7 @@ const PanelMovie = () => {
                 <img src={spider} alt="spider"/>
             </div>
             <div className={st.panel}>
-                <div className="panel_container">
+                <div className={st.panel_container}>
                     <h1 className={st.panel__title}>
                         <a>The SandMan</a>
                     </h1>
@@ -29,7 +29,7 @@ const PanelMovie = () => {
                     <div className={st.panel__desc}>
                         After years of imprisonment, Morpheus — the King of Dreams — embarks on a journey across worlds to find what was stolen from him and restore his power.
                     </div>
-                    <button type="button" className="button button--icon trailer_3TaRf">
+                    <button type="button" className="button button_icon trailer">
                         <span className="icon">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"

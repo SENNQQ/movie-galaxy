@@ -49,6 +49,12 @@
   width: 45%;
   padding-left: 60px;
 
+  &_container{
+    display: grid;
+    grid-template: auto/1fr;
+    grid-gap: 20px;
+  }
+
   &__title{
     margin: 0 0 1.8rem;
     font-size: 2.4vw;
@@ -58,7 +64,7 @@
   }
 
   &__meta{
-    font-size: 1.4rem;
+    font-size: 20px;
     display: flex;
 
     &__info{
@@ -70,7 +76,26 @@
   &__desc{
     display: block;
     margin-top: 30px;
-    font-size: 18px;
+    font-size: 17px;
     color: #fff;
   }
+
+  .trailer{
+      margin-top: 3rem;
+  }
+
+  button, a.button {
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    letter-spacing: .05em;
+    cursor: pointer;
+    background-color: #202124;
+    transition: all .2s;
+    width: 50%;
+  }
+
 }
