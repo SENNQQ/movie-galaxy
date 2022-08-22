@@ -1,0 +1,121 @@
+.listening_head{
+  display: flex;
+  align-items: baseline;
+}
+
+.listening_title{
+  letter-spacing: .4px;
+  font-size: 1.6rem;
+}
+
+.listing_explore{
+  margin-left: 1rem;
+  font-size: 1rem;
+  color: #2196f3;
+  letter-spacing: .4px;
+
+  &:hover{
+    color: #087ad7;
+  }
+}
+
+.carousel{
+  position: relative;
+  overflow: hidden;
+
+  &_nav{
+    //display: none;
+
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    background: rgba(0,0,0,.5);
+    outline: 0;
+    transition: opacity .25s ease,background-color .25s ease;
+    bottom: 60px;
+    width: 50px;
+  }
+
+  &_nav[disabled]{
+    cursor: default;
+    opacity: 0;
+  }
+
+  &_nav__left{
+    left: 0;
+  }
+
+  &_nav__right{
+    right: 0;
+  }
+
+  &__items{
+    width: 100%;
+    overflow: hidden;
+    overflow-x: scroll;
+    line-height: 0;
+    white-space: nowrap;
+    transform: translateZ(0);
+    scroll-snap-type: x mandatory;
+    scroll-padding: 50px;
+  }
+}
+
+.card{
+  display: inline-block;
+  width: calc(20% - 18.4px);
+  padding-right: 8px;
+  margin: 0;
+  white-space: normal;
+  vertical-align: top;
+  scroll-snap-align: start;
+  line-height: 1.6;
+
+  &__img{
+    position: relative;
+    height: 0;
+    padding-top: 150.27%;
+    overflow: hidden;
+    background-color: #202124;
+    transition: -webkit-transform .3s ease-in-out;
+    transition: transform .3s ease-in-out,-webkit-transform .3s ease-in-out;
+
+    img{
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-width: 100%;
+      transform: scale(.98);
+    }
+  }
+
+  &__name{
+    margin-top: 1rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    letter-spacing: 0.7px;
+    white-space: nowrap;
+    font-size: 1rem;
+  }
+
+
+  &__rating{
+    display: flex;
+    align-items: center;
+  }
+
+  &__stars{
+    width: 6.3rem !important;
+    height: 1rem !important;
+  }
+
+  &__vote{
+    font-size: 16px;
+    color: #80868b;
+  }
+}
