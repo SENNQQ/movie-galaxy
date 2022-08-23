@@ -22,10 +22,10 @@
 .carousel{
   position: relative;
   overflow: hidden;
-
+  ::-webkit-scrollbar {
+    display: none;
+  }
   &_nav{
-    //display: none;
-
     position: absolute;
     top: 0;
     z-index: 1;
@@ -35,8 +35,9 @@
     background: rgba(0,0,0,.5);
     outline: 0;
     transition: opacity .25s ease,background-color .25s ease;
-    bottom: 60px;
+    bottom: 67px;
     width: 50px;
+    -webkit-appearance: button;
   }
 
   &_nav[disabled]{
@@ -58,7 +59,10 @@
     overflow-x: scroll;
     line-height: 0;
     white-space: nowrap;
+    -webkit-transform: translateZ(0);
     transform: translateZ(0);
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none;
     scroll-snap-type: x mandatory;
     scroll-padding: 50px;
   }
