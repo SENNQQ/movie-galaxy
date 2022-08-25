@@ -1,0 +1,29 @@
+.nav_movie{
+  justify-content: center;
+  margin-top: 30px;
+  background: none;
+  display: flex;
+
+  .button_movie{
+    width: auto;
+    margin: 0 3rem;
+    font-size: 18px;
+    border-bottom: 2px solid transparent;
+    display: block;
+    padding: 0;
+    font-weight: 500;
+    color: #585858;
+    text-transform: uppercase;
+    letter-spacing: .4px;
+    background: none;
+    border-right: 1px solid #141414;
+    outline: 0;
+    transition: color .2s ease;
+  }
+
+  .buttonActive{
+    background: none;
+    border-bottom-color: #fff;
+    color: #fff;
+  }
+}

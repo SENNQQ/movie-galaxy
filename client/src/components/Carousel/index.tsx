@@ -68,161 +68,160 @@ const Carousel = () => {
     }, []);
 
 
-
     const scrollEvent = () => {
         const scrollLeft = carouselRef.current!.scrollLeft;
         const end = paramCarousel.maximumPosition - paramCarousel.visibleWidth - paramCarousel.elementWidth;
 
-        let leftBtn  = 3 > scrollLeft;
+        let leftBtn = 3 > scrollLeft;
         let rightBtn = scrollLeft > end;
 
-        setParamCarousel({...paramCarousel,
-            disableRightButton:rightBtn,
-            disableLeftButton:leftBtn
+        setParamCarousel({
+            ...paramCarousel,
+            disableRightButton: rightBtn,
+            disableLeftButton: leftBtn
         });
     };
 
     return (
-        <>
+        <div className="listing listing_carousel">
             <div className={st.listening_head}>
-                <h2 className={st.listening_title}>Trending Movies</h2>
-                <a className={st.listing_explore}>
-                    <strong>Посмотреть все</strong>
-                </a>
-            </div>
+                    <h2 className={st.listening_title}>Trending Movies</h2>
+                    <a className={st.listing_explore}>
+                        <strong>Посмотреть все</strong>
+                    </a>
+                </div>
             <div className={st.carousel}>
-                <button aria-label="Previous"
-                        className={cn(st.carousel_nav, st.carousel_nav__left)}
-                        type="button"
-                        disabled={paramCarousel.disableLeftButton}
-                        onClick={() => moveToClickEvent('left')}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
-                              strokeLinejoin="round" strokeMiterlimit="10" d="M17.9 23.2L6.1 12 17.9.8"></path>
-                    </svg>
-                </button>
+                    <button aria-label="Previous"
+                            className={cn(st.carousel_nav, st.carousel_nav__left)}
+                            type="button"
+                            disabled={paramCarousel.disableLeftButton}
+                            onClick={() => moveToClickEvent('left')}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
+                                  strokeLinejoin="round" strokeMiterlimit="10" d="M17.9 23.2L6.1 12 17.9.8"></path>
+                        </svg>
+                    </button>
 
-                <div className={st.carousel__items}
-                     ref={carouselRef}
-                     onScroll={scrollEvent}
-                >
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                    <div className={st.carousel__items}
+                         ref={carouselRef}
+                         onScroll={scrollEvent}
+                    >
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
-
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <span>Explore All</span>
-                            </div>
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
 
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <span>Explore All</span>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
-
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
-
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
 
-                        </a>
-                    </div>
-                    <div className={st.card}>
-                        <a href="" className="card__link">
-                            <div className={st.card__img}>
-                                <img src={tempImage} alt="Prey"/>
-                            </div>
-                            <h2 className={st.card__name}> Prey </h2>
-                            <div className={cn("rating", st.card__rating)}>
-                                <div className={cn("stars", st.card__stars)}>
-                                    <div style={{width: "82%"}}></div>
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
                                 </div>
-                                <div className={cn("vote", st.card__vote)}> 8.096</div>
-                            </div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
+                                </div>
 
-                        </a>
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
+                                </div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
+                                </div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
+                                </div>
+
+                            </a>
+                        </div>
+                        <div className={st.card}>
+                            <a href="" className="card__link">
+                                <div className={st.card__img}>
+                                    <img src={tempImage} alt="Prey"/>
+                                </div>
+                                <h2 className={st.card__name}> Prey </h2>
+                                <div className={cn("rating", st.card__rating)}>
+                                    <div className={cn("stars", st.card__stars)}>
+                                        <div style={{width: "82%"}}></div>
+                                    </div>
+                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
+                                </div>
+
+                            </a>
+                        </div>
+
+
                     </div>
 
-
+                    <button aria-label="Next"
+                            className={cn(st.carousel_nav, st.carousel_nav__right)}
+                            type="button"
+                            disabled={paramCarousel.disableRightButton}
+                            onClick={() => moveToClickEvent('right')}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                            <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
+                                  strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
+                        </svg>
+                    </button>
 
                 </div>
-
-                <button aria-label="Next"
-                        className={cn(st.carousel_nav, st.carousel_nav__right)}
-                        type="button"
-                        disabled={paramCarousel.disableRightButton}
-                        onClick={() => moveToClickEvent('right')}
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                        <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
-                              strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
-                    </svg>
-                </button>
-
-            </div>
-        </>
+        </div>
     );
 };
 

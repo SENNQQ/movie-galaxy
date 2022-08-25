@@ -6,15 +6,14 @@ import Carousel from "../components/Carousel";
 const Main = () => {
 
 
-
     return (
         <>
-            <div>
+            <>
                 <PanelMovie/>
-            </div>
-            <div className="listing listing_carousel">
+            </>
+            <>
                 <Carousel/>
-            </div>
+            </>
         </>
     );
 };
