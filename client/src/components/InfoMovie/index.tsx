@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import NavMovie from "../NavMovie";
 
 import InfoOverview from "../InfoOverview";
+import InfoVideo from "../InfoVideo";
 
 const InfoMovie = () => {
 
-    const [tab, setTab] = useState<string>('overview')
+    const [tab, setTab] = useState<string>('videos')
 
     const changeTab = (nameTab:string):void =>{
         setTab(nameTab);
@@ -15,8 +16,8 @@ const InfoMovie = () => {
         <>
             <NavMovie nameTab={tab} changeTabHandler={changeTab}/>
             {tab === "overview" && <InfoOverview/>}
-            {tab === "video" && <h1>video</h1>}
-            {tab === "photo" && <h1>photo</h1>}
+            {tab === "videos" && <InfoVideo/>}
+            {tab === "photos" && <h1>photo</h1>}
         </>
     );
 };

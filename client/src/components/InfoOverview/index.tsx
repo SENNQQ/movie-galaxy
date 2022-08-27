@@ -7,7 +7,7 @@ import Carousel from "../Carousel";
 const InfoOverview = () => {
     return (
         <>
-            <div className={cn(st.info, st.spacing)}>
+            <div className={cn(st.info, "spacing")}>
                 <div className={st.info__leftBlock}>
                     <div className={st.posterMovie}>
                         <img src={prey} alt="Prey"/>
