@@ -1,12 +1,44 @@
-import React from 'react';
-import zxc from "../../image/mqdefault.jpg";
+import React, {FC, useState} from 'react';
+
 import st from "./video.module.scss"
 
 import Carousel from "../Carousel";
+import ModalIframeVideo from "../ModalIframeVideo";
+import InfoVideoItem from "../InfoVideoItem";
+import {movieDataType} from "../InfoVideoItem/types";
 
-const InfoVideo = () => {
+
+const videoItem: movieDataType[] = [
+    {
+        movieDuration: "2:10",
+        movieName: "Groundbreaking Cameras",
+        movieType: "Behind the Scenes",
+        movieUrlTrailer: "https://youtube.com/watch?v=EM2SmqGFTpo",
+    },
+    {
+        movieDuration: "2:15",
+        movieName: "Groundbreaking Cameras",
+        movieType: "Behind the Scenes",
+        movieUrlTrailer: "https://youtube.com/watch?v=96oC5P4MRqQ",
+    }
+]
+
+
+
+const InfoVideo: FC = () => {
+
+    const [modalVisible, setModalVisible] = useState<boolean>(false);
+    const [modalStartAt, setModalStartAt] = useState<number>(0);
+
+    const openModel = (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>, indexVideo: number) => {
+        event.preventDefault();
+        setModalStartAt(indexVideo);
+        setModalVisible(true);
+    }
+
     return (
         <>
+
             <div className={"spacing"}>
                 <div className={st.headDropdown}>
                     <select name="infoVideo_dropdown">
@@ -19,140 +51,22 @@ const InfoVideo = () => {
                     <strong className={st.headDropdown__count}>21 Videos</strong>
                 </div>
                 <div className={st.items__Video}>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
-                    <div className={st.item}>
-                        <a href="https://youtube.com/watch?v=96oC5P4MRqQ">
-                            <div className={st.item__image}>
-                                <img src={zxc} alt="zxc"/>
-                                <div className={st.item__image__duration}> 2:10</div>
-                                <div className={st.item__image__play}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
-                                        <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
-                                                strokeLinecap="round" strokeLinejoin="round"
-                                                strokeWidth="1.5"></circle>
-                                        <path fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round"
-                                              strokeWidth="1.5" d="M20.97 40.81L40.64 27.5 20.97 14.19v26.62z"></path>
-                                    </svg>
-                                </div>
-                            </div>
-                            <div className={st.item__name}>Groundbreaking Cameras</div>
-                            <div className={st.item__type}>Behind the Scenes</div>
-                        </a>
-                    </div>
+                    {/*href="https://youtube.com/watch?v=96oC5P4MRqQ"*/}
+
+                    {videoItem.map((item, index) =>
+                        <InfoVideoItem openVideoHandler={openModel}
+                                       movieData={item}
+                                       movieIndex={index}
+                                       key={index + 1}
+                        />)
+                    }
+
                 </div>
+
+                {modalVisible && <ModalIframeVideo
+                    movieData={videoItem}
+                    movieSelectIndex={modalStartAt}
+                />}
             </div>
             <Carousel/>
             <Carousel/>

@@ -1,0 +1,91 @@
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  overflow-x: hidden;
+  overflow-y: auto;
+  cursor: pointer;
+  background-color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+
+  &__wrap {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  &__body {
+    position: relative;
+    margin: auto;
+    cursor: default;
+  }
+
+  &__close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.4rem;
+    height: 4.4rem;
+    padding: 0;
+    background: none;
+  }
+
+  &__iframe {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 56.25%;
+    overflow: hidden;
+  }
+
+  &__nav {
+    left: 0;
+    display: flex;
+    align-items: center;
+  }
+
+  &__arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: none;
+    position: fixed;
+    top: 50%;
+    width: 10rem;
+    height: 10rem;
+    margin-top: -5rem;
+  }
+
+  &__count {
+    font-size: 1.6rem;
+    line-height: 1;
+  }
+
+  &__arrow__prev {
+    left: 0;
+  }
+
+  &__arrow__next {
+    right: 0;
+  }
+
+  &__iframe &__close {
+    top: -4.4rem;
+  }
+
+  &__nav {
+    justify-content: flex-end;
+  }
+}
+

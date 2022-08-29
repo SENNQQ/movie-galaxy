@@ -5,6 +5,7 @@ import prey from "../../image/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg";
 import Carousel from "../Carousel";
 
 const InfoOverview = () => {
+
     return (
         <>
             <div className={cn(st.info, "spacing")}>
