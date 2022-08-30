@@ -4,7 +4,12 @@ import {ModalIframeVideoPropsType} from "./types";
 import {movieDataType} from "../InfoVideoItem/types";
 import cn from "classnames";
 
-const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectIndex}) => {
+const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
+                                                             movieData,
+                                                             movieSelectIndex,
+                                                             closeModal,
+                                                             changeSelectIndex,
+                                                         }) => {
 
     const [activeVideoItem, setActiveVideoItem] = useState<movieDataType>({
         movieDuration: "",
@@ -13,7 +18,7 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
         movieUrlTrailer: ""
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         setActiveVideoItem(movieData[movieSelectIndex]);
     }, [movieSelectIndex, movieData])
 
@@ -22,7 +27,11 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
         <div className={st.modal}>
             <div className={st.modal__wrap}>
                 <div className={st.modal__body}>
-                    <button aria-label="Close" type="button" className={st.modal__close}>
+                    <button aria-label="Close"
+                            type="button"
+                            className={st.modal__close}
+                            onClick={() => closeModal()}
+                    >
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
                             <g fill="none" stroke="#fff" strokeLinecap="round" strokeMiterlimit="10"
                                strokeWidth="1.5">
@@ -31,7 +40,7 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
                         </svg>
                     </button>
 
-                    <div className={st.modal__iframe} style={{"width":"1175px","height":"661px"}}>
+                    <div className={st.modal__iframe} style={{"width": "1175px", "height": "661px"}}>
                         <iframe src={activeVideoItem.movieUrlTrailer + "?rel=0&showinfo=0&autoplay=1"}
                                 allow="autoplay; encrypted-media"
                                 allowFullScreen/>
@@ -41,7 +50,9 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
                     <div className={st.modal__nav}>
                         <button aria-label="Previous"
                                 type="button"
-                                className={cn(st.modal__arrow, st.modal__arrow__prev)}>
+                                className={cn(st.modal__arrow, st.modal__arrow__prev)}
+                                onClick={()=>changeSelectIndex('prev')}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                       strokeLinejoin="round" strokeMiterlimit="10"
@@ -49,11 +60,13 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
                             </svg>
                         </button>
                         <div className={st.modal__count}>
-                            {movieSelectIndex+1} / {movieData.length}
+                            {movieSelectIndex + 1} / {movieData.length}
                         </div>
                         <button aria-label="Next"
                                 type="button" title="Next"
-                                className={cn(st.modal__arrow, st.modal__arrow__next)} >
+                                className={cn(st.modal__arrow, st.modal__arrow__next)}
+                                onClick={()=>changeSelectIndex('next')}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                       strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
@@ -61,7 +74,6 @@ const ModalIframeVideo:FC<ModalIframeVideoPropsType> = ({movieData, movieSelectI
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     );

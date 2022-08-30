@@ -11,5 +11,5 @@ export type movieDataType = {
     movieDuration: string,
     movieName: string,
     movieType: string,
-    movieUrlTrailer: string
+    movieUrlTrailer: string,
 }
