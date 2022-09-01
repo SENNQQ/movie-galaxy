@@ -3,6 +3,7 @@ import NavMovie from "../NavMovie";
 
 import InfoOverview from "../InfoOverview";
 import InfoVideo from "../InfoVideo";
+import InfoPhotos from "../InfoPhotos";
 
 
 const InfoMovie = () => {
@@ -21,7 +22,7 @@ const InfoMovie = () => {
             <NavMovie nameTab={tab} changeTabHandler={changeTab}/>
             {tab === "overview" && <InfoOverview/>}
             {tab === "videos" && <InfoVideo />}
-            {tab === "photos" && <h1>photo</h1>}
+            {tab === "photos" && <InfoPhotos/>}
         </>
     );
 };

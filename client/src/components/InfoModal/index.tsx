@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
 import st from './modal.module.scss'
-import {ModalIframeVideoPropsType} from "./types";
-import {movieDataType} from "../InfoVideoItem/types";
+import {InfoModalMoviePropsType} from "./types";
+import {movieDataType} from "../VideoItem/types";
 import cn from "classnames";
 
-const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
-                                                             movieData,
-                                                             movieSelectIndex,
+const InfoModal: FC<InfoModalMoviePropsType> = ({
+                                                             data,
+                                                             selectIndex,
                                                              closeModal,
                                                              changeSelectIndex,
                                                          }) => {
@@ -19,8 +19,8 @@ const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
     });
 
     useEffect(() => {
-        setActiveVideoItem(movieData[movieSelectIndex]);
-    }, [movieSelectIndex, movieData])
+        setActiveVideoItem(data[selectIndex]);
+    }, [selectIndex, data]);
 
 
     return (
@@ -41,7 +41,9 @@ const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
                     </button>
 
                     <div className={st.modal__iframe} style={{"width": "1175px", "height": "661px"}}>
+
                         <iframe src={activeVideoItem.movieUrlTrailer + "?rel=0&showinfo=0&autoplay=1"}
+                                title={"movie page"}
                                 allow="autoplay; encrypted-media"
                                 allowFullScreen/>
 
@@ -60,7 +62,7 @@ const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
                             </svg>
                         </button>
                         <div className={st.modal__count}>
-                            {movieSelectIndex + 1} / {movieData.length}
+                            {selectIndex + 1} / {data.length}
                         </div>
                         <button aria-label="Next"
                                 type="button" title="Next"
@@ -79,4 +81,4 @@ const ModalIframeVideo: FC<ModalIframeVideoPropsType> = ({
     );
 };
 
-export default ModalIframeVideo;
+export default InfoModal;

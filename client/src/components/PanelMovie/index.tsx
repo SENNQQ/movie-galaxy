@@ -2,6 +2,8 @@ import React from 'react';
 import spider from '../../image/mPqIjQk2rqU2mfFLJzDGeRwpIuU.jpg'
 import st from './panel.module.scss'
 
+
+//TODO сделать получение данных, при клике на кнопку "посмотреть трейлер" открывается модальное окно для просмотра.
 const PanelMovie = () => {
     return (
         <div className={st.hero}>

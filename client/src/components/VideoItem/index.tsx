@@ -3,7 +3,7 @@ import st from "./videoItem.module.scss";
 import zxc from "../../image/mqdefault.jpg";
 import {InfoVideoItemPropsType} from "./types";
 
-const InfoVideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,movieData,movieIndex}) => {
+const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,movieData,movieIndex}) => {
 
 
     return (
@@ -30,4 +30,4 @@ const InfoVideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,movieData,mo
     );
 };
 
-export default InfoVideoItem;
+export default VideoItem;

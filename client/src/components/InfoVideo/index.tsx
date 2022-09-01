@@ -3,9 +3,9 @@ import React, {FC, useState} from 'react';
 import st from "./video.module.scss"
 
 import Carousel from "../Carousel";
-import ModalIframeVideo from "../ModalIframeVideo";
-import InfoVideoItem from "../InfoVideoItem";
-import {movieDataType} from "../InfoVideoItem/types";
+import InfoModal from "../InfoModal";
+import VideoItem from "../VideoItem";
+import {movieDataType} from "../VideoItem/types";
 
 
 const videoItem: movieDataType[] = [
@@ -90,18 +90,18 @@ const InfoVideo: FC = () => {
 
 
                     {activeVideos.map((item, index) =>
-                        <InfoVideoItem openVideoHandler={openModel}
-                                       movieData={item}
-                                       movieIndex={index}
-                                       key={index + 1}
+                        <VideoItem openVideoHandler={openModel}
+                                   movieData={item}
+                                   movieIndex={index}
+                                   key={index + 1}
                         />)
                     }
 
                 </div>
 
-                {modalVisible && <ModalIframeVideo
-                    movieData={activeVideos}
-                    movieSelectIndex={modalStartAt}
+                {modalVisible && <InfoModal
+                    data={activeVideos}
+                    selectIndex={modalStartAt}
                     closeModal={closeModel}
                     changeSelectIndex={changeSelectIndex}
                 />}

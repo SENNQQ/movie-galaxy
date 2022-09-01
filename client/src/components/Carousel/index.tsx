@@ -2,21 +2,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import tempImage from '../../image/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg';
 import st from './carousel.module.scss';
 import cn from "classnames";
+import {CarouselPropsType} from "./types";
 
-
+//Todo сделать тайтл пропсом, передавать его. Сделать передачу данных фильма.
 const Carousel = () => {
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
-    const [paramCarousel, setParamCarousel] = useState<{
-        unusableVisibleWidth: number,
-        elementWidth: number,
-        carouselWidth: number,
-        visibleWidth: number,
-        maximumPosition: number,
-        disableLeftButton: boolean,
-        disableRightButton: boolean
-    }>({
+    const [paramCarousel, setParamCarousel] = useState<CarouselPropsType>({
         carouselWidth: 0,
         disableLeftButton: true,
         disableRightButton: false,
@@ -27,7 +20,8 @@ const Carousel = () => {
     });
 
     const moveToClickEvent = (direction: string): void => {
-        const invisible = carouselRef.current!.scrollLeft + (direction === 'left' ? -paramCarousel.visibleWidth + 1 : paramCarousel.visibleWidth);
+        const invisible = carouselRef.current!.scrollLeft +
+            + (direction === 'left' ? - paramCarousel.visibleWidth + 1 : paramCarousel.visibleWidth);
         const remainder = invisible - invisible % paramCarousel.elementWidth;
         moveTo(remainder);
     }
@@ -41,7 +35,7 @@ const Carousel = () => {
 
     useEffect(() => {
         let unusableVisibleWidth = 72;
-        let numberOfItems = 12;
+        let numberOfItems = 12;//Количество фильмов в данных
         const elementWidth = carouselRef.current!.children[0].getBoundingClientRect().width;
         const carouselWidth = numberOfItems * elementWidth;
         const maximumPosition = carouselRef.current!.scrollWidth;
@@ -95,8 +89,7 @@ const Carousel = () => {
                             className={cn(st.carousel_nav, st.carousel_nav__left)}
                             type="button"
                             disabled={paramCarousel.disableLeftButton}
-                            onClick={() => moveToClickEvent('left')}
-                    >
+                            onClick={() => moveToClickEvent('left')}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                   strokeLinejoin="round" strokeMiterlimit="10" d="M17.9 23.2L6.1 12 17.9.8"></path>
@@ -105,8 +98,7 @@ const Carousel = () => {
 
                     <div className={st.carousel__items}
                          ref={carouselRef}
-                         onScroll={scrollEvent}
-                    >
+                         onScroll={scrollEvent}>
                         <div className={st.card}>
                             <a href="" className="card__link">
                                 <div className={st.card__img}>
@@ -119,7 +111,6 @@ const Carousel = () => {
                                     </div>
                                     <div className={cn("vote", st.card__vote)}> 8.096</div>
                                 </div>
-
                             </a>
                         </div>
                         <div className={st.card}>
@@ -212,8 +203,7 @@ const Carousel = () => {
                             className={cn(st.carousel_nav, st.carousel_nav__right)}
                             type="button"
                             disabled={paramCarousel.disableRightButton}
-                            onClick={() => moveToClickEvent('right')}
-                    >
+                            onClick={() => moveToClickEvent('right')}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                             <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                   strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
