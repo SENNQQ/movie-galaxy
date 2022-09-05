@@ -106,8 +106,8 @@ const InfoOverview = () => {
                 </div>
 
             </div>
-            <Carousel/>
-            <Carousel/>
+            {/*<Carousel/>*/}
+            {/*<Carousel/>*/}
         </>
 
     );

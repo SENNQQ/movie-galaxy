@@ -15,19 +15,30 @@ export const apiImgUrl = 'https://image.tmdb.org/t/p';
  */
 const lists = {
     movie: [
-        { title: 'Популярные фильмы', query: 'trending' },
-        { title: 'Popular Movies', query: 'popular' },
-        { title: 'Top Rated Movies', query: 'top_rated' },
-        { title: 'Upcoming Movies', query: 'upcoming' },
-        { title: 'Now Playing Movies', query: 'now_playing' },
+        { title: 'Актуальные фильмы', query: 'trending' },
+        { title: 'Популярные фильмы', query: 'popular' },
+        { title: 'Фильмы с самым высоким рейтингом', query: 'top_rated' },
+        { title: 'Предстоящие фильмы', query: 'upcoming' },
+        { title: 'Сейчас воспроизводятся фильмы', query: 'now_playing' },
     ],
     tv: [
-        { title: 'Trending TV Shows', query: 'trending' },
-        { title: 'Popular TV Shows', query: 'popular' },
-        { title: 'Top Rated TV Shows', query: 'top_rated' },
-        { title: 'Currently Airing TV Shows', query: 'on_the_air' },
-        { title: 'TV Shows Airing Today', query: 'airing_today' },
+        { title: 'Актуальные телешоу', query: 'trending' },
+        { title: 'Популярные телешоу', query: 'popular' },
+        { title: 'Самые рейтинговые телешоу', query: 'top_rated' },
+        { title: 'В настоящее время транслируются телешоу', query: 'on_the_air' },
+        { title: 'Телешоу, которые выходят сегодня в эфир', query: 'airing_today' },
     ],
+}
+
+/**
+ * Get list item
+ */
+export function getListItem (type, query) {
+    if (type === 'movie') {
+        return lists.movie.find(list => list.query === query);
+    } else if (type === 'tv') {
+        return lists.tv.find(list => list.query === query);
+    }
 }
 
 /**

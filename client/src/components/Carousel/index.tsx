@@ -1,15 +1,22 @@
-import React, {useEffect, useRef, useState} from 'react';
-import tempImage from '../../image/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import st from './carousel.module.scss';
 import cn from "classnames";
-import {CarouselPropsType} from "./types";
+import {CarouselPropsType, CarouselType} from "./types";
+import {apiImgUrl} from "../../api/zxc";
+import {cinemaProps} from "../../types/MainPageTypes";
+import {Link} from "react-router-dom";
+// import {trendingMoviesTypes, trendingTVTypes} from "../../types/MainPageTypes";
 
 //Todo сделать тайтл пропсом, передавать его. Сделать передачу данных фильма.
-const Carousel = () => {
+const Carousel:FC<CarouselPropsType> = ({items,
+                                        title,
+                                        allUrl}) => {
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
-    const [paramCarousel, setParamCarousel] = useState<CarouselPropsType>({
+
+
+    const [paramCarousel, setParamCarousel] = useState<CarouselType>({
         carouselWidth: 0,
         disableLeftButton: true,
         disableRightButton: false,
@@ -33,9 +40,10 @@ const Carousel = () => {
         });
     }
 
+
     useEffect(() => {
         let unusableVisibleWidth = 72;
-        let numberOfItems = 12;//Количество фильмов в данных
+        let numberOfItems = items.length;//Количество фильмов в данных
         const elementWidth = carouselRef.current!.children[0].getBoundingClientRect().width;
         const carouselWidth = numberOfItems * elementWidth;
         const maximumPosition = carouselRef.current!.scrollWidth;
@@ -59,7 +67,7 @@ const Carousel = () => {
             visibleWidth: visibleWidth
         })
 
-    }, []);
+    }, [items]);
 
 
     const scrollEvent = () => {
@@ -76,13 +84,25 @@ const Carousel = () => {
         });
     };
 
+    const poster  = (item:cinemaProps):string => {
+        if (item.poster_path) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${item.poster_path}`;
+        } else if (item.profile_path) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${item.profile_path}`;
+        } else {
+            return '';
+        }
+    };
+
+    console.log(allUrl())
+
     return (
         <div className="listing listing_carousel">
             <div className={st.listening_head}>
-                    <h2 className={st.listening_title}>Trending Movies</h2>
-                    <a className={st.listing_explore}>
+                    <h2 className={st.listening_title}>{title()}</h2>
+                    <Link to={allUrl().name} className={st.listing_explore}>
                         <strong>Посмотреть все</strong>
-                    </a>
+                    </Link>
                 </div>
             <div className={st.carousel}>
                     <button aria-label="Previous"
@@ -99,103 +119,31 @@ const Carousel = () => {
                     <div className={st.carousel__items}
                          ref={carouselRef}
                          onScroll={scrollEvent}>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
+
+                        {items.map((item) => (
+                            <div className={st.card} key={item.id}>
+                                <a href="" className="card__link">
+                                    <div className={st.card__img}>
+                                        <img src={poster(item)} alt={item.title}/>
                                     </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-                            </a>
-                        </div>
+                                    <h2 className={st.card__name}> {item.original_name} </h2>
+                                    <div className={cn("rating", st.card__rating)}>
+                                        <div className={cn("stars", st.card__stars)}>
+                                            <div style={{width: `${item.vote_average*10}%`}}></div>
+                                        </div>
+                                        <div className={cn("vote", st.card__vote)}>{item.vote_count}</div>
+                                    </div>
+                                </a>
+                            </div>
+                        ))}
+
                         <div className={st.card}>
-                            <a href="" className="card__link">
+                            <Link to={allUrl().name} className="card__link">
                                 <div className={st.card__img}>
                                     <span>Explore All</span>
                                 </div>
-                            </a>
+                            </Link>
                         </div>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
-                                    </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-
-                            </a>
-                        </div>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
-                                    </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-
-                            </a>
-                        </div>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
-                                    </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-
-                            </a>
-                        </div>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
-                                    </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-
-                            </a>
-                        </div>
-                        <div className={st.card}>
-                            <a href="" className="card__link">
-                                <div className={st.card__img}>
-                                    <img src={tempImage} alt="Prey"/>
-                                </div>
-                                <h2 className={st.card__name}> Prey </h2>
-                                <div className={cn("rating", st.card__rating)}>
-                                    <div className={cn("stars", st.card__stars)}>
-                                        <div style={{width: "82%"}}></div>
-                                    </div>
-                                    <div className={cn("vote", st.card__vote)}> 8.096</div>
-                                </div>
-
-                            </a>
-                        </div>
-
 
                     </div>
 

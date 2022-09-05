@@ -106,8 +106,8 @@ const InfoVideo: FC = () => {
                     changeSelectIndex={changeSelectIndex}
                 />}
             </div>
-            <Carousel/>
-            <Carousel/>
+            {/*<Carousel/>*/}
+            {/*<Carousel/>*/}
         </>
     );
 };

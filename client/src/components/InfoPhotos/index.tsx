@@ -51,7 +51,7 @@ const InfoPhotos = () => {
                          countImage={imagePoster.countImage}
                          Image={imagePoster.Image}
                          openModal={openModel}/>
-            <Carousel/>
+            {/*<Carousel/>*/}
             {/*{modalVisible && <InfoModal*/}
             {/*    data={imagePoster.Image}*/}
             {/*    selectIndex={modalStartAt}*/}
