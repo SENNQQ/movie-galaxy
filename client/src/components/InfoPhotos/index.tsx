@@ -3,6 +3,7 @@ import backDrop from "../../image/jALOpRgEjKLWn5ZD01pGecHdCNt.jpg";
 import Poster from "../../image/zOGINv5sJxEZQWw2dGuO8JUzvyK.jpg";
 import Carousel from "../Carousel";
 import PhotosBlock from "../PhotosBlock";
+import Modal from "../Modal";
 
 
 const imageBackDrop = {
@@ -52,7 +53,7 @@ const InfoPhotos = () => {
                          Image={imagePoster.Image}
                          openModal={openModel}/>
             {/*<Carousel/>*/}
-            {/*{modalVisible && <InfoModal*/}
+            {/*{modalVisible && <Modal*/}
             {/*    data={imagePoster.Image}*/}
             {/*    selectIndex={modalStartAt}*/}
             {/*    closeModal={closeModel}*/}

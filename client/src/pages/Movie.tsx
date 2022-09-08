@@ -1,16 +1,16 @@
 import React from 'react';
 import PanelMovie from "../components/PanelMovie";
-import InfoMovie from "../components/InfoMovie";
+import MovieGalaxy from "../components/MovieGalaxy";
 
 
 const Movie = () => {
     return (
         <>
             <div>
-                <PanelMovie/>
+                {/*<PanelMovie/>*/}
             </div>
             <div>
-                <InfoMovie/>
+                <MovieGalaxy/>
             </div>
         </>
     )

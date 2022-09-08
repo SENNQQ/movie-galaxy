@@ -4,22 +4,22 @@ import {InfoModalMoviePropsType} from "./types";
 import {movieDataType} from "../VideoItem/types";
 import cn from "classnames";
 
-const InfoModal: FC<InfoModalMoviePropsType> = ({
-                                                             data,
-                                                             selectIndex,
-                                                             closeModal,
-                                                             changeSelectIndex,
-                                                         }) => {
+const Modal: FC<InfoModalMoviePropsType> = ({
+                                                data,
+                                                type,
+                                                selectIndex,
+                                                closeModal,
+                                                changeSelectIndex,
+                                            }) => {
 
-    const [activeVideoItem, setActiveVideoItem] = useState<movieDataType>({
-        movieDuration: "",
-        movieName: "",
-        movieType: "",
-        movieUrlTrailer: ""
-    });
+    if(type === 'iframe'){
+
+    }
+
+    const [activeItem, setActiveItem] = useState<string>();
 
     useEffect(() => {
-        setActiveVideoItem(data[selectIndex]);
+        setActiveItem(data[selectIndex]);
     }, [selectIndex, data]);
 
 
@@ -42,10 +42,14 @@ const InfoModal: FC<InfoModalMoviePropsType> = ({
 
                     <div className={st.modal__iframe} style={{"width": "1175px", "height": "661px"}}>
 
-                        <iframe src={activeVideoItem.movieUrlTrailer + "?rel=0&showinfo=0&autoplay=1"}
-                                title={"movie page"}
-                                allow="autoplay; encrypted-media"
-                                allowFullScreen/>
+
+                        {type === 'iframe' &&
+                            <iframe src={activeItem + "?rel=0&showinfo=0&autoplay=1"}
+                                    title={"movie page"}
+                                    allow="autoplay; encrypted-media"
+                                    allowFullScreen/>}
+
+                        {type === 'image' && <img src={activeItem} alt=""/>}
 
                     </div>
 
@@ -53,7 +57,7 @@ const InfoModal: FC<InfoModalMoviePropsType> = ({
                         <button aria-label="Previous"
                                 type="button"
                                 className={cn(st.modal__arrow, st.modal__arrow__prev)}
-                                onClick={()=>changeSelectIndex('prev')}
+                                onClick={() => changeSelectIndex('prev')}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
@@ -67,7 +71,7 @@ const InfoModal: FC<InfoModalMoviePropsType> = ({
                         <button aria-label="Next"
                                 type="button" title="Next"
                                 className={cn(st.modal__arrow, st.modal__arrow__next)}
-                                onClick={()=>changeSelectIndex('next')}
+                                onClick={() => changeSelectIndex('next')}
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
@@ -81,4 +85,4 @@ const InfoModal: FC<InfoModalMoviePropsType> = ({
     );
 };
 
-export default InfoModal;
+export default Modal;

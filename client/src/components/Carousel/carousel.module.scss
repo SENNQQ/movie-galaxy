@@ -11,11 +11,14 @@
 .listing_explore{
   margin-left: 1rem;
   font-size: 1rem;
-  color: #2196f3;
   letter-spacing: .4px;
 
-  &:hover{
-    color: #087ad7;
+  strong{
+    color: #2196f3;
+
+    &:hover{
+      color: #087ad7;
+    }
   }
 }
 

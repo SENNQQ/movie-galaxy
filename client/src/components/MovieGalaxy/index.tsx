@@ -6,16 +6,13 @@ import InfoVideo from "../InfoVideo";
 import InfoPhotos from "../InfoPhotos";
 
 
-const InfoMovie = () => {
+const MovieGalaxy = () => {
 
     const [tab, setTab] = useState<string>('videos')
-
 
     const changeTab = (nameTab:string):void =>{
         setTab(nameTab);
     }
-
-
 
     return (
         <>
@@ -27,4 +24,4 @@ const InfoMovie = () => {
     );
 };
 
-export default InfoMovie;
+export default MovieGalaxy;

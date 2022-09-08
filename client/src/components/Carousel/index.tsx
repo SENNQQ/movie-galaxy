@@ -7,13 +7,13 @@ import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
 // import {trendingMoviesTypes, trendingTVTypes} from "../../types/MainPageTypes";
 
-//Todo сделать тайтл пропсом, передавать его. Сделать передачу данных фильма.
+
+
 const Carousel:FC<CarouselPropsType> = ({items,
                                         title,
                                         allUrl}) => {
 
     const carouselRef = useRef<HTMLDivElement>(null);
-
 
 
     const [paramCarousel, setParamCarousel] = useState<CarouselType>({
@@ -94,7 +94,6 @@ const Carousel:FC<CarouselPropsType> = ({items,
         }
     };
 
-    console.log(allUrl())
 
     return (
         <div className="listing listing_carousel">
@@ -126,7 +125,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
                                     <div className={st.card__img}>
                                         <img src={poster(item)} alt={item.title}/>
                                     </div>
-                                    <h2 className={st.card__name}> {item.original_name} </h2>
+                                    <h2 className={st.card__name}> {item.original_name || item.original_title} </h2>
                                     <div className={cn("rating", st.card__rating)}>
                                         <div className={cn("stars", st.card__stars)}>
                                             <div style={{width: `${item.vote_average*10}%`}}></div>

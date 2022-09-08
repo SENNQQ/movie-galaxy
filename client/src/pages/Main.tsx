@@ -46,16 +46,26 @@ const Main = () => {
         return getListItem('movie', 'trending')!.title;
     };
 
+    const  trendingTVUrl = () => {
+        return { name: 'movie/category/trending'};
+    };
+
+    const trendingTVTitle = () => {
+        return getListItem('tv', 'trending')!.title;
+    };
+
+    console.log(featured)
 
     return (
         <>
             <>
-                <PanelMovie/>
+                {featured && <PanelMovie item={featured}/>}
             </>
             <>
                 {trendingMovies.length
                     && <Carousel items={trendingMovies} title={trendingMoviesTitle} allUrl={trendingMoviesUrl}/>}
-                {/*<Carousel/>*/}
+                {trendingTV.length
+                    && <Carousel items={trendingTV} title={trendingTVTitle} allUrl={trendingTVUrl}/>}
             </>
         </>
     );

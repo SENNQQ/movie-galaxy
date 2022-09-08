@@ -2,11 +2,9 @@ import React, {FC, useState} from 'react';
 
 import st from "./video.module.scss"
 
-import Carousel from "../Carousel";
-import InfoModal from "../InfoModal";
+import Modal from "../Modal";
 import VideoItem from "../VideoItem";
 import {movieDataType} from "../VideoItem/types";
-
 
 const videoItem: movieDataType[] = [
     {
@@ -35,7 +33,9 @@ const InfoVideo: FC = () => {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [modalStartAt, setModalStartAt] = useState<number>(0);
 
-    const [activeVideos, setActiveVideos] = useState<movieDataType[]>(videoItem)
+    const [activeVideos, setActiveVideos] = useState<movieDataType[]>(videoItem);
+
+    const [modalActiveVideo, setModalActiveVideo] = useState<string[]>(videoItem.map(video => video.movieUrlTrailer));
 
     const openModel = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, indexVideo: number) => {
         event.preventDefault();
@@ -48,26 +48,30 @@ const InfoVideo: FC = () => {
         setModalVisible(false);
     }
 
+    //Авто заполнение дропдауна типами фильмов которые хроняться в массиве
     const videoTypes = () => {
         return videoItem.map(video => video.movieType)
             .filter((videoType, index, self) => self.indexOf(videoType) === index)
     }
 
+    //Сортировка активных видео через dropdown
     const filterVideos = (event:React.ChangeEvent<HTMLSelectElement>) => {
-        let zxc = videoItem.filter(video => event.currentTarget.value === 'all'
-            ? true : video.movieType === event.currentTarget.value)
-        setActiveVideos(zxc);
+        let sortVideo = videoItem.filter(video => event.currentTarget.value === 'all'
+            ? true : video.movieType === event.currentTarget.value);
+        let sortUrlVideo = sortVideo.map(video => video.movieUrlTrailer);
+        setModalActiveVideo(sortUrlVideo);
+        setActiveVideos(sortVideo);
     }
 
-
+    //Изменение индекса видео в модальном окне на кнопки вперед назад
     const changeSelectIndex = (direction: string) => {
         if (direction === 'prev') {
-            let zxc = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
-            setModalStartAt(zxc)
+            let goTo = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
+            setModalStartAt(goTo)
         }
         if (direction === 'next') {
-            let zxc = (modalStartAt + 1) % activeVideos.length;
-            setModalStartAt(zxc)
+            let goTo = (modalStartAt + 1) % activeVideos.length;
+            setModalStartAt(goTo)
         }
     }
 
@@ -99,8 +103,9 @@ const InfoVideo: FC = () => {
 
                 </div>
 
-                {modalVisible && <InfoModal
-                    data={activeVideos}
+                {modalVisible && modalActiveVideo && <Modal
+                    data={modalActiveVideo}
+                    type={"iframe"}
                     selectIndex={modalStartAt}
                     closeModal={closeModel}
                     changeSelectIndex={changeSelectIndex}
