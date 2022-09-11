@@ -1,10 +1,9 @@
 import React, {FC, useState} from 'react';
-import spider from '../../image/mPqIjQk2rqU2mfFLJzDGeRwpIuU.jpg'
 import st from './panel.module.scss'
-import {PanelMoviePropsTypes} from "./types";
 import {backdrop, name, stars, yearStart} from "../../helper/detailsInfo";
 import Modal from "../Modal";
 import {movieDataType} from "../VideoItem/types";
+import {PanelMoviePropsTypes} from "./types";
 
 
 //TODO сделать получение данных, при клике на кнопку "посмотреть трейлер" открывается модальное окно для просмотра.

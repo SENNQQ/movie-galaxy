@@ -4,6 +4,9 @@ export interface PanelMoviePropsTypes {
     "item": cinemaProps,
 }
 
+export interface PanelMoviePropsTypes {
+    "item": cinemaProps,
+}
 
 // "original_name": string,
 //     "original_title": string,

@@ -5,7 +5,7 @@ import {CarouselPropsType, CarouselType} from "./types";
 import {apiImgUrl} from "../../api/zxc";
 import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
-// import {trendingMoviesTypes, trendingTVTypes} from "../../types/MainPageTypes";
+
 
 
 
@@ -121,7 +121,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
 
                         {items.map((item) => (
                             <div className={st.card} key={item.id}>
-                                <a href="" className="card__link">
+                                <Link to={`/movie/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
                                         <img src={poster(item)} alt={item.title}/>
                                     </div>
@@ -132,7 +132,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
                                         </div>
                                         <div className={cn("vote", st.card__vote)}>{item.vote_count}</div>
                                     </div>
-                                </a>
+                                </Link>
                             </div>
                         ))}
 

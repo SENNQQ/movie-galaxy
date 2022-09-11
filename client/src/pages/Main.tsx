@@ -54,18 +54,18 @@ const Main = () => {
         return getListItem('tv', 'trending')!.title;
     };
 
-    console.log(featured)
-
     return (
         <>
             <>
                 {featured && <PanelMovie item={featured}/>}
             </>
             <>
-                {trendingMovies.length
-                    && <Carousel items={trendingMovies} title={trendingMoviesTitle} allUrl={trendingMoviesUrl}/>}
-                {trendingTV.length
-                    && <Carousel items={trendingTV} title={trendingTVTitle} allUrl={trendingTVUrl}/>}
+                {trendingMovies.length > 0 && <Carousel items={trendingMovies}
+                                                        title={trendingMoviesTitle}
+                                                        allUrl={trendingMoviesUrl}/>}
+                {trendingTV.length > 0 && <Carousel items={trendingTV}
+                                                    title={trendingTVTitle}
+                                                    allUrl={trendingTVUrl}/>}
             </>
         </>
     );
