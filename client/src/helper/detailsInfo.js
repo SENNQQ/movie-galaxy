@@ -45,10 +45,7 @@ export const trailer = (item) => {
     // if no trailer found, do nothing
     if (!videos) return null;
 
-    return [{
-        name: videos.name,
-        src: `https://www.youtube.com/embed/${videos.key}?rel=0&showinfo=0&autoplay=1`,
-    }];
+    return [`https://www.youtube.com/embed/${videos.key}?rel=0&showinfo=0&autoplay=1`];
 
 };
 

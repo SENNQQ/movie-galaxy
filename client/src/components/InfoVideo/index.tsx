@@ -63,17 +63,17 @@ const InfoVideo: FC = () => {
         setActiveVideos(sortVideo);
     }
 
-    //Изменение индекса видео в модальном окне на кнопки вперед назад
-    const changeSelectIndex = (direction: string) => {
-        if (direction === 'prev') {
-            let goTo = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
-            setModalStartAt(goTo)
-        }
-        if (direction === 'next') {
-            let goTo = (modalStartAt + 1) % activeVideos.length;
-            setModalStartAt(goTo)
-        }
-    }
+    // //Изменение индекса видео в модальном окне на кнопки вперед назад
+    // const changeSelectIndex = (direction: string) => {
+    //     if (direction === 'prev') {
+    //         let goTo = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
+    //         setModalStartAt(goTo)
+    //     }
+    //     if (direction === 'next') {
+    //         let goTo = (modalStartAt + 1) % activeVideos.length;
+    //         setModalStartAt(goTo)
+    //     }
+    // }
 
     return (
         <>
@@ -103,13 +103,13 @@ const InfoVideo: FC = () => {
 
                 </div>
 
-                {modalVisible && modalActiveVideo && <Modal
-                    data={modalActiveVideo}
-                    type={"iframe"}
-                    selectIndex={modalStartAt}
-                    closeModal={closeModel}
-                    changeSelectIndex={changeSelectIndex}
-                />}
+                {/*{modalVisible && modalActiveVideo && <Modal*/}
+                {/*    data={modalActiveVideo}*/}
+                {/*    type={"iframe"}*/}
+                {/*    selectIndex={modalStartAt}*/}
+                {/*    closeModal={closeModel}*/}
+                {/*    changeSelectIndex={changeSelectIndex}*/}
+                {/*/>}*/}
             </div>
             {/*<Carousel/>*/}
             {/*<Carousel/>*/}

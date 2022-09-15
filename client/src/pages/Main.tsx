@@ -4,6 +4,7 @@ import '../style/Common.scss';
 import Carousel from "../components/Carousel";
 import {getListItem, getMovie, getTrending, getTvShow} from "../api/zxc";
 import {cinemaProps} from "../types/MainPageTypes";
+import {PanelMovieTypes} from "../components/PanelMovie/types";
 // import {trendingMoviesTypes, trendingTVTypes} from "../types/MainPageTypes";
 
 
@@ -12,7 +13,7 @@ const Main = () => {
 
     const [trendingMovies, setTrendingMovies] = useState<cinemaProps[]>([]);
     const [trendingTV, setTrendingTV] = useState<cinemaProps[]>([]);
-    const [featured, setFeatured] = useState<cinemaProps>();
+    const [featured, setFeatured] = useState<PanelMovieTypes>();
 
     useEffect(() => {
         const fetchData = async () => {

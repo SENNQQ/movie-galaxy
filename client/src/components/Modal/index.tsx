@@ -7,16 +7,26 @@ import cn from "classnames";
 const Modal: FC<InfoModalMoviePropsType> = ({
                                                 data,
                                                 type,
-                                                selectIndex,
                                                 closeModal,
-                                                changeSelectIndex,
                                             }) => {
 
-    if(type === 'iframe'){
-
-    }
+    // if(type === 'iframe'){
+    //
+    // }
 
     const [activeItem, setActiveItem] = useState<string>();
+
+    //Изменение индекса видео в модальном окне на кнопки вперед назад
+    const changeSelectIndex = (direction: string) => {
+        if (direction === 'prev') {
+            let goTo = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
+            setModalStartAt(goTo)
+        }
+        if (direction === 'next') {
+            let goTo = (modalStartAt + 1) % activeVideos.length;
+            setModalStartAt(goTo)
+        }
+    }
 
     useEffect(() => {
         setActiveItem(data[selectIndex]);
@@ -57,8 +67,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                         <button aria-label="Previous"
                                 type="button"
                                 className={cn(st.modal__arrow, st.modal__arrow__prev)}
-                                onClick={() => changeSelectIndex('prev')}
-                        >
+                                onClick={() => changeSelectIndex('prev')}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                       strokeLinejoin="round" strokeMiterlimit="10"
@@ -71,8 +80,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                         <button aria-label="Next"
                                 type="button" title="Next"
                                 className={cn(st.modal__arrow, st.modal__arrow__next)}
-                                onClick={() => changeSelectIndex('next')}
-                        >
+                                onClick={() => changeSelectIndex('next')}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24">
                                 <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
                                       strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
