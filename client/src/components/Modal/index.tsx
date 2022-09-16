@@ -6,31 +6,30 @@ import cn from "classnames";
 
 const Modal: FC<InfoModalMoviePropsType> = ({
                                                 data,
-                                                type,
+                                                type = 'image',
+                                                startAt= 0,
+                                                nav= false,
                                                 closeModal,
                                             }) => {
 
-    // if(type === 'iframe'){
-    //
-    // }
-
-    const [activeItem, setActiveItem] = useState<string>();
+    const [activeItem, setActiveItem] = useState<string>(data[startAt]);
+    const [modalStartAt,setModalStartAt] = useState(startAt);
 
     //Изменение индекса видео в модальном окне на кнопки вперед назад
     const changeSelectIndex = (direction: string) => {
         if (direction === 'prev') {
-            let goTo = ((modalStartAt - 1) + activeVideos.length) % activeVideos.length;
+            let goTo = ((modalStartAt - 1) + activeItem.length) % activeItem.length;
             setModalStartAt(goTo)
         }
         if (direction === 'next') {
-            let goTo = (modalStartAt + 1) % activeVideos.length;
+            let goTo = (modalStartAt + 1) % activeItem.length;
             setModalStartAt(goTo)
         }
     }
 
     useEffect(() => {
-        setActiveItem(data[selectIndex]);
-    }, [selectIndex, data]);
+        setActiveItem(data[modalStartAt]);
+    }, [modalStartAt, data]);
 
 
     return (
@@ -40,8 +39,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                     <button aria-label="Close"
                             type="button"
                             className={st.modal__close}
-                            onClick={() => closeModal()}
-                    >
+                            onClick={() => closeModal()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
                             <g fill="none" stroke="#fff" strokeLinecap="round" strokeMiterlimit="10"
                                strokeWidth="1.5">
@@ -51,7 +49,6 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                     </button>
 
                     <div className={st.modal__iframe} style={{"width": "1175px", "height": "661px"}}>
-
 
                         {type === 'iframe' &&
                             <iframe src={activeItem + "?rel=0&showinfo=0&autoplay=1"}
@@ -63,7 +60,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
 
                     </div>
 
-                    <div className={st.modal__nav}>
+                    {nav && <div className={st.modal__nav}>
                         <button aria-label="Previous"
                                 type="button"
                                 className={cn(st.modal__arrow, st.modal__arrow__prev)}
@@ -75,7 +72,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                             </svg>
                         </button>
                         <div className={st.modal__count}>
-                            {selectIndex + 1} / {data.length}
+                            {modalStartAt + 1} / {data.length}
                         </div>
                         <button aria-label="Next"
                                 type="button" title="Next"
@@ -87,6 +84,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                             </svg>
                         </button>
                     </div>
+                    }
                 </div>
             </div>
         </div>

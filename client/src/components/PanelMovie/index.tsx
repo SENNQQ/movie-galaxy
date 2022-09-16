@@ -13,8 +13,9 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
     const [modalVisible, setModalVisible] = useState<boolean>(false);
 
 
-    const [activeVideos, setActiveVideos] = useState<movieDataType>();
-    const [trailerMovie, setTrailer] = useState<string[] | null>(trailer(item));
+    // const [activeVideos, setActiveVideos] = useState<movieDataType>();
+
+    const trailerMovie:string[] | null = (trailer(item));
 
     const openModel = (indexVideo: number) => {
         setModalVisible(true);
@@ -52,7 +53,7 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
                             }
                         </div>
                         <div className={st.panel__desc}>
-                            {truncate(item.overview, 200)}...
+                            {truncate(item.overview, 200)}
                         </div>
                         {trailerMovie && <button type="button"
                                                  className="button button_icon trailer"
