@@ -2,6 +2,8 @@
   display: grid;
   grid-template: 1fr/25% 1fr;
   grid-gap: 25px;
+  grid-template-areas: "a b"
+                       "- c";
 
   &__leftBlock{
     display: block;
@@ -44,6 +46,19 @@
     font-size: 2rem;
     color: #fff;
     letter-spacing: .4px;
+  }
+
+  .externalLinks{
+    grid-area: c;
+
+    ul{
+      display: flex;
+    }
+
+    a{
+      display: flex;
+      width: 2.4rem;
+    }
   }
 }
 

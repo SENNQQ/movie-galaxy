@@ -1,17 +1,44 @@
-import React from 'react';
+import React, {FC} from 'react';
 import cn from "classnames";
 import st from "./overview.module.scss";
-import prey from "../../image/ujr5pztc1oitbe7ViMUOilFaJ7s.jpg";
 import Carousel from "../Carousel";
+import {GenresType, InfoOverviewPropsType} from "./types";
+import {apiImgUrl} from "../../api/zxc";
+import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../helper/additionalFun";
+import {directors} from "../../helper/detailsInfo";
+import ExternalLinks from "../ExternalLinks";
 
-const InfoOverview = () => {
+const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
+
+    const poster = () => {
+        if (item.poster_path) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${item.poster_path}`;
+        } else {
+            return false;
+        }
+    };
+
+    const posterItem = poster();
+
+    const formatGenres = (genres:GenresType[]) => {
+        return genres.map(genre => `<a href="/genre/${genre.id}/movie">${genre.name}</a>`).join(', ');
+    };
+
 
     return (
         <>
             <div className={cn(st.info, "spacing")}>
                 <div className={st.info__leftBlock}>
                     <div className={st.posterMovie}>
-                        <img src={prey} alt="Prey"/>
+                        {posterItem ? <img src={posterItem} alt={item.name}/> :
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+                                     fillRule="evenodd" clipRule="evenodd" fill="#999">
+                                    <path
+                                        d="M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"/>
+                                </svg>
+                            </span>
+                        }
                     </div>
                 </div>
                 <div className={st.info__rightBlock}>
@@ -20,91 +47,107 @@ const InfoOverview = () => {
                             Storyline
                         </h2>
                         <div>
-                            After more than thirty years of service as one of the Navy’s top aviators, and dodging the
-                            advancement in rank that would ground him, Pete “Maverick” Mitchell finds himself training
-                            a detachment of TOP GUN graduates for a specialized mission the likes of which no living
-                            pilot has ever seen.
+                            {item.overview}
                         </div>
                     </div>
                     <div className={st.stats}>
                         <ul className="noList">
-                            <li>
-                                <div className={st.noList__label}>
-                                    Released
-                                </div>
-                                <div className={st.noList__value}>
-                                    24 May 2022
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Runtime
-                                </div>
-                                <div className={st.noList__value}>
-                                    2h 11min
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Director
-                                </div>
-                                <div className={st.noList__value}>
-                                    <a >Joseph Kosinski</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Budget
-                                </div>
-                                <div className={st.noList__value}>
-                                    $170,000,000
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Revenue
-                                </div>
-                                <div className={st.noList__value}>
-                                    $1,403,438,969
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Genre
-                                </div>
-                                <div className={st.noList__value}>
-                                    <a>Action</a>,
-                                    <a>Drama</a>
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Status
-                                </div>
-                                <div className={st.noList__value}>
-                                    Released
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Language
-                                </div>
-                                <div className={st.noList__value}>
-                                    English
-                                </div>
-                            </li>
-                            <li>
-                                <div className={st.noList__label}>
-                                    Production
-                                </div>
-                                <div className={st.noList__value}>
-                                    Paramount, Don Simpson/Jerry Bruckheimer Films, Skydance Media
-                                </div>
-                            </li>
+                            {item.release_date &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Released
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        {fullDate(item.release_date)}
+                                    </div>
+                                </li>
+                            }
+                            {item.runtime &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Runtime
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        {runtime(item.runtime)}
+                                    </div>
+                                </li>
+                            }
+                            {directors(item) &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Director
+                                    </div>
+                                    <div className={st.noList__value}
+                                         dangerouslySetInnerHTML={{__html: directors(item)}}>
+                                    </div>
+                                </li>
+                            }
+                            {item.budget &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Budget
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        ${numberWithCommas(item.budget)}
+                                    </div>
+                                </li>
+                            }
+                            {item.revenue &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Revenue
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        ${numberWithCommas(item.revenue)}
+                                    </div>
+                                </li>
+                            }
+                            {item.genres && item.genres.length &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Genre
+                                    </div>
+                                    <div className={st.noList__value}
+                                         dangerouslySetInnerHTML={{__html:formatGenres(item.genres)}}>
+                                    </div>
+                                </li>
+                            }
+                            {item.status &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Status
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        {item.status}
+                                    </div>
+                                </li>
+                            }
+                            {item.original_language &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Language
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        {fullLang(item.original_language)}
+                                    </div>
+                                </li>
+                            }
+                            {item.production_companies &&
+                                <li>
+                                    <div className={st.noList__label}>
+                                        Production
+                                    </div>
+                                    <div className={st.noList__value}>
+                                        {arrayToList(item.production_companies)}
+                                    </div>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </div>
-
+                <div className={st.externalLinks}>
+                    <ExternalLinks links={item.external_ids}/>
+                </div>
             </div>
             {/*<Carousel/>*/}
             {/*<Carousel/>*/}

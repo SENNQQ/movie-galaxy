@@ -62,7 +62,10 @@ export interface allPropsMovie {
     ],
     "status": string,
     "tagline": string,
-    "credits": {},
+    "credits": {
+        "cast":[{}],
+        "crew":[{}],
+    },
     "videos": {
         "results": [
             {

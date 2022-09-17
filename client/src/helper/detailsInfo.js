@@ -1,7 +1,10 @@
-/**
- * Name
- */
 import {apiImgUrl} from "../api/zxc";
+
+/**
+ *
+ * Name
+ *
+ */
 
 export const name = (item) => {
     return item.title ? item.title : item.name;
@@ -57,6 +60,21 @@ export const backdrop = (item) => {
 
     if (item.backdrop_path) {
         return `${apiImgUrl}/original${item.backdrop_path}`;
+    }
+
+};
+
+
+/**
+ * Directors
+ */
+export const directors = (item) => {
+
+    const people = item.credits.crew;
+
+    if (people) {
+        return people.filter(person => person.job === 'Director')
+            .map(person => `<a href="/person/${person.id}">${person.name}</a>`).join(', ');
     }
 
 };
