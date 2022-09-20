@@ -1,18 +1,17 @@
 import React, {FC} from 'react';
 import st from "./videoItem.module.scss";
-import zxc from "../../image/mqdefault.jpg";
 import {InfoVideoItemPropsType} from "./types";
 
-const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,movieData,movieIndex}) => {
+const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,videosData,movieIndex}) => {
 
 
     return (
         <div className={st.item}>
-            <a href={movieData.movieUrlTrailer}
+            <a href={videosData.url}
                onClick={(event)=>openVideoHandler(event, movieIndex)}>
                 <div className={st.item__image}>
-                    <img src={zxc} alt="zxc"/>
-                    <div className={st.item__image__duration}> {movieData.movieDuration} </div>
+                    <img src={videosData.thumb} alt={videosData.name} loading="lazy"/>
+                    <div className={st.item__image__duration}> {videosData.duration} </div>
                     <div className={st.item__image__play}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 55 55">
                             <circle cx="27.5" cy="27.5" r="26.75" fill="none" stroke="#fff"
@@ -23,8 +22,8 @@ const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,movieData,movieI
                         </svg>
                     </div>
                 </div>
-                <div className={st.item__name}>{movieData.movieName}</div>
-                <div className={st.item__type}>{movieData.movieType}</div>
+                <div className={st.item__name}>{videosData.name}</div>
+                <div className={st.item__type}>{videosData.type}</div>
             </a>
         </div>
     );

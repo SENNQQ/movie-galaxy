@@ -1,9 +1,10 @@
 import React from "react";
+import {videosProps} from "../../types/MoviePageTypes";
 
 
 export interface InfoVideoItemPropsType {
     openVideoHandler: (event:React.MouseEvent<HTMLAnchorElement, MouseEvent>, indexVideo: number) => void,
-    movieData: movieDataType
+    videosData: videosProps
     movieIndex: number
 }
 

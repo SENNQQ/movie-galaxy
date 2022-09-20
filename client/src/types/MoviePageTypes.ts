@@ -63,24 +63,11 @@ export interface allPropsMovie {
     "status": string,
     "tagline": string,
     "credits": {
-        "cast":[{}],
-        "crew":[{}],
+        "cast": [{}],
+        "crew": [{}],
     },
     "videos": {
-        "results": [
-            {
-                "iso_639_1": string,
-                "iso_3166_1": string,
-                "name": string,
-                "key": string,
-                "site": string,
-                "size": number,
-                "type": string,
-                "official": boolean,
-                "published_at": string,
-                "id": string
-            },
-        ]
+        "results": [videosProps]
     },
     "external_ids": {
         "imdb_id": string,
@@ -139,4 +126,21 @@ export interface allPropsMovie {
             },
         ]
     }
+}
+
+export interface videosProps {
+    "iso_639_1": string,
+    "iso_3166_1": string,
+    "name": string,
+    "key": string,
+    "site": string,
+    "size": number,
+    "type": string,
+    "official": boolean,
+    "published_at": string,
+    "id": string,
+    "thumb":string,
+    "src":string,
+    "url":string,
+    "duration":string
 }

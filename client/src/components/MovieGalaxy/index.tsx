@@ -14,24 +14,6 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
     // const [itemOverview, setItemOverview] = useState<InfoOverviewType>(item)
 
 
-    // {
-    //     budget: item.budget,
-    //         credits: {
-    //     cast: item.credits.cast,
-    //         crew: item.credits.crew
-    // },
-    //     external_ids: item.external_ids,
-    //         genres: item.genres,
-    //     original_language: item.original_language,
-    //     overview: item.overview,
-    //     poster_path: item.poster_path,
-    //     production_companies: item.production_companies,
-    //     release_date: item.release_date,
-    //     revenue: item.revenue,
-    //     runtime: item.runtime,
-    //     status: item.status
-    // }
-
     const changeTab = (nameTab:string):void =>{
         setTab(nameTab);
     }
@@ -42,7 +24,7 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
         <>
             <NavMovie nameTab={tab} changeTabHandler={changeTab}/>
             {tab === "overview" && <InfoOverview item={item}/>}
-            {tab === "videos" && <InfoVideo />}
+            {tab === "videos" && <InfoVideo videos={item.videos.results}/>}
             {tab === "photos" && <InfoPhotos/>}
         </>
     );
