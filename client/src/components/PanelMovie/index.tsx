@@ -1,10 +1,10 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useState} from 'react';
 import st from './panel.module.scss'
 import {backdrop, name, stars, trailer, yearStart} from "../../helper/detailsInfo";
 import Modal from "../Modal";
-import {movieDataType} from "../VideoItem/types";
 import {PanelMoviePropsTypes} from "./types";
 import {truncate} from "../../helper/additionalFun";
+import {Link} from "react-router-dom";
 
 
 //TODO сделать получение данных, при клике на кнопку "посмотреть трейлер" открывается модальное окно для просмотра.
@@ -12,12 +12,9 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
 
-
-    // const [activeVideos, setActiveVideos] = useState<movieDataType>();
-
     const trailerMovie:string[] | null = (trailer(item));
 
-    const openModel = (indexVideo: number) => {
+    const openModel = () => {
         setModalVisible(true);
     }
 
@@ -34,30 +31,28 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
                 <div className={st.panel}>
                     <div className={st.panel_container}>
                         <h1 className={st.panel__title}>
-                            <a>{name(item)}</a>
+                            <Link to={`/movie/${item.id}`}>{name(item)}</Link>
                         </h1>
-                        <div className={st.panel__meta}>
-                            {item.vote_count && <>
-                                <div className="rating">
-                                    <div className="stars">
-                                        <div style={{width: `${stars(item)}%`}}></div>
-                                    </div>
-                                    {item.vote_count > 0 && <div> {item.vote_count} Reviews</div>}
+                        {item.vote_count && <div className={st.panel__meta}>
+                            <div className="rating">
+                                <div className="stars">
+                                    <div style={{width: `${stars(item)}%`}}></div>
                                 </div>
-                                <div className={st.panel__meta__info}>
-                                    {yearStart(item) && <span> {yearStart(item)} </span>}
-                                    {item.runtime && <span> {item.runtime} </span>}
-                                    <span>Cert. TV-MA</span>
-                                </div>
-                            </>
-                            }
+                                {item.vote_count > 0 && <div> {item.vote_count} Reviews</div>}
+                            </div>
+                            <div className={st.panel__meta__info}>
+                                {yearStart(item) && <span> {yearStart(item)} </span>}
+                                {item.runtime && <span> {item.runtime} </span>}
+                                <span>Cert. TV-MA</span>
+                            </div>
                         </div>
+                        }
                         <div className={st.panel__desc}>
                             {truncate(item.overview, 200)}
                         </div>
                         {trailerMovie && <button type="button"
                                                  className="button button_icon trailer"
-                                                 onClick={()=>openModel( 0)}>
+                                                 onClick={()=>openModel()}>
                             <span className="icon">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"

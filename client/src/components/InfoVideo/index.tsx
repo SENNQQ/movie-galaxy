@@ -7,17 +7,20 @@ import VideoItem from "../VideoItem";
 import {InfoVideoPropsType} from "./types";
 import {videosProps} from "../../types/MoviePageTypes";
 import {getYouTubeVideo} from "../../api/zxc";
+import ContentLoader from "react-content-loader";
 
 
-
-const InfoVideo:FC<InfoVideoPropsType> = ({videos}) => {
+const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [modalStartAt, setModalStartAt] = useState<number>(0);
 
     const [activeVideos, setActiveVideos] = useState<videosProps[]>(videos);
 
-    const [modalActiveVideo, setModalActiveVideo] = useState<string[]>();
+    const [ActiveVideo, setActiveVideo] = useState<string[]>();
+
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
 
     const openModel = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>, indexVideo: number) => {
         event.preventDefault();
@@ -37,15 +40,15 @@ const InfoVideo:FC<InfoVideoPropsType> = ({videos}) => {
     }
 
     //Сортировка активных видео через dropdown
-    const filterVideos = (event:React.ChangeEvent<HTMLSelectElement>) => {
+    const filterVideos = (event: React.ChangeEvent<HTMLSelectElement>) => {
         let sortVideo = videos.filter(video => event.currentTarget.value === 'all'
             ? true : video.type === event.currentTarget.value);
-        // let sortUrlVideo = sortVideo.map(video => video.movieUrlTrailer);
-        // setModalActiveVideo(sortUrlVideo);
+        let sortUrlVideo = sortVideo.map(video => video.src);
+        setActiveVideo(sortUrlVideo);
         setActiveVideos(sortVideo);
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const ids = videos.map(video => video.key).join(',');
 
         videos.forEach((video) => {
@@ -53,48 +56,75 @@ const InfoVideo:FC<InfoVideoPropsType> = ({videos}) => {
             video.src = `https://www.youtube.com/embed/${video.key}?rel=0&showinfo=0&autoplay=1`;
             video.url = `https://youtube.com/watch?v=${video.key}`;
         });
-        // get video duration from YouTube api
+        setActiveVideo(videos.map(video=>video.src));
         getYouTubeVideo(ids).then((response) => {
-            videos.forEach((video,index) =>{
+            videos.forEach((video, index) => {
                 if (response.items[index]) {
                     video.duration = response.items[index].contentDetails.duration;
                 }
             })
+            setIsLoading(false);
         });
     }, [videos])
+
 
     return (
         <>
             <div className={"spacing"}>
-                <div className={st.headDropdown}>
 
-                    <select name="infoVideo_dropdown" onChange={(event)=>filterVideos(event)}>
-                        <option value="all">All</option>
-                        {videoTypes().map((item) => <option value={item} key={item}>{item}</option>)}
-                    </select>
+                {isLoading ? <ContentLoader
+                        speed={2}
+                        width={1800}
+                        height={370}
+                        viewBox="0 0 1800 370"
+                        backgroundColor="#272727"
+                        foregroundColor="#3b3b3b">
+                        <rect x="0" y="0" rx="0" ry="0" width="180" height="47"/>
+                        <rect x="0" y="78" rx="0" ry="0" width="366" height="206"/>
+                        <rect x="0" y="295" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="0" y="324" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="414" y="78" rx="0" ry="0" width="366" height="206"/>
+                        <rect x="414" y="295" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="414" y="324" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="828" y="78" rx="0" ry="0" width="366" height="206"/>
+                        <rect x="828" y="295" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="828" y="324" rx="0" ry="0" width="100" height="17"/>
+                        <rect x="196" y="15" rx="0" ry="0" width="76" height="24"/>
+                    </ContentLoader>
+                    :
+                    <>
+                        <div className={st.headDropdown}>
 
-                    <strong className={st.headDropdown__count}>
-                        {activeVideos.length} {activeVideos.length > 1 ? "Videos" : "Video"}
-                    </strong>
-                </div>
-                <div className={st.items__Video}>
+                            <select name="infoVideo_dropdown" onChange={(event) => filterVideos(event)}>
+                                <option value="all">All</option>
+                                {videoTypes().map((item) => <option value={item} key={item}>{item}</option>)}
+                            </select>
 
-                    {activeVideos.map((item, index) =>
-                        <VideoItem openVideoHandler={openModel}
-                                   videosData={item}
-                                   movieIndex={index}
-                                   key={index + 1}/>)
-                    }
+                            <strong className={st.headDropdown__count}>
+                                {activeVideos.length} {activeVideos.length > 1 ? "Videos" : "Video"}
+                            </strong>
+                        </div>
+                        <div className={st.items__Video}>
 
-                </div>
+                            {activeVideos.map((item, index) =>
+                                <VideoItem openVideoHandler={openModel}
+                                           videosData={item}
+                                           movieIndex={index}
+                                           key={index + 1}/>)
+                            }
 
-                {/*{modalVisible && modalActiveVideo && <Modal*/}
-                {/*    data={modalActiveVideo}*/}
-                {/*    type={"iframe"}*/}
-                {/*    nav={true}*/}
-                {/*    startAt={modalStartAt}*/}
-                {/*    closeModal={closeModel}/>*/}
-                {/*}*/}
+                        </div>
+
+                        {modalVisible && ActiveVideo && <Modal
+                            data={ActiveVideo}
+                            type={"iframe"}
+                            nav={true}
+                            startAt={modalStartAt}
+                            closeModal={closeModel}/>
+                        }
+                    </>
+                }
+
             </div>
             {/*<Carousel/>*/}
         </>

@@ -52,11 +52,10 @@
   &_container{
     display: grid;
     grid-template: auto/1fr;
-    grid-gap: 20px;
+    grid-gap: 25px;
   }
 
   &__title{
-    margin: 0 0 1.8rem;
     font-size: 2.4vw;
     line-height: 1.1;
     color: #fff;
@@ -79,7 +78,6 @@
 
   &__desc{
     display: block;
-    margin-top: 30px;
     font-size: 17px;
     color: #fff;
   }

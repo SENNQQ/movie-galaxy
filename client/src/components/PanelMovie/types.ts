@@ -3,6 +3,7 @@ export interface PanelMoviePropsTypes {
 }
 
 export interface PanelMovieTypes {
+    "id":number,
     "backdrop_path": string,
     "title":string,
     "name":string,

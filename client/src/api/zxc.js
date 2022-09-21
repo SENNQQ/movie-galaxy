@@ -263,7 +263,6 @@ export function getTvShow(id, page = 1) {
  * Get movie (single)
  */
 export function getMovie(id, page = 1) {
-    console.log(config.API_KEY)
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/movie/${id}?`, {
             params: {

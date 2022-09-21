@@ -1,8 +1,8 @@
-import React from "react";
+import {imageProps} from "../../types/MoviePageTypes";
+
 
 export interface PhotosBlockPropsType {
     title:string,
-    countImage:number,
-    Image:string[],
-    openModal:(event:React.MouseEvent<HTMLDivElement, MouseEvent>, indexVideo: number) => void,
+    type:string,
+    image:imageProps[],
 }

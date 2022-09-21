@@ -1,7 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import st from './modal.module.scss'
 import {InfoModalMoviePropsType} from "./types";
-import {movieDataType} from "../VideoItem/types";
 import cn from "classnames";
 
 const Modal: FC<InfoModalMoviePropsType> = ({
@@ -18,11 +17,11 @@ const Modal: FC<InfoModalMoviePropsType> = ({
     //Изменение индекса видео в модальном окне на кнопки вперед назад
     const changeSelectIndex = (direction: string) => {
         if (direction === 'prev') {
-            let goTo = ((modalStartAt - 1) + activeItem.length) % activeItem.length;
+            let goTo = ((modalStartAt - 1) + data.length) % data.length;
             setModalStartAt(goTo)
         }
         if (direction === 'next') {
-            let goTo = (modalStartAt + 1) % activeItem.length;
+            let goTo = (modalStartAt + 1) % data.length;
             setModalStartAt(goTo)
         }
     }
@@ -56,7 +55,7 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                                     allow="autoplay; encrypted-media"
                                     allowFullScreen/>}
 
-                        {type === 'image' && <img src={activeItem} alt=""/>}
+                        {type === 'image' && <img src={activeItem} alt="" width={"100%"}/>}
 
                     </div>
 

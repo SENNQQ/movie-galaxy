@@ -18,14 +18,27 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
         setTab(nameTab);
     }
 
-    console.log(item);
+    const showCredits = () => {
+        const credits = item.credits;
+        return credits && credits.cast && credits.cast.length;
+    }
+
+    const showVideos = () => {
+        const videos = item.videos;
+        return videos && videos.results && videos.results.length;
+    }
+
+    const showImages = () => {
+        const images = item.images;
+        return images && ((images.backdrops && images.backdrops.length) || (images.posters && images.posters.length));
+    }
 
     return (
         <>
             <NavMovie nameTab={tab} changeTabHandler={changeTab}/>
-            {tab === "overview" && <InfoOverview item={item}/>}
-            {tab === "videos" && <InfoVideo videos={item.videos.results}/>}
-            {tab === "photos" && <InfoPhotos/>}
+            {tab === "overview" &&  <InfoOverview item={item}/>}
+            {tab === "videos" && showVideos() && <InfoVideo videos={item.videos.results}/>}
+            {tab === "photos" && showImages() && <InfoPhotos image={item.images}/>}
         </>
     );
 };
