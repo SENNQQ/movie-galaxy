@@ -1,3 +1,4 @@
+
 .modal {
   position: fixed;
   top: 0;
@@ -11,13 +12,14 @@
   background-color: #000;
   display: flex;
   justify-content: center;
-  align-items: center;
-
+  //align-items: center;
+  padding: 4rem 10rem;
 
   &__wrap {
     display: flex;
     flex-direction: column;
     min-height: 100%;
+    //padding: 0 10rem;
   }
 
   &__body {
@@ -38,6 +40,18 @@
     height: 4.4rem;
     padding: 0;
     background: none;
+  }
+
+  &__image{
+
+    img{
+      max-height: 100vh;
+
+      @media (min-width: 1200px){
+        max-height: calc(100vh - 8.8rem);
+      }
+    }
+
   }
 
   &__iframe {

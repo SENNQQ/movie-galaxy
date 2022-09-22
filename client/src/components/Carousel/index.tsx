@@ -123,7 +123,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
                             <div className={st.card} key={item.id}>
                                 <Link to={`/movie/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
-                                        <img src={poster(item)} alt={item.title}/>
+                                        <img src={poster(item)} alt={item.title} loading="lazy"/>
                                     </div>
                                     <h2 className={st.card__name}> {item.original_name || item.original_title} </h2>
                                     <div className={cn("rating", st.card__rating)}>

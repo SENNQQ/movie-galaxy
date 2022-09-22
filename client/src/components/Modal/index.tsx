@@ -1,18 +1,21 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import st from './modal.module.scss'
 import {InfoModalMoviePropsType} from "./types";
 import cn from "classnames";
+import LoadableImage from "../LoadableImage";
 
 const Modal: FC<InfoModalMoviePropsType> = ({
                                                 data,
                                                 type = 'image',
-                                                startAt= 0,
-                                                nav= false,
+                                                startAt = 0,
+                                                nav = false,
                                                 closeModal,
                                             }) => {
 
     const [activeItem, setActiveItem] = useState<string>(data[startAt]);
-    const [modalStartAt,setModalStartAt] = useState(startAt);
+    const [modalStartAt, setModalStartAt] = useState(startAt);
+
+    const modalRef = useRef<HTMLDivElement>(null);
 
     //Изменение индекса видео в модальном окне на кнопки вперед назад
     const changeSelectIndex = (direction: string) => {
@@ -26,19 +29,57 @@ const Modal: FC<InfoModalMoviePropsType> = ({
         }
     }
 
+    const close = () => {
+        document.body.classList.remove('modal-open');
+        closeModal();
+    }
+
+    const handleIframeSize = () => {
+        if (modalRef.current) {
+            const aspectRatio = 16 / 9;
+            const styles = getComputedStyle(modalRef.current);
+
+            let maxWidth = modalRef.current.offsetWidth;
+            let maxHeight = modalRef.current.offsetHeight;
+            let width;
+            let height;
+
+            maxWidth -= parseFloat(styles.paddingRight) + parseFloat(styles.paddingLeft);
+            maxHeight -= parseFloat(styles.paddingTop) + parseFloat(styles.paddingBottom);
+            width = maxWidth;
+            height = maxHeight;
+            if (maxHeight > maxWidth / aspectRatio) {
+                height = maxWidth / aspectRatio;
+            } else if (maxWidth > maxHeight * aspectRatio) {
+                width = maxHeight * aspectRatio;
+            }
+
+            (modalRef.current.querySelector(`.${st.modal__iframe}`) as HTMLDivElement).style.width = `${width}px`;
+            (modalRef.current.querySelector(`.${st.modal__iframe}`) as HTMLDivElement).style.height = `${height}px`;
+        }
+    }
+
+
     useEffect(() => {
         setActiveItem(data[modalStartAt]);
+
     }, [modalStartAt, data]);
 
+    useEffect(()=>{
+        document.body.classList.add('modal-open');
+        if(type === "iframe"){
+            handleIframeSize();
+        }
+    }, [])
 
     return (
-        <div className={st.modal}>
+        <div className={st.modal} ref={modalRef}>
             <div className={st.modal__wrap}>
                 <div className={st.modal__body}>
                     <button aria-label="Close"
                             type="button"
                             className={st.modal__close}
-                            onClick={() => closeModal()}>
+                            onClick={() => close()}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15">
                             <g fill="none" stroke="#fff" strokeLinecap="round" strokeMiterlimit="10"
                                strokeWidth="1.5">
@@ -47,15 +88,17 @@ const Modal: FC<InfoModalMoviePropsType> = ({
                         </svg>
                     </button>
 
-                    <div className={st.modal__iframe} style={{"width": "1175px", "height": "661px"}}>
-
+                    <div className={cn({
+                        [st.modal__iframe]:type === "iframe",
+                        [st.modal__image]:type === "image",
+                    })}>
                         {type === 'iframe' &&
                             <iframe src={activeItem + "?rel=0&showinfo=0&autoplay=1"}
                                     title={"movie page"}
                                     allow="autoplay; encrypted-media"
                                     allowFullScreen/>}
 
-                        {type === 'image' && <img src={activeItem} alt="" width={"100%"}/>}
+                        {type === 'image' && <LoadableImage src={activeItem} />}
 
                     </div>
 

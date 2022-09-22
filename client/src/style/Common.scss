@@ -62,3 +62,7 @@
   display: grid;
   grid-gap: 15px;
 }
+
+body.modal-open{
+  overflow: hidden;
+}
