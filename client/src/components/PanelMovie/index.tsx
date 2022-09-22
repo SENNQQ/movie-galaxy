@@ -5,6 +5,7 @@ import Modal from "../Modal";
 import {PanelMoviePropsTypes} from "./types";
 import {truncate} from "../../helper/additionalFun";
 import {Link} from "react-router-dom";
+import LoadableImage from "../LoadableImage";
 
 
 //TODO сделать получение данных, при клике на кнопку "посмотреть трейлер" открывается модальное окно для просмотра.
@@ -26,7 +27,8 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
         <>
             <div className={st.hero}>
                 <div className={st.backdrop}>
-                    <img src={backdrop(item)} alt="spider"/>
+                    {/*<img src={backdrop(item)} alt="spider"/>*/}
+                    <LoadableImage src={backdrop(item) || ""}/>
                 </div>
                 <div className={st.panel}>
                     <div className={st.panel_container}>

@@ -84,7 +84,7 @@ const PhotosBlock: FC<PhotosBlockPropsType> = ({
                         </div>
                         <div className={st.items_photos}>
                             {image.map((item, index) =>
-                                <div
+                                <div style={{backgroundColor:"#202124"}}
                                      key={`image-${index}`}
                                      onClick={(event) => openModel(event, index)}>
                                     <a href={item.thumb}>
