@@ -11,9 +11,6 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
 
     const [tab, setTab] = useState<string>('overview')
 
-    // const [itemOverview, setItemOverview] = useState<InfoOverviewType>(item)
-
-
     const changeTab = (nameTab:string):void =>{
         setTab(nameTab);
     }

@@ -12,7 +12,8 @@ import LoadableImage from "../LoadableImage";
 const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-
+    console.log(item);
+    console.log(trailer(item));
     const trailerMovie:string[] | null = (trailer(item));
 
     const openModel = () => {
@@ -50,7 +51,7 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
                         </div>
                         }
                         <div className={st.panel__desc}>
-                            {truncate(item.overview, 200)}
+                            {truncate(item.overview, 199)}
                         </div>
                         {trailerMovie && <button type="button"
                                                  className="button button_icon trailer"

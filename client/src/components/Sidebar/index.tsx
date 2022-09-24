@@ -24,7 +24,7 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li>
-                        <a aria-label="Movies">
+                        <Link to={"/movie"} aria-label="Movies">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  data-v-7b357a42="">
                                 <g fill="none" stroke="#fff" strokeWidth="1.5" strokeMiterlimit="10"
@@ -36,7 +36,7 @@ const Sidebar = () => {
                                     <path d="M15 2.1l-.9 6M8 4.7l-1.2 6.6" data-v-7b357a42=""></path>
                                 </g>
                             </svg>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <a>

@@ -37,18 +37,23 @@ export const yearStart = (item) => {
  */
 export const trailer = (item) => {
 
-    let videos = item.videos.results;
+    try {
+        let videos = item.videos.results;
 
-    // if no videos, do nothing
-    if (!videos.length) return null;
+        // if no videos, do nothing
+        if (!videos.length) return null;
 
-    // filter by type of video
-    videos = videos.find(video => video.type === 'Trailer');
+        // filter by type of video
+        videos = videos.find(video => video.type === 'Trailer');
 
-    // if no trailer found, do nothing
-    if (!videos) return null;
+        // if no trailer found, do nothing
+        if (!videos) return null;
 
-    return [`https://www.youtube.com/embed/${videos.key}?rel=0&showinfo=0&autoplay=1`];
+        return [`https://www.youtube.com/embed/${videos.key}?rel=0&showinfo=0&autoplay=1`];
+
+    }catch (e) {
+        return null
+    }
 
 };
 

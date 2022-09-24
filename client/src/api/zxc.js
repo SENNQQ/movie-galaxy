@@ -17,18 +17,18 @@ export const apiImgUrl = 'https://image.tmdb.org/t/p';
  */
 const lists = {
     movie: [
-        {title: 'Актуальные фильмы', query: 'trending'},
-        {title: 'Популярные фильмы', query: 'popular'},
-        {title: 'Фильмы с самым высоким рейтингом', query: 'top_rated'},
-        {title: 'Предстоящие фильмы', query: 'upcoming'},
-        {title: 'Сейчас воспроизводятся фильмы', query: 'now_playing'},
+        { title: 'Trending Movies', query: 'trending' },
+        { title: 'Popular Movies', query: 'popular' },
+        { title: 'Top Rated Movies', query: 'top_rated' },
+        { title: 'Upcoming Movies', query: 'upcoming' },
+        { title: 'Now Playing Movies', query: 'now_playing' },
     ],
     tv: [
-        {title: 'Актуальные телешоу', query: 'trending'},
-        {title: 'Популярные телешоу', query: 'popular'},
-        {title: 'Самые рейтинговые телешоу', query: 'top_rated'},
-        {title: 'В настоящее время транслируются телешоу', query: 'on_the_air'},
-        {title: 'Телешоу, которые выходят сегодня в эфир', query: 'airing_today'},
+        { title: 'Trending TV Shows', query: 'trending' },
+        { title: 'Popular TV Shows', query: 'popular' },
+        { title: 'Top Rated TV Shows', query: 'top_rated' },
+        { title: 'Currently Airing TV Shows', query: 'on_the_air' },
+        { title: 'TV Shows Airing Today', query: 'airing_today' },
     ],
 }
 
@@ -260,6 +260,27 @@ export function getTvShow(id, page = 1) {
 }
 
 /**
+ * Get movies (listing)
+ */
+export function getMovies (query, page = 1) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/movie/${query}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+                append_to_response: 'videos',
+                page,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        }).catch((error) => {
+                reject(error);
+        });
+    });
+}
+
+
+/**
  * Get movie (single)
  */
 export function getMovie(id, page = 1) {
@@ -274,10 +295,9 @@ export function getMovie(id, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
 
@@ -294,10 +314,9 @@ export function getTrending(media, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
 
