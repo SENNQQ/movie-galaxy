@@ -58,7 +58,7 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
         });
         setActiveVideo(videos.map(video=>video.src));
         getYouTubeVideo(ids).then((response) => {
-            videos.forEach((video, index) => {
+            videos.forEach((video, index= 0) => {
                 if (response.items[index]) {
                     video.duration = response.items[index].contentDetails.duration;
                 }
@@ -66,8 +66,7 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
             setIsLoading(false);
         });
     }, [videos])
-
-
+    console.log(videos);
     return (
         <>
             <div className={"spacing"}>

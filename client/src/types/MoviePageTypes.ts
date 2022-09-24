@@ -63,8 +63,8 @@ export interface allPropsMovie {
     "status": string,
     "tagline": string,
     "credits": {
-        "cast": [{}],
-        "crew": [{}],
+        "cast": [peopleProps],
+        "crew": [peopleProps],
     },
     "videos": {
         "results": [videosProps]
@@ -109,10 +109,10 @@ export interface videosProps {
     "official": boolean,
     "published_at": string,
     "id": string,
-    "thumb":string,
-    "src":string,
-    "url":string,
-    "duration":string
+    "thumb": string,
+    "src": string,
+    "url": string,
+    "duration": string
 }
 
 export interface imageProps {
@@ -123,6 +123,21 @@ export interface imageProps {
     "vote_average": number,
     "vote_count": number,
     "width": number,
-    "thumb":string,
-    "src":string,
+    "thumb": string,
+    "src": string,
+}
+
+export interface peopleProps {
+    adult: boolean
+    cast_id: number
+    character: string
+    credit_id: string
+    gender: number
+    id: number
+    known_for_department: string
+    name: string
+    order: number
+    original_name: string
+    popularity: number
+    profile_path: string
 }

@@ -5,7 +5,9 @@ import {CarouselPropsType, CarouselType} from "./types";
 import {apiImgUrl} from "../../api/zxc";
 import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
-
+import "../../mixins/Carousel.js";
+import {peopleProps} from "../../types/MoviePageTypes";
+import Credits from "../Credits";
 
 
 
@@ -14,6 +16,17 @@ const Carousel:FC<CarouselPropsType> = ({items,
                                         allUrl}) => {
 
     const carouselRef = useRef<HTMLDivElement>(null);
+
+
+    const isTypeCinemaProps =
+        (props: unknown): props is cinemaProps[] => Object.prototype.hasOwnProperty.call(props, 'name');
+
+    const isTypeTitle =
+        (props: unknown): props is ()=>string => true;
+
+    // if(items[0].adult){
+    //
+    // }
 
 
     const [paramCarousel, setParamCarousel] = useState<CarouselType>({
@@ -94,11 +107,15 @@ const Carousel:FC<CarouselPropsType> = ({items,
         }
     };
 
+    console.log(isTypeCinemaProps(items))
+    if(isTypeCinemaProps(items)){
+        console.log(items)
+    }
 
     return (
         <div className="listing listing_carousel">
             <div className={st.listening_head}>
-                    <h2 className={st.listening_title}>{title()}</h2>
+                    <h2 className={st.listening_title}></h2>
                     <Link to={allUrl().name} className={st.listing_explore}>
                         <strong>Посмотреть все</strong>
                     </Link>
@@ -119,7 +136,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
                          ref={carouselRef}
                          onScroll={scrollEvent}>
 
-                        {items.map((item) => (
+                        {isTypeCinemaProps(items) ? items.map((item) => (
                             <div className={st.card} key={item.id}>
                                 <Link to={`/movie/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
@@ -134,7 +151,12 @@ const Carousel:FC<CarouselPropsType> = ({items,
                                     </div>
                                 </Link>
                             </div>
-                        ))}
+                        ))
+                            :
+                            items.map((item) => (
+                                <Credits/>
+                            ))
+                        }
 
                         <div className={st.card}>
                             <Link to={allUrl().name} className="card__link">

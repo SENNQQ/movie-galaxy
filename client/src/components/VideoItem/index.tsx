@@ -5,46 +5,51 @@ import {InfoVideoItemPropsType} from "./types";
 const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,videosData,movieIndex}) => {
 
     const getSeconds  = (duration:any):any => {
-        let a:any = duration.match(/\d+/g);
-        if (a !== null && duration.indexOf('M') >= 0 && duration.indexOf('H') === -1 && duration.indexOf('S') === -1) {
-            a = [0, a[0], 0];
+        try{
+            let a:any = duration.match(/\d+/g);
+            if (a !== null && duration.indexOf('M') >= 0 && duration.indexOf('H') === -1 && duration.indexOf('S') === -1) {
+                a = [0, a[0], 0];
+            }
+            if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1) {
+                a = [a[0], 0, a[1]];
+            }
+            if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1 && duration.indexOf('S') === -1) {
+                a = [a[0], 0, 0];
+            }
+            let videoLength = 0;
+            if (a.length === 3) {
+                duration = videoLength + parseInt(a[0]) * 3600;
+                duration = videoLength + parseInt(a[1]) * 60;
+                duration = videoLength + parseInt(a[2]);
+            }
+            if (a.length === 2) {
+                duration = videoLength + parseInt(a[0]) * 60;
+                duration = videoLength + parseInt(a[1]);
+            }
+            if (a.length === 1) {
+                duration = videoLength + parseInt(a[0]);
+            }
+            return duration;
+        }catch (e) {
+            return "error"
         }
-        if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1) {
-            a = [a[0], 0, a[1]];
-        }
-        if (duration.indexOf('H') >= 0 && duration.indexOf('M') === -1 && duration.indexOf('S') === -1) {
-            a = [a[0], 0, 0];
-        }
-        let videoLength = 0;
-        if (a.length === 3) {
-            duration = videoLength + parseInt(a[0]) * 3600;
-            duration = videoLength + parseInt(a[1]) * 60;
-            duration = videoLength + parseInt(a[2]);
-        }
-        if (a.length === 2) {
-            duration = videoLength + parseInt(a[0]) * 60;
-            duration = videoLength + parseInt(a[1]);
-        }
-        if (a.length === 1) {
-            duration = videoLength + parseInt(a[0]);
-        }
-        return duration;
     };
 
     const formatDuration  = (duration:any) => {
-
         let secondsLeft = getSeconds(duration);
-        // hours
-        // const hours = Math.floor(secondsLeft / 3600);
-        secondsLeft = secondsLeft % 3600;
-        // mins
-        const mins = Math.floor(secondsLeft / 60);
-        secondsLeft = secondsLeft % 60;
-        // prepend 0 if less than 10
-        if (secondsLeft < 10) {
-            secondsLeft = `0${secondsLeft}`;
+        if(secondsLeft !== "error"){
+            // hours
+            // const hours = Math.floor(secondsLeft / 3600);
+            secondsLeft = secondsLeft % 3600;
+            // mins
+            const mins = Math.floor(secondsLeft / 60);
+            secondsLeft = secondsLeft % 60;
+            // prepend 0 if less than 10
+            if (secondsLeft < 10) {
+                secondsLeft = `0${secondsLeft}`;
+            }
+            return `${mins}:${secondsLeft}`;
         }
-        return `${mins}:${secondsLeft}`;
     };
 
     return (

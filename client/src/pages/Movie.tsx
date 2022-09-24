@@ -16,7 +16,6 @@ const Movie = () => {
     const [DataMovie, setDataMovie] = useState<allPropsMovie>();
     const [PanelDataMovie, setPanelDataMovie] = useState<PanelMovieTypes>();
 
-    console.log(DataMovie);
     useEffect(()=>{
         if(params.id){
             getMovie(params.id).then((response)=> {

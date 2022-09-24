@@ -23,13 +23,13 @@ const NavMovie:FC<NavMoviePropsType> = ({nameTab, changeTabHandler, videos, imag
                     onClick={()=>changeTabHandler("overview")}>
                 Overview
             </button>
-            {showVideos() && <button type="button"
+            {showVideos() > 0 && <button type="button"
                      className={cn(st.button_movie, {[st.buttonActive]: nameTab === "videos"})}
                      onClick={() => changeTabHandler("videos")}>
                 Videos
             </button>
             }
-            {showImages() && <button type="button"
+            {showImages() > 0 && <button type="button"
                      className={cn(st.button_movie, {[st.buttonActive]: nameTab === "photos"})}
                      onClick={() => changeTabHandler("photos")}>
                 Photos

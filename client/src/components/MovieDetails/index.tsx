@@ -15,11 +15,6 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
         setTab(nameTab);
     }
 
-    const showCredits = () => {
-        const credits = item.credits;
-        return credits && credits.cast && credits.cast.length;
-    }
-
     return (
         <>
             <NavMovie nameTab={tab} changeTabHandler={changeTab} videos={item.videos} images={item.images}/>

@@ -1,12 +1,14 @@
-import React, {FC} from 'react';
+import React, {FC, useState} from 'react';
 import cn from "classnames";
 import st from "./overview.module.scss";
 import Carousel from "../Carousel";
 import {GenresType, InfoOverviewPropsType} from "./types";
-import {apiImgUrl} from "../../api/zxc";
+import {apiImgUrl, getListItem} from "../../api/zxc";
 import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../helper/additionalFun";
 import {directors} from "../../helper/detailsInfo";
 import ExternalLinks from "../ExternalLinks";
+import {cinemaProps} from "../../types/MainPageTypes";
+import {peopleProps} from "../../types/MoviePageTypes";
 
 const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
 
@@ -22,6 +24,17 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
 
     const formatGenres = (genres:GenresType[]) => {
         return genres.map(genre => `<a href="/genre/${genre.id}/movie">${genre.name}</a>`).join(', ');
+    };
+
+    const [CarouselCast, setCarouselCast] = useState<[peopleProps]>(item.credits.cast);
+
+    const showCredits = () => {
+        const credits = item.credits;
+        return credits && credits.cast && credits.cast.length;
+    }
+
+    const  CreditsUrl  = () => {
+        return { name: 'person'};
     };
 
 
@@ -154,7 +167,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                     </div>
                 }
             </div>
-            {/*<Carousel/>*/}
+            <Carousel items={CarouselCast} title={"Cast"} allUrl={CreditsUrl}/>
             {/*<Carousel/>*/}
         </>
 
