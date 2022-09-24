@@ -33,23 +33,25 @@ const Movie = () => {
     const [nowPlaying , setNowPlaying ] = useState<cinemaProps[]>([]);
 
     useEffect(() => {
-        const fetchData = async () => {
-            const popular = await getMovies('popular');
-            const topRated = await getMovies('top_rated');
-            const upcoming = await getMovies('upcoming');
-            const nowPlaying = await getMovies('now_playing');
-            const PanelDataMovie = await getMovies(upcoming.results[0].id);
+        if (!params.id){
+            const fetchData = async () => {
+                const popular = await getMovies('popular');
+                const topRated = await getMovies('top_rated');
+                const upcoming = await getMovies('upcoming');
+                const nowPlaying = await getMovies('now_playing');
+                const PanelDataMovie = await getMovies(upcoming.results[0].id);
 
-            return { popular, topRated, upcoming, nowPlaying, PanelDataMovie };
+                return { popular, topRated, upcoming, nowPlaying, PanelDataMovie };
+            }
+            fetchData().then(response => {
+                setPopular(response.popular.results);
+                setTopRated(response.topRated.results);
+                setUpcoming(response.upcoming.results);
+                setNowPlaying(response.nowPlaying.results);
+                setPanelDataMovie(response.PanelDataMovie);
+            });
         }
-        fetchData().then(response => {
-            setPopular(response.popular.results);
-            setTopRated(response.topRated.results);
-            setUpcoming(response.upcoming.results);
-            setNowPlaying(response.nowPlaying.results);
-            setPanelDataMovie(response.PanelDataMovie);
-        });
-    }, []);
+    }, [params.id]);
 
 
     const  popularUrl  = () => {

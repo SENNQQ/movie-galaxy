@@ -82,7 +82,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                                     </div>
                                 </li>
                             }
-                            {item.budget &&
+                            {item.budget > 0 &&
                                 <li>
                                     <div className={st.noList__label}>
                                         Budget
@@ -92,7 +92,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                                     </div>
                                 </li>
                             }
-                            {item.revenue &&
+                            {item.revenue > 0 &&
                                 <li>
                                     <div className={st.noList__label}>
                                         Revenue
@@ -132,7 +132,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                                     </div>
                                 </li>
                             }
-                            {item.production_companies &&
+                            {item.production_companies.length > 0 &&
                                 <li>
                                     <div className={st.noList__label}>
                                         Production
@@ -145,9 +145,14 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <div className={st.externalLinks}>
-                    <ExternalLinks links={item.external_ids}/>
-                </div>
+                {(item.external_ids.facebook_id
+                    || item.external_ids.imdb_id
+                    || item.external_ids.instagram_id
+                    || item.external_ids.twitter_id)  &&
+                    <div className={st.externalLinks}>
+                        <ExternalLinks links={item.external_ids}/>
+                    </div>
+                }
             </div>
             {/*<Carousel/>*/}
             {/*<Carousel/>*/}

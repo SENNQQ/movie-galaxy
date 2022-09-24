@@ -12,8 +12,6 @@ import LoadableImage from "../LoadableImage";
 const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
-    console.log(item);
-    console.log(trailer(item));
     const trailerMovie:string[] | null = (trailer(item));
 
     const openModel = () => {
@@ -28,7 +26,6 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
         <>
             <div className={st.hero}>
                 <div className={st.backdrop}>
-                    {/*<img src={backdrop(item)} alt="spider"/>*/}
                     <LoadableImage src={backdrop(item) || ""}/>
                 </div>
                 <div className={st.panel}>
@@ -36,7 +33,7 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
                         <h1 className={st.panel__title}>
                             <Link to={`/movie/${item.id}`}>{name(item)}</Link>
                         </h1>
-                        {item.vote_count && <div className={st.panel__meta}>
+                        {item.vote_count > 0 && <div className={st.panel__meta}>
                             <div className="rating">
                                 <div className="stars">
                                     <div style={{width: `${stars(item)}%`}}></div>

@@ -38,9 +38,12 @@ const LoadableImage: FC<ILoadableImage> = ({
     return (
         <div ref={containerRef} className={cn(st.image, {
             [st.lazyloaded]:isLoaded,
-            [st.lazyloading]:!isLoaded,
+            [st.lazyloading]:!isLoaded && src !== "",
         })}>
-            {(onScreen || isLoaded) && <img src={src} className={st.lazyload} alt={alt} ref={imageRef}/>}
+            {src === "" ?
+                <div></div>
+                :
+                (onScreen || isLoaded) && <img src={src} className={st.lazyload} alt={alt} ref={imageRef}/>}
         </div>
     );
 };
