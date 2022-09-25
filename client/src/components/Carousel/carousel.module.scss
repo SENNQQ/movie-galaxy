@@ -81,6 +81,12 @@
   scroll-snap-align: start;
   line-height: 1.6;
 
+  &__character{
+    font-size: 14px;
+    color: #80868b;
+    letter-spacing: .4px;
+  }
+
   &__img{
     position: relative;
     height: 0;

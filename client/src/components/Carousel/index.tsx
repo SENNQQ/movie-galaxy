@@ -7,27 +7,31 @@ import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
 import "../../mixins/Carousel.js";
 import {peopleProps} from "../../types/MoviePageTypes";
-import Credits from "../Credits";
 
 
-
-const Carousel:FC<CarouselPropsType> = ({items,
-                                        title,
-                                        allUrl}) => {
+const Carousel: FC<CarouselPropsType> = ({
+                                             items,
+                                             title,
+                                             allUrl
+                                         }) => {
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
 
-    const isTypeCinemaProps =
-        (props: unknown): props is cinemaProps[] => Object.prototype.hasOwnProperty.call(props, 'name');
+    const isTypePeopleProps =
+        (props: any[]): props is [peopleProps] => props.every(item => {
+            return 'cast_id' in item
+        });
 
-    const isTypeTitle =
-        (props: unknown): props is ()=>string => true;
+    const isTypeTitleString = (props: (() => string) | string): props is string => {
+        return typeof props === 'string'
+    };
 
-    // if(items[0].adult){
+    console.log(isTypeTitleString(title));
+
+    // if(title instanceof ()=>string){
     //
     // }
-
 
     const [paramCarousel, setParamCarousel] = useState<CarouselType>({
         carouselWidth: 0,
@@ -41,7 +45,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
 
     const moveToClickEvent = (direction: string): void => {
         const invisible = carouselRef.current!.scrollLeft +
-            + (direction === 'left' ? - paramCarousel.visibleWidth + 1 : paramCarousel.visibleWidth);
+            +(direction === 'left' ? -paramCarousel.visibleWidth + 1 : paramCarousel.visibleWidth);
         const remainder = invisible - invisible % paramCarousel.elementWidth;
         moveTo(remainder);
     }
@@ -97,7 +101,7 @@ const Carousel:FC<CarouselPropsType> = ({items,
         });
     };
 
-    const poster  = (item:cinemaProps):string => {
+    const poster = (item: cinemaProps): string => {
         if (item.poster_path) {
             return `${apiImgUrl}/w370_and_h556_bestv2${item.poster_path}`;
         } else if (item.profile_path) {
@@ -107,36 +111,43 @@ const Carousel:FC<CarouselPropsType> = ({items,
         }
     };
 
-    console.log(isTypeCinemaProps(items))
-    if(isTypeCinemaProps(items)){
-        console.log(items)
+    const posterCast = (person: peopleProps) => {
+        if (person.profile_path) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${person.profile_path}`;
+        } else {
+            return '';
+        }
     }
+
+    console.log(items)
 
     return (
         <div className="listing listing_carousel">
             <div className={st.listening_head}>
-                    <h2 className={st.listening_title}></h2>
-                    <Link to={allUrl().name} className={st.listing_explore}>
+                <h2 className={st.listening_title}>{isTypeTitleString(title) ? title : title()}</h2>
+                {
+                    !isTypePeopleProps(items) && <Link to={allUrl().name} className={st.listing_explore}>
                         <strong>Посмотреть все</strong>
                     </Link>
-                </div>
+                }
+            </div>
             <div className={st.carousel}>
-                    <button aria-label="Previous"
-                            className={cn(st.carousel_nav, st.carousel_nav__left)}
-                            type="button"
-                            disabled={paramCarousel.disableLeftButton}
-                            onClick={() => moveToClickEvent('left')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
-                                  strokeLinejoin="round" strokeMiterlimit="10" d="M17.9 23.2L6.1 12 17.9.8"></path>
-                        </svg>
-                    </button>
+                <button aria-label="Previous"
+                        className={cn(st.carousel_nav, st.carousel_nav__left)}
+                        type="button"
+                        disabled={paramCarousel.disableLeftButton}
+                        onClick={() => moveToClickEvent('left')}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
+                              strokeLinejoin="round" strokeMiterlimit="10" d="M17.9 23.2L6.1 12 17.9.8"></path>
+                    </svg>
+                </button>
 
-                    <div className={st.carousel__items}
-                         ref={carouselRef}
-                         onScroll={scrollEvent}>
+                <div className={st.carousel__items}
+                     ref={carouselRef}
+                     onScroll={scrollEvent}>
 
-                        {isTypeCinemaProps(items) ? items.map((item) => (
+                    {!isTypePeopleProps(items) ? items.map((item) => (
                             <div className={st.card} key={item.id}>
                                 <Link to={`/movie/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
@@ -145,41 +156,49 @@ const Carousel:FC<CarouselPropsType> = ({items,
                                     <h2 className={st.card__name}> {item.original_name || item.original_title} </h2>
                                     <div className={cn("rating", st.card__rating)}>
                                         <div className={cn("stars", st.card__stars)}>
-                                            <div style={{width: `${item.vote_average*10}%`}}></div>
+                                            <div style={{width: `${item.vote_average * 10}%`}}></div>
                                         </div>
                                         <div className={cn("vote", st.card__vote)}>{item.vote_count}</div>
                                     </div>
                                 </Link>
                             </div>
                         ))
-                            :
-                            items.map((item) => (
-                                <Credits/>
-                            ))
-                        }
+                        :
+                        items.map((item) => (
+                            <div className={st.card} key={item.id}>
+                                <Link to={`/${allUrl()}/${item.id}`} className="card__link">
+                                    <div className={st.card__img}>
+                                        <img src={posterCast(item)} alt={item.name} loading="lazy"/>
+                                    </div>
+                                    <h2 className={st.card__name}> {item.original_name || item.name} </h2>
+                                    <div className={st.card__character}>{item.character}</div>
+                                </Link>
+                            </div>
+                        ))
+                    }
 
-                        <div className={st.card}>
-                            <Link to={allUrl().name} className="card__link">
-                                <div className={st.card__img}>
-                                    <span>Explore All</span>
-                                </div>
-                            </Link>
-                        </div>
-
+                    <div className={st.card}>
+                        <Link to={allUrl().name} className="card__link">
+                            <div className={st.card__img}>
+                                <span>Explore All</span>
+                            </div>
+                        </Link>
                     </div>
 
-                    <button aria-label="Next"
-                            className={cn(st.carousel_nav, st.carousel_nav__right)}
-                            type="button"
-                            disabled={paramCarousel.disableRightButton}
-                            onClick={() => moveToClickEvent('right')}>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
-                                  strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
-                        </svg>
-                    </button>
-
                 </div>
+
+                <button aria-label="Next"
+                        className={cn(st.carousel_nav, st.carousel_nav__right)}
+                        type="button"
+                        disabled={paramCarousel.disableRightButton}
+                        onClick={() => moveToClickEvent('right')}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                        <path fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
+                              strokeLinejoin="round" strokeMiterlimit="10" d="M6.1 23.2L17.9 12 6.1.8"></path>
+                    </svg>
+                </button>
+
+            </div>
         </div>
     );
 };
