@@ -1,9 +1,9 @@
-import React, {FC, useState} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import cn from "classnames";
 import st from "./overview.module.scss";
 import Carousel from "../Carousel";
 import {GenresType, InfoOverviewPropsType} from "./types";
-import {apiImgUrl, getListItem} from "../../api/zxc";
+import {apiImgUrl, getMovieRecommended} from "../../api/zxc";
 import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../helper/additionalFun";
 import {directors} from "../../helper/detailsInfo";
 import ExternalLinks from "../ExternalLinks";
@@ -27,6 +27,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
     };
 
     const [CarouselCast, setCarouselCast] = useState<[peopleProps]>(item.credits.cast);
+    const [recommendMovie, setRecommendMovie] = useState<cinemaProps[]>([]);
 
     const showCredits = () => {
         const credits = item.credits;
@@ -36,6 +37,26 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
     const  CreditsUrl  = () => {
         return { name: 'person'};
     };
+
+    const  recommendUrl  = () => {
+        return { name: 'movie/'};
+    };
+
+    useEffect(()=>{
+        setCarouselCast(item.credits.cast);
+    }, [item.credits.cast, item.id])
+
+    useEffect(()=>{
+        const fetchData = async () => {
+            const recommend =  await getMovieRecommended(item.id);
+            return {recommend}
+        }
+        fetchData().then(response=>{
+            console.log(response)
+            setRecommendMovie(response.recommend.results);
+        })
+
+    }, [item.id, recommendMovie.length])
 
 
     return (
@@ -167,8 +188,8 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
                     </div>
                 }
             </div>
-            <Carousel items={CarouselCast} title={"Cast"} allUrl={CreditsUrl}/>
-            {/*<Carousel/>*/}
+            {showCredits() > 0 && <Carousel items={CarouselCast} title={"Cast"} allUrl={CreditsUrl}/>}
+            {recommendMovie.length > 0 && <Carousel items={recommendMovie} title={"More Like This"} allUrl={recommendUrl}/>}
         </>
 
     );

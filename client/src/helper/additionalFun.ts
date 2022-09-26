@@ -1,9 +1,20 @@
-/**
- * Truncate text
- */
 import {languages} from "../api/zxc";
 import {productionCompaniesType} from "../components/InfoOverview/types";
 
+/**
+ * Format array to comma separated list
+ */
+export const rating = (number:number) => {
+    if (number.toString().length <= 1) {
+        return `${number.toString()}.0`;
+    }
+
+    return number.toString();
+}
+
+/**
+ * Truncate text
+ */
 export const truncate = (text:string, length = 0) => {
     if(text.length < length){
         return text

@@ -7,6 +7,7 @@ import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
 import "../../mixins/Carousel.js";
 import {peopleProps} from "../../types/MoviePageTypes";
+import {rating} from "../../helper/additionalFun";
 
 
 const Carousel: FC<CarouselPropsType> = ({
@@ -17,7 +18,6 @@ const Carousel: FC<CarouselPropsType> = ({
 
     const carouselRef = useRef<HTMLDivElement>(null);
 
-
     const isTypePeopleProps =
         (props: any[]): props is [peopleProps] => props.every(item => {
             return 'cast_id' in item
@@ -26,12 +26,6 @@ const Carousel: FC<CarouselPropsType> = ({
     const isTypeTitleString = (props: (() => string) | string): props is string => {
         return typeof props === 'string'
     };
-
-    console.log(isTypeTitleString(title));
-
-    // if(title instanceof ()=>string){
-    //
-    // }
 
     const [paramCarousel, setParamCarousel] = useState<CarouselType>({
         carouselWidth: 0,
@@ -119,8 +113,6 @@ const Carousel: FC<CarouselPropsType> = ({
         }
     }
 
-    console.log(items)
-
     return (
         <div className="listing listing_carousel">
             <div className={st.listening_head}>
@@ -151,15 +143,24 @@ const Carousel: FC<CarouselPropsType> = ({
                             <div className={st.card} key={item.id}>
                                 <Link to={`/movie/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
-                                        <img src={poster(item)} alt={item.title} loading="lazy"/>
+                                        {item.poster_path === null ?
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fillRule="evenodd" clipRule="evenodd" fill="#999">
+                                                <path d="M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"></path>
+                                                </svg>
+                                            </span>
+                                            : <img src={poster(item)} alt={item.title} loading="lazy"/>
+                                        }
                                     </div>
                                     <h2 className={st.card__name}> {item.original_name || item.original_title} </h2>
-                                    <div className={cn("rating", st.card__rating)}>
+                                    {item.vote_average > 0 &&
+                                        <div className={cn("rating", st.card__rating)}>
                                         <div className={cn("stars", st.card__stars)}>
                                             <div style={{width: `${item.vote_average * 10}%`}}></div>
                                         </div>
-                                        <div className={cn("vote", st.card__vote)}>{item.vote_count}</div>
+                                        <div className={cn("vote", st.card__vote)}>{rating(item.vote_average)}</div>
                                     </div>
+                                    }
                                 </Link>
                             </div>
                         ))
@@ -168,7 +169,14 @@ const Carousel: FC<CarouselPropsType> = ({
                             <div className={st.card} key={item.id}>
                                 <Link to={`/${allUrl()}/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
-                                        <img src={posterCast(item)} alt={item.name} loading="lazy"/>
+                                        {item.profile_path === null  ?
+                                            <span>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fillRule="evenodd" clipRule="evenodd" fill="#999">
+                                                <path d="M24 22h-24v-20h24v20zm-1-19h-22v18h22v-18zm-1 16h-19l4-7.492 3 3.048 5.013-7.556 6.987 12zm-11.848-2.865l-2.91-2.956-2.574 4.821h15.593l-5.303-9.108-4.806 7.243zm-4.652-11.135c1.38 0 2.5 1.12 2.5 2.5s-1.12 2.5-2.5 2.5-2.5-1.12-2.5-2.5 1.12-2.5 2.5-2.5zm0 1c.828 0 1.5.672 1.5 1.5s-.672 1.5-1.5 1.5-1.5-.672-1.5-1.5.672-1.5 1.5-1.5z"></path>
+                                                </svg>
+                                            </span>
+                                            : <img src={posterCast(item)} alt={item.name} loading="lazy"/>
+                                        }
                                     </div>
                                     <h2 className={st.card__name}> {item.original_name || item.name} </h2>
                                     <div className={st.card__character}>{item.character}</div>

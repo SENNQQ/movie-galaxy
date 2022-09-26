@@ -6,6 +6,7 @@ export interface InfoOverviewPropsType {
 }
 
 export interface InfoOverviewType {
+    "id":number,
     "overview": string,
     "runtime": number,
     "name": string,

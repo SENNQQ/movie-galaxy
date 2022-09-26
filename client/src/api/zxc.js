@@ -333,10 +333,9 @@ export function getMovieRecommended(id, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
 
