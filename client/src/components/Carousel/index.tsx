@@ -6,7 +6,7 @@ import {apiImgUrl} from "../../api/zxc";
 import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
 import "../../mixins/Carousel.js";
-import {peopleProps} from "../../types/MoviePageTypes";
+import {castProps} from "../../types/MoviePageTypes";
 import {rating} from "../../helper/additionalFun";
 
 
@@ -19,7 +19,7 @@ const Carousel: FC<CarouselPropsType> = ({
     const carouselRef = useRef<HTMLDivElement>(null);
 
     const isTypePeopleProps =
-        (props: any[]): props is [peopleProps] => props.every(item => {
+        (props: any[]): props is [castProps] => props.every(item => {
             return 'cast_id' in item
         });
 
@@ -105,7 +105,7 @@ const Carousel: FC<CarouselPropsType> = ({
         }
     };
 
-    const posterCast = (person: peopleProps) => {
+    const posterCast = (person: castProps) => {
         if (person.profile_path) {
             return `${apiImgUrl}/w370_and_h556_bestv2${person.profile_path}`;
         } else {
@@ -167,7 +167,7 @@ const Carousel: FC<CarouselPropsType> = ({
                         :
                         items.map((item) => (
                             <div className={st.card} key={item.id}>
-                                <Link to={`/${allUrl()}/${item.id}`} className="card__link">
+                                <Link to={`/${allUrl().name}/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
                                         {item.profile_path === null  ?
                                             <span>

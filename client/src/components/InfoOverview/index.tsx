@@ -8,7 +8,7 @@ import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../
 import {directors} from "../../helper/detailsInfo";
 import ExternalLinks from "../ExternalLinks";
 import {cinemaProps} from "../../types/MainPageTypes";
-import {peopleProps} from "../../types/MoviePageTypes";
+import {castProps} from "../../types/MoviePageTypes";
 
 const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
 
@@ -26,7 +26,7 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
         return genres.map(genre => `<a href="/genre/${genre.id}/movie">${genre.name}</a>`).join(', ');
     };
 
-    const [CarouselCast, setCarouselCast] = useState<[peopleProps]>(item.credits.cast);
+    const [CarouselCast, setCarouselCast] = useState<[castProps]>(item.credits.cast);
     const [recommendMovie, setRecommendMovie] = useState<cinemaProps[]>([]);
 
     const showCredits = () => {
@@ -52,7 +52,6 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
             return {recommend}
         }
         fetchData().then(response=>{
-            console.log(response)
             setRecommendMovie(response.recommend.results);
         })
 

@@ -4,7 +4,11 @@ import cn from 'classnames'
 import {NavMoviePropsType} from "./types";
 
 
-const NavMovie:FC<NavMoviePropsType> = ({nameTab, changeTabHandler, videos, images}) => {
+const NavMovie:FC<NavMoviePropsType> = ({
+                                            nameTab,
+                                            changeTabHandler,
+                                            videos,
+                                            images}) => {
 
     const showVideos = () => {
         const video = videos;

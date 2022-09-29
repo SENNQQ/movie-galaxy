@@ -1,5 +1,3 @@
-import {peopleProps} from "./MoviePageTypes";
-
 export interface cinemaProps {
     "title": string,
     "release_date": string,

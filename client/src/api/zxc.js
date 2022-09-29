@@ -359,3 +359,24 @@ export function getYouTubeVideo(id) {
         });
     });
 }
+
+
+/**
+ * Get person (single)
+ */
+export function getPerson (id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/person/${id}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+                append_to_response: 'images,combined_credits,external_ids',
+                include_image_language: 'en',
+            },
+        }).then((response) => {
+            resolve(response.data);
+        }).catch((error) => {
+                reject(error);
+            });
+    });
+}

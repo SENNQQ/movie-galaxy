@@ -1,0 +1,9 @@
+.listing {
+  margin: 0;
+
+  &__items{
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+}

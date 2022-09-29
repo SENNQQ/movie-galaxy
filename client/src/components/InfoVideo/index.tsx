@@ -66,7 +66,7 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
             setIsLoading(false);
         });
     }, [videos])
-    console.log(videos);
+
     return (
         <>
             <div className={"spacing"}>

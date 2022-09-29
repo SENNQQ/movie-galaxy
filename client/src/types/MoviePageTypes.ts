@@ -1,5 +1,7 @@
 // import {cinemaProps} from "./MainPageTypes";
 
+import {ExternalLinksType} from "../components/ExternalLinks/types";
+
 export interface MoviePropsTypes {
     "item": allPropsMovie,
 }
@@ -63,8 +65,8 @@ export interface allPropsMovie {
     "status": string,
     "tagline": string,
     "credits": {
-        "cast": [peopleProps],
-        "crew": [peopleProps],
+        "cast": [castProps],
+        "crew": [castProps],
     },
     "videos": {
         "results": [videosProps]
@@ -127,11 +129,12 @@ export interface imageProps {
     "src": string,
 }
 
-export interface peopleProps {
+export interface castProps {
     adult: boolean
     cast_id: number
     character: string
     credit_id: string
+    department:string
     gender: number
     id: number
     known_for_department: string
@@ -140,4 +143,60 @@ export interface peopleProps {
     original_name: string
     popularity: number
     profile_path: string
+}
+
+export interface combinedCreditsCast {
+    adult: boolean
+    backdrop_path: string
+    credit_id: string
+    department: string
+    genre_ids: number[]
+    id: number
+    job: string
+    media_type: string
+    original_language:string
+    original_title: string
+    overview: string
+    popularity: number
+    poster_path: string
+    profile_path:string
+    release_date: string
+    title: string
+    name:string
+    video: boolean
+    vote_average:number
+    vote_count: number
+}
+
+export interface peopleProps {
+    adult: boolean
+    also_known_as:[string]
+    biography:string
+    birthday:string
+    character: string
+    combined_credits:{
+        cast:combinedCreditsCast[],
+        crew:combinedCreditsCast[]
+    }
+    deathday?: string
+    credit_id: string
+    external_ids:peopleExternal_ids
+    gender: number
+    homepage?:string
+    id: number
+    images:{
+        profiles:[imageProps]
+    }
+    imdb_id:string
+    known_for_department: string
+    name: string
+    place_of_birth:string
+    popularity: number
+    profile_path: string
+}
+
+export interface peopleExternal_ids extends ExternalLinksType{
+    freebase_id:string,
+    freebase_mid:string,
+    tvrage_id:string
 }

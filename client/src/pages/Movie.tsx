@@ -4,7 +4,7 @@ import {useParams} from "react-router-dom";
 import {getListItem, getMovie, getMovies} from "../api/zxc";
 import {allPropsMovie} from "../types/MoviePageTypes";
 import {PanelMovieTypes} from "../components/PanelMovie/types";
-import MovieGalaxy from "../components/MovieDetails";
+import MovieDetails from "../components/MovieDetails";
 import {cinemaProps} from "../types/MainPageTypes";
 import Carousel from "../components/Carousel";
 
@@ -92,7 +92,7 @@ const Movie = () => {
                 {PanelDataMovie && <PanelMovie item={PanelDataMovie}/>}
             </>
             <>
-                {params.id ? DataMovie && <MovieGalaxy item={DataMovie}/>
+                {params.id ? DataMovie && <MovieDetails item={DataMovie}/>
                     :
                    <>
                        {popular.length > 0 && <Carousel items={popular}

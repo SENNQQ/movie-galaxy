@@ -7,7 +7,7 @@ import {MoviePropsTypes} from "../../types/MoviePageTypes";
 
 
 
-const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
+const MovieDetails:FC<MoviePropsTypes> = ({item}) => {
 
     const [tab, setTab] = useState<string>('overview')
 
@@ -25,4 +25,4 @@ const MovieGalaxy:FC<MoviePropsTypes> = ({item}) => {
     );
 };
 
-export default MovieGalaxy;
+export default MovieDetails;

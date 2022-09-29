@@ -1,5 +1,5 @@
 import {cinemaProps} from "../../types/MainPageTypes";
-import {peopleProps} from "../../types/MoviePageTypes";
+import {castProps} from "../../types/MoviePageTypes";
 
 export interface CarouselType {
     unusableVisibleWidth: number,
@@ -18,7 +18,7 @@ type StrictUnionHelper<T, TAll> =
 
 type StrictUnion<T> = StrictUnionHelper<T, T>
 
-type MovieOrCast = StrictUnion<cinemaProps[] | [peopleProps]>
+type MovieOrCast = StrictUnion<cinemaProps[] | [castProps]>
 
 export interface CarouselPropsType {
     "items": MovieOrCast,

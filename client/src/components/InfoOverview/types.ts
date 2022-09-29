@@ -1,5 +1,5 @@
 import {ExternalLinksType} from "../ExternalLinks/types";
-import {peopleProps} from "../../types/MoviePageTypes";
+import {castProps} from "../../types/MoviePageTypes";
 
 export interface InfoOverviewPropsType {
     "item": InfoOverviewType
@@ -14,8 +14,8 @@ export interface InfoOverviewType {
     "release_date": string,
     "poster_path": string,
     "credits": {
-        "cast": [peopleProps]
-        "crew": [peopleProps]
+        "cast": [castProps]
+        "crew": [castProps]
     },
     "budget": number,
     "revenue": number,
