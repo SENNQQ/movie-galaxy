@@ -6,7 +6,6 @@ import cn from "classnames";
 import {Link} from "react-router-dom";
 import {name} from "../../helper/detailsInfo";
 import {combinedCreditsCast} from "../../types/MoviePageTypes";
-import LoadableImage from "../LoadableImage";
 
 
 const CardCarousel: FC<CardCarouselPropsType> = ({item}) => {

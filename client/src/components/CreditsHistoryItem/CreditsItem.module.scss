@@ -1,0 +1,24 @@
+.item {
+  font-size: 1.2rem;
+
+  @media (min-width: 1200px) {
+    font-size: 1.1rem;
+  }
+
+  td {
+    padding: 0.7rem 1.5rem;
+    border-bottom: 1px solid #141414;
+  }
+}
+
+.year {
+  width: 8rem;
+}
+
+.episodes {
+  color: #999;
+}
+
+.role {
+  color: rgba(255, 255, 255, 0.8);
+}

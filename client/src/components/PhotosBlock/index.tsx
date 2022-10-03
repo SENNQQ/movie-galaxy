@@ -9,7 +9,7 @@ import LoadableImage from "../LoadableImage";
 
 const PhotosBlock: FC<PhotosBlockPropsType> = ({
                                                    title,
-                                                   type,
+                                                   type= "posters",
                                                    image
                                                }) => {
 
@@ -23,14 +23,12 @@ const PhotosBlock: FC<PhotosBlockPropsType> = ({
 
     const openModel = (event: React.MouseEvent<HTMLDivElement, MouseEvent>, indexVideo: number) => {
         event.preventDefault();
-        // document.body.classList.add('modal-open');
         setModalStartAt(indexVideo);
         setModalVisible(true);
     }
 
     const closeModel = () => {
         setModalStartAt(0);
-        // document.body.classList.remove('modal-open');
         setModalVisible(false);
     }
 

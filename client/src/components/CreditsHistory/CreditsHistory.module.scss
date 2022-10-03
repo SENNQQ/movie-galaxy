@@ -1,0 +1,64 @@
+.headDropdown {
+  display: flex;
+  align-items: center;
+
+  select {
+    padding: 15px 30px 15px 15px;
+    font-size: 16px;
+    color: #fff;
+    background: #202124 url("../../image/Без названия.svg") no-repeat 100% 45%;
+    background-size: 30px 60px;
+    border-color: #202124;
+    appearance: none;
+    border-radius: 0;
+    margin-right: 1rem;
+  }
+
+  &__count {
+    font-size: 16px;
+    color: #80868b;
+    letter-spacing: .4px;
+  }
+}
+
+.head{
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filter {
+  margin-right: 3rem;
+  display: flex;
+  align-items: center;
+
+  label {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+    letter-spacing: .4px;
+    @media (min-width: 1200px) {
+      font-size: 1.1rem;
+    }
+  }
+
+}
+
+table{
+  width: 100%;
+}
+
+.category {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+  letter-spacing: .4px;
+
+  @media (min-width: 1200px) {
+    margin-bottom: 1rem;
+    font-size: 1.6rem;
+  }
+}
+

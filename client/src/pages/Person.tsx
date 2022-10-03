@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {getPerson} from "../api/zxc";
-import {combinedCreditsCast, peopleProps} from "../types/MoviePageTypes";
+import {combinedCreditsCast, imageProps, peopleProps} from "../types/MoviePageTypes";
 import PersonInfo from "../components/PersonInfo";
 import NavPerson from "../components/NavPerson";
 import Listing from "../components/Listing";
+import PhotosBlock from "../components/PhotosBlock";
+import CreditsHistory from "../components/CreditsHistory";
 
 
 const Person = () => {
@@ -12,6 +14,7 @@ const Person = () => {
     const params = useParams();
 
     const [person, setPerson] = useState<peopleProps>();
+    const [imagePerson, setImagePerson] = useState<imageProps[]>();
     const [knowFor, setKnowFor] = useState<combinedCreditsCast[]>();
 
     const [menu, setMenu] = useState<string[]>([]);
@@ -24,11 +27,14 @@ const Person = () => {
         }
         fetchData().then(response => {
             setPerson(response.person);
+            setImagePerson(response.person.images.profiles)
         })
 
     }, [params.id])
 
-    useEffect(()=>{
+    console.log(imagePerson);
+
+    useEffect(() => {
         createMenu();
         initKnownFor();
     }, [person])
@@ -44,8 +50,8 @@ const Person = () => {
         setMenu(tempMenu);
     }
 
-    const initKnownFor  = () => {
-        if(person){
+    const initKnownFor = () => {
+        if (person) {
             // if recommendations don't exist, retreive them
             if (knowFor !== undefined)
                 return;
@@ -53,14 +59,11 @@ const Person = () => {
             let results;
             if (department === 'Acting') {
                 results = person.combined_credits.cast;
-            }
-            else if (department === 'Directing') {
+            } else if (department === 'Directing') {
                 results = person.combined_credits.crew.filter(item => item.department === 'Directing');
-            }
-            else if (department === 'Production') {
+            } else if (department === 'Production') {
                 results = person.combined_credits.crew.filter(item => item.department === 'Production');
-            }
-            else if (department === 'Writing' || department === 'Creator') {
+            } else if (department === 'Writing' || department === 'Creator') {
                 results = person.combined_credits.crew.filter(item => item.department === 'Writing');
             }
 
@@ -84,7 +87,7 @@ const Person = () => {
         });
     }
 
-    const showImages = ():number|null => {
+    const showImages = (): number | null => {
         if (person) {
             const images = person.images;
             return images && (images.profiles && images.profiles.length);
@@ -101,11 +104,9 @@ const Person = () => {
         <>
             {person && <PersonInfo person={person}/>}
             {menu.length > 0 && <NavPerson menu={menu} changeTabHandler={navClicked}/>}
-            {tab === "known-for" && knowFor && <div className="spacing">
-                <Listing items={knowFor}/>
-            </div>}
-            {tab === "credits" &&  <h2>кредиты</h2>}
-            {tab === "photos" &&  <h2>фотки</h2>}
+            {tab === "known-for" && knowFor && <Listing items={knowFor}/>}
+            {tab === "credits" && <CreditsHistory/>}
+            {tab === "photos" && imagePerson && <PhotosBlock title={"Photos"} image={imagePerson} type={"posters"}/>}
         </>
     );
 };
