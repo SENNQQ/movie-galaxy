@@ -32,8 +32,6 @@ const Person = () => {
 
     }, [params.id])
 
-    console.log(imagePerson);
-
     useEffect(() => {
         createMenu();
         initKnownFor();
@@ -99,13 +97,12 @@ const Person = () => {
         setTab(label);
     }
 
-
     return (
         <>
             {person && <PersonInfo person={person}/>}
             {menu.length > 0 && <NavPerson menu={menu} changeTabHandler={navClicked}/>}
             {tab === "known-for" && knowFor && <Listing items={knowFor}/>}
-            {tab === "credits" && <CreditsHistory/>}
+            {tab === "credits"  && person && <CreditsHistory credits={person.combined_credits}/>}
             {tab === "photos" && imagePerson && <PhotosBlock title={"Photos"} image={imagePerson} type={"posters"}/>}
         </>
     );

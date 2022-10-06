@@ -33,7 +33,7 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
         setModalVisible(false);
     }
 
-    //Авто заполнение дропдауна типами фильмов которые хроняться в массиве
+    //Авто заполнение дропдауна типами фильмов которые хранятся в массиве
     const videoTypes = () => {
         return videos.map(video => video.type)
             .filter((videoType, index, self) => self.indexOf(videoType) === index)

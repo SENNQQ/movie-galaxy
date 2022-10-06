@@ -150,8 +150,10 @@ export interface combinedCreditsCast {
     backdrop_path: string
     credit_id: string
     department: string
+    first_air_date:string
     genre_ids: number[]
     id: number
+    year:string
     job: string
     media_type: string
     original_language:string
