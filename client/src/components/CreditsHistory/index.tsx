@@ -1,25 +1,30 @@
-import React, {FC, useEffect, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import st from "./CreditsHistory.module.scss"
 import CreditsHistoryGroup from "../CreditsHistoryGroup";
 import {CreditsHistoryPropsType} from "./types";
 import {combinedCreditsCast} from "../../types/MoviePageTypes";
 
 interface iActiveMedia {
-    name:string,
-    groups:iHandleCredits[]
+    name: string,
+    groups: iHandleCredits[]
 }
 
 interface iHandleCredits {
-    year:string,
-    credits:combinedCreditsCast[]
+    year: string,
+    credits: combinedCreditsCast[]
 }
 
 const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
 
-    const [activeMedia, setActiveMedia] = useState<iActiveMedia>({groups: [], name: ""});
-    const [activeCredits, setActiveCredits] = useState<iActiveMedia>({groups: [], name: ""});
+    const [activeMedia, setActiveMedia] = useState<iActiveMedia[]>([{groups: [], name: ""}]);
+    const [activeCredits, setActiveCredits] = useState<iActiveMedia[]>([{groups: [], name: ""}]);
 
-    const handleCast = (items: combinedCreditsCast[]):iHandleCredits[] | undefined => {
+    const categoryFilterRef = useRef<HTMLSelectElement>(null);
+    const mediaFilterRef = useRef<HTMLSelectElement>(null);
+
+    const [category, setCategory] = useState<string[]>([]);
+
+    const handleCast = (items: combinedCreditsCast[]): iHandleCredits[] | undefined => {
         if (!items || !items.length)
             return;
 
@@ -45,7 +50,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return groups;
     }
 
-    const handleCrew = (items: combinedCreditsCast[]):iHandleCredits[] | undefined => {
+    const handleCrew = (items: combinedCreditsCast[]): iActiveMedia[] | undefined => {
         if (!items || !items.length) return;
         // group by department
         const categories = createCategories(items);
@@ -68,7 +73,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return categories;
     }
 
-    const groupItems = (items: combinedCreditsCast[]):iHandleCredits[] => {
+    const groupItems = (items: combinedCreditsCast[]): iHandleCredits[] => {
         return items.reduce(function (arr: any[], current) {
             const date = current.release_date ? current.release_date : current.first_air_date;
             const year = date ? date.split('-')[0] : '';
@@ -86,7 +91,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         }, []);
     }
 
-    const sortGroups = (items: iHandleCredits[]):iHandleCredits[] => {
+    const sortGroups = (items: iHandleCredits[]): iHandleCredits[] => {
         return items.sort((a, b) => a.year > b.year ? -1 : 1);
     }
 
@@ -120,26 +125,58 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return categories;
     }
 
-    // const getCategories  = () => {
-    //     return activeCredits.map(category => category.name);
-    // }
+    const getCategories = () => {
+        return activeMedia.map(category => category.name);
+    }
 
     useEffect(() => {
         const cast = handleCast(credits.cast);
         const crew = handleCrew(credits.crew);
 
         if (cast) {
-            setActiveCredits({name: 'Acting', groups: cast});
+            setActiveMedia([{name: 'Acting', groups: cast}]);
+            setActiveCredits([{name: 'Acting', groups: cast}]);
         }
-        if (crew){
-            // let tempObject = Object.assign(activeMedia, crew);
-            setActiveCredits(prevState => ({
-                ...prevState,
-                crew,
-            }))
+        if (crew) {
+            setActiveMedia(prevState => [...prevState, ...crew]);
+            setActiveCredits(prevState => [...prevState, ...crew]);
         }
 
     }, [])
+
+    useEffect(() => {
+        setCategory(getCategories());
+    }, [activeCredits])
+
+    const filterCredits = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        if (event.currentTarget.value === 'all') {
+            setActiveMedia(activeCredits);
+        } else {
+            setActiveMedia(activeCredits.filter(category => category.name.toLowerCase() === event.currentTarget.value.toLowerCase()))
+        }
+    }
+
+    const getCredits = (event: React.ChangeEvent<HTMLSelectElement>) =>{
+
+        if (event.currentTarget.value === 'all') {
+            setActiveMedia(activeCredits);
+            categoryFilterRef.current!.selectedIndex = 0;
+        }
+        else {
+            let temp = activeCredits.map(category => category.groups.map((group) => {
+
+                return group.credits.filter((credit) => {
+
+                return credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()
+            })}))
+            console.log(temp)
+            console.log(activeCredits.filter(category =>
+                category.groups.filter((group) => group.credits.filter((credit) =>
+                credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()))))
+        }
+
+
+    }
 
     return (
         <>
@@ -150,20 +187,17 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
                             Department
                         </label>
                         <div className={st.headDropdown}>
-                            <select name="infoVideo_dropdown">
-                                <option value="all">All</option>
-                                <option value="all">All 2</option>
-                                <option value="all">All 3</option>
-                                <option value="all">All 4</option>
-                            </select>
-                            {/*<select name="infoVideo_dropdown" onChange={(event) => filterVideos(event)}>*/}
-                            {/*    <option value="all">All</option>*/}
-                            {/*    {videoTypes().map((item) => <option value={item} key={item}>{item}</option>)}*/}
-                            {/*</select>*/}
 
-                            {/*<strong className={st.headDropdown__count}>*/}
-                            {/*    {activeVideos.length} {activeVideos.length > 1 ? "Videos" : "Video"}*/}
-                            {/*</strong>*/}
+                            <select name="infoVideo_dropdown"
+                                    onChange={(event) => filterCredits(event)}
+                                    ref={categoryFilterRef}
+                                    disabled={!category.length || category.length === 1}>
+                                <option value="all">All</option>
+                                {category.map((item) =>
+                                    <option value={item} key={item}>{item}</option>)
+                                }
+                            </select>
+
                         </div>
                     </div>
                     <div className={st.filter}>
@@ -171,32 +205,38 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
                             Media
                         </label>
                         <div className={st.headDropdown}>
-                            <select name="infoVideo_dropdown">
-                                <option value="all">All</option>
-                                <option value="all">All 2</option>
-                                <option value="all">All 3</option>
-                                <option value="all">All 4</option>
+                            <select name="infoVideo_dropdown"
+                                    ref={mediaFilterRef}
+                                    onChange={(event)=>getCredits(event)}>
+                                <option value="all">
+                                    All
+                                </option>
+                                <option value="movie">
+                                    Movies
+                                </option>
+                                <option value="tv">
+                                    TV Shows
+                                </option>
                             </select>
-                            {/*<select name="infoVideo_dropdown" onChange={(event) => filterVideos(event)}>*/}
-                            {/*    <option value="all">All</option>*/}
-                            {/*    {videoTypes().map((item) => <option value={item} key={item}>{item}</option>)}*/}
-                            {/*</select>*/}
-
-                            {/*<strong className={st.headDropdown__count}>*/}
-                            {/*    {activeVideos.length} {activeVideos.length > 1 ? "Videos" : "Video"}*/}
-                            {/*</strong>*/}
                         </div>
                     </div>
                 </div>
-                <div className={st.category}>
-                    <h2 className={st.title}>Acting</h2>
 
-                    <table>
-                        <tbody>
-                        <CreditsHistoryGroup/>
-                        </tbody>
-                    </table>
-                </div>
+                {activeMedia.map((category) => (
+                    <div className={st.category} key={`credits-${category.name.toLowerCase()}`}>
+                        <h2 className={st.title}>{category.name}</h2>
+                        <table>
+                            <tbody>
+                            {category.groups.map((groups) => (
+                                <CreditsHistoryGroup
+                                    key={`credit-${category.name.toLowerCase()}-${groups.year}`}
+                                    groups={groups}/>
+                            ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ))}
+
             </div>
         </>
     );

@@ -18,7 +18,7 @@ const Person = () => {
     const [knowFor, setKnowFor] = useState<combinedCreditsCast[]>();
 
     const [menu, setMenu] = useState<string[]>([]);
-    const [tab, setTab] = useState<string>()
+    const [tab, setTab] = useState<string>("known-for")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -74,7 +74,7 @@ const Person = () => {
             results.sort((a, b) => a.vote_count > b.vote_count ? -1 : 1);
 
             setKnowFor(results);
-            setTab('known-for')
+            setTab('credits')
         }
     }
 

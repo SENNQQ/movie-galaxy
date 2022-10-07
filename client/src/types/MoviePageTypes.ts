@@ -155,6 +155,8 @@ export interface combinedCreditsCast {
     id: number
     year:string
     job: string
+    character:string
+    episode_count:number
     media_type: string
     original_language:string
     original_title: string
