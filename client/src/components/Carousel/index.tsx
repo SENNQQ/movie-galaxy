@@ -118,7 +118,7 @@ const Carousel: FC<CarouselPropsType> = ({
             <div className={st.listening_head}>
                 <h2 className={st.listening_title}>{isTypeTitleString(title) ? title : title()}</h2>
                 {
-                    !isTypePeopleProps(items) && <Link to={allUrl().name} className={st.listing_explore}>
+                    !isTypePeopleProps(items) && <Link to={`/${allUrl().name}`} className={st.listing_explore}>
                         <strong>Посмотреть все</strong>
                     </Link>
                 }
@@ -141,7 +141,7 @@ const Carousel: FC<CarouselPropsType> = ({
 
                     {!isTypePeopleProps(items) ? items.map((item) => (
                             <div className={st.card} key={item.id}>
-                                <Link to={`/movie/${item.id}`} className="card__link">
+                                <Link to={`/${allUrl().name.split('/')[0]}/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
                                         {item.poster_path === null ?
                                             <span>

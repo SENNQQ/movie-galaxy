@@ -237,6 +237,27 @@ export function getListItem(type, query) {
     }
 }
 
+
+/**
+ * Get TV shows (listing)
+ */
+export function getTvShows (query, page = 1) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/tv/${query}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+                page,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
 /**
  * Get TV show (single)
  */
@@ -248,6 +269,26 @@ export function getTvShow(id, page = 1) {
                 language: config.API_LANG,
                 append_to_response: 'videos,credits,images,external_ids,content_ratings',
                 include_image_language: 'en',
+                page,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
+
+/**
+ * Get TV show recommended (single)
+ */
+export function getTvShowRecommended (id, page = 1) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/tv/${id}/recommendations`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
                 page,
             },
         }).then((response) => {

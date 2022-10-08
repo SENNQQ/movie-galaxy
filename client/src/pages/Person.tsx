@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {getPerson} from "../api/zxc";
 import {combinedCreditsCast, imageProps, peopleProps} from "../types/MoviePageTypes";
 import PersonInfo from "../components/PersonInfo";
-import NavPerson from "../components/NavPerson";
+import MediaNav from "../components/NavPerson";
 import Listing from "../components/Listing";
 import PhotosBlock from "../components/PhotosBlock";
 import CreditsHistory from "../components/CreditsHistory";
@@ -74,7 +74,6 @@ const Person = () => {
             results.sort((a, b) => a.vote_count > b.vote_count ? -1 : 1);
 
             setKnowFor(results);
-            setTab('credits')
         }
     }
 
@@ -100,7 +99,7 @@ const Person = () => {
     return (
         <>
             {person && <PersonInfo person={person}/>}
-            {menu.length > 0 && <NavPerson menu={menu} changeTabHandler={navClicked}/>}
+            {menu.length > 0 && <MediaNav menu={menu} changeTabHandler={navClicked}/>}
             {tab === "known-for" && knowFor && <Listing items={knowFor}/>}
             {tab === "credits"  && person && <CreditsHistory credits={person.combined_credits}/>}
             {tab === "photos" && imagePerson && <PhotosBlock title={"Photos"} image={imagePerson} type={"posters"}/>}

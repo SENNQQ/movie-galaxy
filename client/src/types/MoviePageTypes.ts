@@ -184,7 +184,7 @@ export interface peopleProps {
     }
     deathday?: string
     credit_id: string
-    external_ids:peopleExternal_ids
+    external_ids:ExternalLinksType
     gender: number
     homepage?:string
     id: number
@@ -197,10 +197,4 @@ export interface peopleProps {
     place_of_birth:string
     popularity: number
     profile_path: string
-}
-
-export interface peopleExternal_ids extends ExternalLinksType{
-    freebase_id:string,
-    freebase_mid:string,
-    tvrage_id:string
 }

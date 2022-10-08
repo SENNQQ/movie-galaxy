@@ -156,27 +156,29 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         }
     }
 
-    const getCredits = (event: React.ChangeEvent<HTMLSelectElement>) =>{
+    //TODO сделать потом сортировку истории по media
 
-        if (event.currentTarget.value === 'all') {
-            setActiveMedia(activeCredits);
-            categoryFilterRef.current!.selectedIndex = 0;
-        }
-        else {
-            let temp = activeCredits.map(category => category.groups.map((group) => {
-
-                return group.credits.filter((credit) => {
-
-                return credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()
-            })}))
-            console.log(temp)
-            console.log(activeCredits.filter(category =>
-                category.groups.filter((group) => group.credits.filter((credit) =>
-                credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()))))
-        }
-
-
-    }
+    // const getCredits = (event: React.ChangeEvent<HTMLSelectElement>) =>{
+    //
+    //     if (event.currentTarget.value === 'all') {
+    //         setActiveMedia(activeCredits);
+    //         categoryFilterRef.current!.selectedIndex = 0;
+    //     }
+    //     else {
+    //         let temp = activeCredits.map(category => category.groups.map((group) => {
+    //
+    //             return group.credits.filter((credit) => {
+    //
+    //             return credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()
+    //         })}))
+    //         console.log(temp)
+    //         console.log(activeCredits.filter(category =>
+    //             category.groups.filter((group) => group.credits.filter((credit) =>
+    //             credit.media_type.toLowerCase() === event.currentTarget.value.toLowerCase()))))
+    //     }
+    //
+    //
+    // }
 
     return (
         <>
@@ -206,8 +208,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
                         </label>
                         <div className={st.headDropdown}>
                             <select name="infoVideo_dropdown"
-                                    ref={mediaFilterRef}
-                                    onChange={(event)=>getCredits(event)}>
+                                    ref={mediaFilterRef}>
                                 <option value="all">
                                     All
                                 </option>

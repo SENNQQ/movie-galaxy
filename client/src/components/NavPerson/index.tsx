@@ -1,10 +1,10 @@
 import React, {FC, useState} from 'react';
 import st from '../NavMovie/navmovie.module.scss';
 import cn from 'classnames'
-import {MediaNav} from "./types";
+import {MediaNavType} from "./types";
 
 
-const NavPerson: FC<MediaNav> = ({
+const MediaNav: FC<MediaNavType> = ({
                                      menu,
                                      changeTabHandler,
                                  }) => {
@@ -29,4 +29,4 @@ const NavPerson: FC<MediaNav> = ({
     );
 };
 
-export default NavPerson;
+export default MediaNav;

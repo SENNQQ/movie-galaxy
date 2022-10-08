@@ -39,7 +39,7 @@ const Sidebar = () => {
                         </Link>
                     </li>
                     <li>
-                        <a>
+                        <Link to={"/tv"}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  data-v-7b357a42="">
                                 <g fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"
@@ -49,7 +49,7 @@ const Sidebar = () => {
                                         data-v-7b357a42=""></path>
                                 </g>
                             </svg>
-                        </a>
+                        </Link>
                     </li>
                     <li>
                         <button>
