@@ -88,6 +88,11 @@
 
     &__value{
       flex: 2;
+
+      a {
+        color: #2196f3;
+        text-decoration: underline;
+      }
     }
 
   }

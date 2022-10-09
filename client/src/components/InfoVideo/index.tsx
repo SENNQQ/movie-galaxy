@@ -56,6 +56,7 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
             video.src = `https://www.youtube.com/embed/${video.key}?rel=0&showinfo=0&autoplay=1`;
             video.url = `https://youtube.com/watch?v=${video.key}`;
         });
+
         setActiveVideo(videos.map(video=>video.src));
         getYouTubeVideo(ids).then((response) => {
             videos.forEach((video, index= 0) => {

@@ -1,6 +1,6 @@
-import {combinedCreditsCast} from "../../types/MoviePageTypes";
+import {CastUnitedCrew} from "../../types/MoviePageTypes";
 
 export interface CreditsHistoryItemProps{
     year:string,
-    credit:combinedCreditsCast
+    credit:CastUnitedCrew
 }

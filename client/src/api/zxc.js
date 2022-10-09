@@ -437,3 +437,40 @@ export function getPerson (id) {
             });
     });
 }
+
+/**
+ * Get genre list
+ */
+export function getGenreList (media) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/genre/${media}/list`, {
+            params: {
+                api_key: config.API_KEY,
+            },
+        }).then((response) => {
+            resolve(response.data.genres);
+        }).catch((error) => {
+                reject(error);
+        });
+    });
+}
+
+/**
+ * Discover media by genre
+ */
+export function getMediaByGenre (media, genre, page = 1) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/discover/${media}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+                with_genres: genre,
+                page,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        }).catch((error) => {
+                reject(error);
+        });
+    });
+}

@@ -23,7 +23,7 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
     const posterItem = poster();
 
     const formatGenres = (genres:GenresType[]) => {
-        return genres.map(genre => `<a href="/genre/${genre.id}/movie">${genre.name}</a>`).join(', ');
+        return genres.map(genre => `<a href="/genre/${genre.id}/tv">${genre.name}</a>`).join(', ');
     };
 
     const formatRunTime = (times:number[]) => {

@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import PanelMovie from "../components/PanelMovie";
+import PanelMovie from "../../components/PanelMovie";
 import {useParams} from "react-router-dom";
-import {getListItem, getMovie, getMovies} from "../api/zxc";
-import {allPropsMovie} from "../types/MoviePageTypes";
-import {PanelMovieTypes} from "../components/PanelMovie/types";
-import MovieDetails from "../components/MovieDetails";
-import {cinemaProps} from "../types/MainPageTypes";
-import Carousel from "../components/Carousel";
+import {getListItem, getMovie, getMovies} from "../../api/zxc";
+import {allPropsMovie} from "../../types/MoviePageTypes";
+import {PanelMovieTypes} from "../../components/PanelMovie/types";
+import MovieDetails from "../../components/MovieDetails";
+import {cinemaProps} from "../../types/MainPageTypes";
+import Carousel from "../../components/Carousel";
 
 
 const Movie = () => {

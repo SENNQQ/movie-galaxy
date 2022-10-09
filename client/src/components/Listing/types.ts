@@ -1,5 +1,8 @@
-import {combinedCreditsCast} from "../../types/MoviePageTypes";
+import {cinemaProps} from "../../types/MainPageTypes";
 
 export interface ListingPropsType {
-    items:combinedCreditsCast[]
+    items:cinemaProps[],
+    title?:string,
+    loading?:boolean,
+    loadMore?:()=>void
 }

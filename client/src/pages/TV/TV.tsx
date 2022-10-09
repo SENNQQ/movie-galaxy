@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {PanelMovieTypes} from "../components/PanelMovie/types";
-import {getListItem, getTvShow, getTvShows} from "../api/zxc";
-import {cinemaProps} from "../types/MainPageTypes";
-import PanelMovie from "../components/PanelMovie";
-import Carousel from "../components/Carousel";
-import {TvAllPropsType} from "../types/TvShowPageTypes";
-import TvDetails from "../components/TvDetails";
+import {PanelMovieTypes} from "../../components/PanelMovie/types";
+import {getListItem, getTvShow, getTvShows} from "../../api/zxc";
+import {cinemaProps} from "../../types/MainPageTypes";
+import PanelMovie from "../../components/PanelMovie";
+import Carousel from "../../components/Carousel";
+import {TvAllPropsType} from "../../types/TvShowPageTypes";
+import TvDetails from "../../components/TvDetails";
 
 const TV = () => {
 

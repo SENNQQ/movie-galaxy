@@ -1,10 +1,10 @@
-import {combinedCreditsCast} from "../../types/MoviePageTypes";
+import {CastUnitedCrew} from "../../types/MoviePageTypes";
 
 export interface CreditsHistoryPropsType {
     credits: CreditsHistoryType
 }
 
 export interface CreditsHistoryType {
-    cast:combinedCreditsCast[],
-    crew:combinedCreditsCast[]
+    cast:CastUnitedCrew[],
+    crew:CastUnitedCrew[]
 }

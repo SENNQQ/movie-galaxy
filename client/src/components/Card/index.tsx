@@ -1,16 +1,17 @@
 import React, {FC} from 'react';
 import {apiImgUrl} from "../../api/zxc";
 import st from './card.module.scss'
-import {CardCarouselPropsType} from "./types";
+import {CardPropsType} from "./types";
 import cn from "classnames";
 import {Link} from "react-router-dom";
 import {name} from "../../helper/detailsInfo";
-import {combinedCreditsCast} from "../../types/MoviePageTypes";
+
+import {cinemaProps} from "../../types/MainPageTypes";
 
 
-const CardCarousel: FC<CardCarouselPropsType> = ({item}) => {
+const Card: FC<CardPropsType> = ({item}) => {
 
-    const poster = (item: combinedCreditsCast): string => {
+    const poster = (item: cinemaProps): string => {
         if (item.poster_path) {
             return `${apiImgUrl}/w370_and_h556_bestv2${item.poster_path}`;
         } else if (item.profile_path) {
@@ -20,11 +21,23 @@ const CardCarousel: FC<CardCarouselPropsType> = ({item}) => {
         }
     };
 
+    const media = () => {
+        if (item.media_type) {
+            return item.media_type;
+        }
+        else if (item.name) {
+            return 'tv';
+        }
+        else {
+            return 'movie';
+        }
+    }
+
     return (
         <>
 
             <div className={st.card} key={item.id}>
-                <Link to={`/${item.media_type}/${item.id}`} className="card__link">
+                <Link to={`/${media()}/${item.id}`} className="card__link">
                     <div className={st.card__img}>
                         <img src={poster(item)} alt={item.title}/>
                     </div>
@@ -42,4 +55,4 @@ const CardCarousel: FC<CardCarouselPropsType> = ({item}) => {
     );
 };
 
-export default CardCarousel;
+export default Card;

@@ -172,6 +172,35 @@ export interface combinedCreditsCast {
     vote_count: number
 }
 
+export interface CastUnitedCrew {
+    id:number
+    department:string
+    original_language:string
+    episode_count:number
+    job:string
+    overview:string
+    origin_country:string[]
+    original_name:string
+    genre_ids:number[]
+    name:string
+    media_type:string
+    poster_path:string
+    profile_path:string
+    first_air_date:string
+    vote_average:number
+    order: number
+    vote_count:number
+    character:string
+    backdrop_path:string
+    popularity:number
+    credit_id:string
+    original_title:string
+    video:boolean
+    release_date:string
+    title:string
+    adult:boolean
+}
+
 export interface peopleProps {
     adult: boolean
     also_known_as:[string]
@@ -179,8 +208,8 @@ export interface peopleProps {
     birthday:string
     character: string
     combined_credits:{
-        cast:combinedCreditsCast[],
-        crew:combinedCreditsCast[]
+        cast:CastUnitedCrew[],
+        crew:CastUnitedCrew[]
     }
     deathday?: string
     credit_id: string

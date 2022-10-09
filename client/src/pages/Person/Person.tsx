@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {getPerson} from "../api/zxc";
-import {combinedCreditsCast, imageProps, peopleProps} from "../types/MoviePageTypes";
-import PersonInfo from "../components/PersonInfo";
-import MediaNav from "../components/NavPerson";
-import Listing from "../components/Listing";
-import PhotosBlock from "../components/PhotosBlock";
-import CreditsHistory from "../components/CreditsHistory";
+import {getPerson} from "../../api/zxc";
+import {CastUnitedCrew, imageProps, peopleProps} from "../../types/MoviePageTypes";
+import PersonInfo from "../../components/PersonInfo";
+import MediaNav from "../../components/NavPerson";
+import Listing from "../../components/Listing";
+import PhotosBlock from "../../components/PhotosBlock";
+import CreditsHistory from "../../components/CreditsHistory";
+
 
 
 const Person = () => {
@@ -15,7 +16,7 @@ const Person = () => {
 
     const [person, setPerson] = useState<peopleProps>();
     const [imagePerson, setImagePerson] = useState<imageProps[]>();
-    const [knowFor, setKnowFor] = useState<combinedCreditsCast[]>();
+    const [knowFor, setKnowFor] = useState<CastUnitedCrew[]>();
 
     const [menu, setMenu] = useState<string[]>([]);
     const [tab, setTab] = useState<string>("known-for")
@@ -55,8 +56,10 @@ const Person = () => {
                 return;
             const department = person.known_for_department;
             let results;
+            console.log(person);
             if (department === 'Acting') {
                 results = person.combined_credits.cast;
+                console.log(results);
             } else if (department === 'Directing') {
                 results = person.combined_credits.crew.filter(item => item.department === 'Directing');
             } else if (department === 'Production') {
@@ -77,7 +80,7 @@ const Person = () => {
         }
     }
 
-    const removeDuplicates = (myArr: combinedCreditsCast[]) => {
+    const removeDuplicates = (myArr: CastUnitedCrew[]) => {
         return myArr.filter((obj, pos, arr) => {
             const prop = obj.title ? 'title' : 'name';
             return arr.map(mapObj => mapObj[prop]).indexOf(obj[prop]) === pos;
@@ -100,7 +103,7 @@ const Person = () => {
         <>
             {person && <PersonInfo person={person}/>}
             {menu.length > 0 && <MediaNav menu={menu} changeTabHandler={navClicked}/>}
-            {tab === "known-for" && knowFor && <Listing items={knowFor}/>}
+            {tab === "known-for" && knowFor && <Listing items={knowFor} />}
             {tab === "credits"  && person && <CreditsHistory credits={person.combined_credits}/>}
             {tab === "photos" && imagePerson && <PhotosBlock title={"Photos"} image={imagePerson} type={"posters"}/>}
         </>

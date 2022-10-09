@@ -2,7 +2,7 @@ import React, {FC, useEffect, useRef, useState} from 'react';
 import st from "./CreditsHistory.module.scss"
 import CreditsHistoryGroup from "../CreditsHistoryGroup";
 import {CreditsHistoryPropsType} from "./types";
-import {combinedCreditsCast} from "../../types/MoviePageTypes";
+import {CastUnitedCrew} from "../../types/MoviePageTypes";
 
 interface iActiveMedia {
     name: string,
@@ -11,7 +11,7 @@ interface iActiveMedia {
 
 interface iHandleCredits {
     year: string,
-    credits: combinedCreditsCast[]
+    credits: CastUnitedCrew[]
 }
 
 const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
@@ -24,7 +24,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
 
     const [category, setCategory] = useState<string[]>([]);
 
-    const handleCast = (items: combinedCreditsCast[]): iHandleCredits[] | undefined => {
+    const handleCast = (items: CastUnitedCrew[]): iHandleCredits[] | undefined => {
         if (!items || !items.length)
             return;
 
@@ -50,7 +50,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return groups;
     }
 
-    const handleCrew = (items: combinedCreditsCast[]): iActiveMedia[] | undefined => {
+    const handleCrew = (items: CastUnitedCrew[]): iActiveMedia[] | undefined => {
         if (!items || !items.length) return;
         // group by department
         const categories = createCategories(items);
@@ -73,7 +73,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return categories;
     }
 
-    const groupItems = (items: combinedCreditsCast[]): iHandleCredits[] => {
+    const groupItems = (items: CastUnitedCrew[]): iHandleCredits[] => {
         return items.reduce(function (arr: any[], current) {
             const date = current.release_date ? current.release_date : current.first_air_date;
             const year = date ? date.split('-')[0] : '';
@@ -95,7 +95,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         return items.sort((a, b) => a.year > b.year ? -1 : 1);
     }
 
-    const sortCredits = (items: combinedCreditsCast[]) => {
+    const sortCredits = (items: CastUnitedCrew[]) => {
         // sort items in the group by date
         return items.sort((a, b) => {
             const aDate = a.release_date ? a.release_date : a.first_air_date;
@@ -109,7 +109,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
         });
     }
 
-    const createCategories = (items: combinedCreditsCast[]) => {
+    const createCategories = (items: CastUnitedCrew[]) => {
         const categories: any[] = [];
         items.forEach((item) => {
             const exists = categories.find(category => category.name === item.department);
@@ -202,25 +202,25 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
 
                         </div>
                     </div>
-                    <div className={st.filter}>
-                        <label htmlFor="credits_category">
-                            Media
-                        </label>
-                        <div className={st.headDropdown}>
-                            <select name="infoVideo_dropdown"
-                                    ref={mediaFilterRef}>
-                                <option value="all">
-                                    All
-                                </option>
-                                <option value="movie">
-                                    Movies
-                                </option>
-                                <option value="tv">
-                                    TV Shows
-                                </option>
-                            </select>
-                        </div>
-                    </div>
+                    {/*<div className={st.filter}>*/}
+                    {/*    <label htmlFor="credits_category">*/}
+                    {/*        Media*/}
+                    {/*    </label>*/}
+                    {/*    <div className={"headDropdown"}>*/}
+                    {/*        <select name="infoVideo_dropdown"*/}
+                    {/*                ref={mediaFilterRef}>*/}
+                    {/*            <option value="all">*/}
+                    {/*                All*/}
+                    {/*            </option>*/}
+                    {/*            <option value="movie">*/}
+                    {/*                Movies*/}
+                    {/*            </option>*/}
+                    {/*            <option value="tv">*/}
+                    {/*                TV Shows*/}
+                    {/*            </option>*/}
+                    {/*        </select>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                 </div>
 
                 {activeMedia.map((category) => (

@@ -6,4 +6,12 @@
     flex-wrap: wrap;
   }
 
+  &__head{
+    display: flex;
+    align-items: baseline;
+  }
+  &__title{
+    letter-spacing: .4px;
+    font-size: 1.8rem;
+  }
 }
