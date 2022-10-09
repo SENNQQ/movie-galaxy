@@ -72,6 +72,16 @@ export const fullLang = (iso:string) => {
 }
 
 /**
+ * Format number to have double digits
+ */
+export const numberWithDoubleDigits = (number:number) => {
+    if (number < 10) {
+        return `0${number}`;
+    }
+    return number;
+}
+
+/**
  * Format array to comma separated list
  */
 export const arrayToList = (array:productionCompaniesType[]) => {

@@ -188,7 +188,7 @@ const CreditsHistory: FC<CreditsHistoryPropsType> = ({credits}) => {
                         <label htmlFor="credits_category">
                             Department
                         </label>
-                        <div className={st.headDropdown}>
+                        <div className={"headDropdown"}>
 
                             <select name="infoVideo_dropdown"
                                     onChange={(event) => filterCredits(event)}

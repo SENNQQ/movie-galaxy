@@ -251,10 +251,9 @@ export function getTvShows (query, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
 
@@ -273,10 +272,9 @@ export function getTvShow(id, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
 
@@ -293,12 +291,30 @@ export function getTvShowRecommended (id, page = 1) {
             },
         }).then((response) => {
             resolve(response.data);
-        })
-            .catch((error) => {
+        }).catch((error) => {
                 reject(error);
-            });
+        });
     });
 }
+
+/**
+ * Get TV show episodes from season (single)
+ */
+export function getTvShowEpisodes (id, season) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/tv/${id}/season/${season}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        }).catch((error) => {
+                reject(error);
+        });
+    });
+}
+
 
 /**
  * Get movies (listing)

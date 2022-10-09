@@ -19,7 +19,6 @@ const TV = () => {
     useEffect(()=>{
         if(params.id){
             getTvShow(params.id).then((response)=> {
-                console.log(response);
                 setTvShow(response);
                 setPanelDataMovie(response);
             });

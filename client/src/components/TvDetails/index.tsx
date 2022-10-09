@@ -47,13 +47,12 @@ const TvDetails:FC<TvPropsType> = ({item}) => {
         createMenu();
     },[])
 
-    console.log(item);
 
     return (
         <>
             <MediaNav menu={menu} changeTabHandler={changeTab}/>
             {tab === "overview" &&  <TvInfo item={item}/>}
-            {tab === "episodes" &&  <Episodes/>}
+            {tab === "episodes" &&  <Episodes numberOfSeasons={item.number_of_seasons}/>}
             {tab === "videos" && <InfoVideo videos={item.videos.results}/>}
             {tab === "photos" && <InfoPhotos image={item.images}/>}
         </>
