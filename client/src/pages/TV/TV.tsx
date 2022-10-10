@@ -6,7 +6,7 @@ import {cinemaProps} from "../../types/MainPageTypes";
 import PanelMovie from "../../components/PanelMovie";
 import Carousel from "../../components/Carousel";
 import {TvAllPropsType} from "../../types/TvShowPageTypes";
-import TvDetails from "../../components/TvDetails";
+import TvID from "./TvID";
 
 const TV = () => {
 
@@ -92,7 +92,7 @@ const TV = () => {
                 {PanelDataMovie && <PanelMovie item={PanelDataMovie}/>}
             </>
             <>
-                {params.id ? TvShow && <TvDetails item={TvShow}/>
+                {params.id ? TvShow && <TvID item={TvShow}/>
                     :
                     <>
                         {popular.length > 0 && <Carousel items={popular}

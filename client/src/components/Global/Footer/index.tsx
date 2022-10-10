@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <footer>
             <p>© 2022 Каратанас Олександр. Все права защищены. </p>
-            <p>Спроектировано и построено мной, данные предоставлены <a target="_blank" href="https://www.themoviedb.org/" rel="noreferrer">
+            <p>Спроектировано и построено мной, данные предоставлены <a target="_blank" href="src/components/Global/Footer/index" rel="noreferrer">
                      TMDb
                 </a>
             </p>
@@ -22,7 +22,7 @@ const Footer = () => {
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.linkedin.com/in/%D0%B0%D0%BB%D0%B5%D0%BA%D1%81%D0%B0%D0%BD%D0%B4%D1%80-%D0%BA%D0%B0%D1%80%D0%B0%D1%82%D0%B0%D0%BD%D0%B0%D1%81-78310823a/" target="_blank"
+                    <a href="src/components/Global/Footer/index" target="_blank"
                        aria-label="Link to LinkedIn account" rel="noopener noreferrer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
                              fill="#585858">

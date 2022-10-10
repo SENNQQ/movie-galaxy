@@ -3,14 +3,14 @@ import React, {FC, useEffect, useState} from 'react';
 import st from "./video.module.scss"
 
 import Modal from "../Modal";
-import VideoItem from "../VideoItem";
+import VideosItem from "../VideosItem";
 import {InfoVideoPropsType} from "./types";
 import {videosProps} from "../../types/MoviePageTypes";
 import {getYouTubeVideo} from "../../api/zxc";
 import ContentLoader from "react-content-loader";
 
 
-const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
+const Videos: FC<InfoVideoPropsType> = ({videos}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const [modalStartAt, setModalStartAt] = useState<number>(0);
@@ -107,10 +107,10 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
                         <div className={st.items__Video}>
 
                             {activeVideos.map((item, index) =>
-                                <VideoItem openVideoHandler={openModel}
-                                           videosData={item}
-                                           movieIndex={index}
-                                           key={index + 1}/>)
+                                <VideosItem openVideoHandler={openModel}
+                                            videosData={item}
+                                            movieIndex={index}
+                                            key={index + 1}/>)
                             }
 
                         </div>
@@ -131,4 +131,4 @@ const InfoVideo: FC<InfoVideoPropsType> = ({videos}) => {
     );
 };
 
-export default InfoVideo;
+export default Videos;

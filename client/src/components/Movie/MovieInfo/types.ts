@@ -1,5 +1,5 @@
-import {ExternalLinksType} from "../ExternalLinks/types";
-import {castProps} from "../../types/MoviePageTypes";
+import {ExternalLinksType} from "../../ExternalLinks/types";
+import {castProps} from "../../../types/MoviePageTypes";
 
 export interface InfoOverviewPropsType {
     "item": InfoOverviewType

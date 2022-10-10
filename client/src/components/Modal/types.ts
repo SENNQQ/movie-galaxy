@@ -1,4 +1,4 @@
-import {movieDataType} from "../VideoItem/types";
+import {movieDataType} from "../VideosItem/types";
 
 
 // export interface InfoModalMoviePropsType {

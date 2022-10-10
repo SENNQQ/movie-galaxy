@@ -1,16 +1,16 @@
 import React, {FC, useEffect, useState} from 'react';
 import cn from "classnames";
 import st from "./overview.module.scss";
-import Carousel from "../Carousel";
+import Carousel from "../../Carousel";
 import {GenresType, InfoOverviewPropsType} from "./types";
-import {apiImgUrl, getMovieRecommended} from "../../api/zxc";
-import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../helper/additionalFun";
-import {directors} from "../../helper/detailsInfo";
-import ExternalLinks from "../ExternalLinks";
-import {cinemaProps} from "../../types/MainPageTypes";
-import {castProps} from "../../types/MoviePageTypes";
+import {apiImgUrl, getMovieRecommended} from "../../../api/zxc";
+import {arrayToList, fullDate, fullLang, numberWithCommas, runtime} from "../../../helper/additionalFun";
+import {directors} from "../../../helper/detailsInfo";
+import ExternalLinks from "../../ExternalLinks";
+import {cinemaProps} from "../../../types/MainPageTypes";
+import {castProps} from "../../../types/MoviePageTypes";
 
-const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
+const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
 
     const poster = () => {
         if (item.poster_path) {
@@ -194,4 +194,4 @@ const InfoOverview: FC<InfoOverviewPropsType> = ({item}) => {
     );
 };
 
-export default InfoOverview;
+export default MovieInfo;

@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import cn from "classnames";
-import st from "../InfoOverview/overview.module.scss";
+import st from "../Movie/MovieInfo/overview.module.scss";
 import {fullDate } from "../../helper/additionalFun";
 import ExternalLinks from "../ExternalLinks";
 import {apiImgUrl} from "../../api/zxc";

@@ -1,12 +1,12 @@
 import React, {FC, useEffect, useState} from 'react';
-import InfoVideo from "../InfoVideo";
-import InfoPhotos from "../InfoPhotos";
+import Videos from "../../components/Videos";
+import InfoPhotos from "../../components/InfoPhotos";
 import {TvPropsType} from "../../types/TvShowPageTypes";
-import MediaNav from "../NavPerson";
-import TvInfo from "../TvInfo";
-import Episodes from "../Episodes";
+import MediaNav from "../../components/MediaNav";
+import TvInfo from "../../components/TvInfo";
+import Episodes from "../../components/Episodes";
 
-const TvDetails:FC<TvPropsType> = ({item}) => {
+const TvID:FC<TvPropsType> = ({item}) => {
 
     const [tab, setTab] = useState<string>('overview')
     const [menu, setMenu] = useState<string[]>([]);
@@ -53,10 +53,10 @@ const TvDetails:FC<TvPropsType> = ({item}) => {
             <MediaNav menu={menu} changeTabHandler={changeTab}/>
             {tab === "overview" &&  <TvInfo item={item}/>}
             {tab === "episodes" &&  <Episodes numberOfSeasons={item.number_of_seasons}/>}
-            {tab === "videos" && <InfoVideo videos={item.videos.results}/>}
+            {tab === "videos" && <Videos videos={item.videos.results}/>}
             {tab === "photos" && <InfoPhotos image={item.images}/>}
         </>
     );
 };
 
-export default TvDetails;
+export default TvID;

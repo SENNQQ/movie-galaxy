@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import st from '../NavMovie/navmovie.module.scss';
+import st from '../../oldcomponents/NavMovie/navmovie.module.scss';
 import cn from 'classnames'
 import {MediaNavType} from "./types";
 

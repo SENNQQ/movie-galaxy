@@ -1,5 +1,5 @@
 import {languages} from "../api/zxc";
-import {productionCompaniesType} from "../components/InfoOverview/types";
+import {productionCompaniesType} from "../components/Movie/MovieInfo/types";
 
 /**
  * Format array to comma separated list

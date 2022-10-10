@@ -1,8 +1,8 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 import "../style/Layout.scss";
-import Sidebar from "./Sidebar";
-import Footer from "./Footer";
+import Sidebar from "./Global/Sidebar";
+import Footer from "./Global/Footer";
 
 const Layout = () => {
     return (

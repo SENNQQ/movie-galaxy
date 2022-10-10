@@ -2,7 +2,7 @@ import React, {FC} from 'react';
 import st from "./videoItem.module.scss";
 import {InfoVideoItemPropsType} from "./types";
 
-const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,videosData,movieIndex}) => {
+const VideosItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,videosData,movieIndex}) => {
 
     const getSeconds  = (duration:any):any => {
         try{
@@ -76,4 +76,4 @@ const VideoItem:FC<InfoVideoItemPropsType> = ({openVideoHandler,videosData,movie
     );
 };
 
-export default VideoItem;
+export default VideosItem;

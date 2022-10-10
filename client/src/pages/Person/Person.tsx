@@ -3,7 +3,7 @@ import {useParams} from "react-router-dom";
 import {getPerson} from "../../api/zxc";
 import {CastUnitedCrew, imageProps, peopleProps} from "../../types/MoviePageTypes";
 import PersonInfo from "../../components/PersonInfo";
-import MediaNav from "../../components/NavPerson";
+import MediaNav from "../../components/MediaNav";
 import Listing from "../../components/Listing";
 import PhotosBlock from "../../components/PhotosBlock";
 import CreditsHistory from "../../components/CreditsHistory";
