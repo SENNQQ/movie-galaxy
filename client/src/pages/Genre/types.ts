@@ -1,16 +1,10 @@
-import {cinemaProps} from "../../types/MainPageTypes";
+import {iCategoryOrGenresFetchData} from "../../types/MainPageTypes";
 
 export interface iGenre {
     id:number,
     name:string
 }
 
-export interface iGenresFetchData {
-    items: {
-        page:number
-        results:cinemaProps[]
-        total_pages: number
-        total_results: number
-    },
+export interface iGenresFetchData extends iCategoryOrGenresFetchData{
     genre:iGenre
 }

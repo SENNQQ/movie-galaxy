@@ -9,7 +9,6 @@ const Listing: FC<ListingPropsType> = ({
                                            loading,
                                            loadMore
                                        }) => {
-    console.log(items);
     return (
         <div className="spacing">
             <div className={st.listing}>

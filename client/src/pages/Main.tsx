@@ -48,7 +48,7 @@ const Main = () => {
     };
 
     const  trendingTVUrl = () => {
-        return { name: 'movie/category/trending'};
+        return { name: 'tv/category/trending'};
     };
 
     const trendingTVTitle = () => {

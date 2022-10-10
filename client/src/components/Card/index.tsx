@@ -4,9 +4,10 @@ import st from './card.module.scss'
 import {CardPropsType} from "./types";
 import cn from "classnames";
 import {Link} from "react-router-dom";
-import {name} from "../../helper/detailsInfo";
+import {name, stars} from "../../helper/detailsInfo";
 
 import {cinemaProps} from "../../types/MainPageTypes";
+import {rating} from "../../helper/additionalFun";
 
 
 const Card: FC<CardPropsType> = ({item}) => {
@@ -44,9 +45,9 @@ const Card: FC<CardPropsType> = ({item}) => {
                     <h2 className={st.card__name}> {name(item)} </h2>
                     <div className={cn("rating", st.card__rating)}>
                         <div className={cn("stars", st.card__stars)}>
-                            <div style={{width: `${item.vote_average * 10}%`}}></div>
+                            <div style={{width: `${stars(item)}%`}}></div>
                         </div>
-                        <div className={cn("vote", st.card__vote)}>{item.vote_count}</div>
+                        <div className={cn("vote", st.card__vote)}>{rating(item.vote_average)}</div>
                     </div>
                 </Link>
             </div>
