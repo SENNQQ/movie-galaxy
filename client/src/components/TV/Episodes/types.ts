@@ -1,4 +1,4 @@
-import {castProps} from "../../types/MoviePageTypes";
+import {castProps} from "../../../types/MoviePageTypes";
 
 export interface EpisodesPropsType {
     numberOfSeasons:number

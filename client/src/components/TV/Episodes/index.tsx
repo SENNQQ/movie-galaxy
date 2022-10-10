@@ -1,7 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
 import st from './episodes.module.scss';
 import {EpisodesPropsType, episodesType} from "./types";
-import {getTvShowEpisodes} from "../../api/zxc";
+import {getTvShowEpisodes} from "../../../api/zxc";
 import {useParams} from "react-router-dom";
 import EpisodesItem from "../EpisodesItem";
 

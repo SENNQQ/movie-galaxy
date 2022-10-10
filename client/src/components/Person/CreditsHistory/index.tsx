@@ -2,7 +2,7 @@ import React, {FC, useEffect, useRef, useState} from 'react';
 import st from "./CreditsHistory.module.scss"
 import CreditsHistoryGroup from "../CreditsHistoryGroup";
 import {CreditsHistoryPropsType} from "./types";
-import {CastUnitedCrew} from "../../types/MoviePageTypes";
+import {CastUnitedCrew} from "../../../types/MoviePageTypes";
 
 interface iActiveMedia {
     name: string,

@@ -8,6 +8,7 @@
 /client/node_modules
 /client/.idea
 /client/src/configData.json
+/client/src/oldcomponents
 .idea
 # testing
 /coverage

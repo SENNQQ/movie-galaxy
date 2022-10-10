@@ -2,11 +2,11 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {getPerson} from "../../api/zxc";
 import {CastUnitedCrew, imageProps, peopleProps} from "../../types/MoviePageTypes";
-import PersonInfo from "../../components/PersonInfo";
+import PersonInfo from "../../components/Person/PersonInfo";
 import MediaNav from "../../components/MediaNav";
 import Listing from "../../components/Listing";
-import PhotosBlock from "../../components/PhotosBlock";
-import CreditsHistory from "../../components/CreditsHistory";
+import ImagesItem from "../../components/ImagesItem";
+import CreditsHistory from "../../components/Person/CreditsHistory";
 
 
 
@@ -105,7 +105,7 @@ const Person = () => {
             {menu.length > 0 && <MediaNav menu={menu} changeTabHandler={navClicked}/>}
             {tab === "known-for" && knowFor && <Listing items={knowFor} />}
             {tab === "credits"  && person && <CreditsHistory credits={person.combined_credits}/>}
-            {tab === "photos" && imagePerson && <PhotosBlock title={"Photos"} image={imagePerson} type={"posters"}/>}
+            {tab === "photos" && imagePerson && <ImagesItem title={"Photos"} image={imagePerson} type={"posters"}/>}
         </>
     );
 };

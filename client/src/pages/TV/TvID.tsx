@@ -1,10 +1,10 @@
 import React, {FC, useEffect, useState} from 'react';
 import Videos from "../../components/Videos";
-import InfoPhotos from "../../components/InfoPhotos";
+import Images from "../../components/Images";
 import {TvPropsType} from "../../types/TvShowPageTypes";
 import MediaNav from "../../components/MediaNav";
-import TvInfo from "../../components/TvInfo";
-import Episodes from "../../components/Episodes";
+import TvInfo from "../../components/TV/TvInfo";
+import Episodes from "../../components/TV/Episodes";
 
 const TvID:FC<TvPropsType> = ({item}) => {
 
@@ -54,7 +54,7 @@ const TvID:FC<TvPropsType> = ({item}) => {
             {tab === "overview" &&  <TvInfo item={item}/>}
             {tab === "episodes" &&  <Episodes numberOfSeasons={item.number_of_seasons}/>}
             {tab === "videos" && <Videos videos={item.videos.results}/>}
-            {tab === "photos" && <InfoPhotos image={item.images}/>}
+            {tab === "photos" && <Images image={item.images}/>}
         </>
     );
 };

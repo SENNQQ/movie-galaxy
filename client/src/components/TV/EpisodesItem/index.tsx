@@ -1,9 +1,9 @@
 import React, {FC} from 'react';
 import st from "./episodesItem.module.scss";
-import LoadableImage from "../LoadableImage";
+import LoadableImage from "../../LoadableImage";
 import {episodeItemPropsType} from "./types";
-import {apiImgUrl} from "../../api/zxc";
-import {fullDate, numberWithDoubleDigits, truncate} from "../../helper/additionalFun";
+import {apiImgUrl} from "../../../api/zxc";
+import {fullDate, numberWithDoubleDigits, truncate} from "../../../helper/additionalFun";
 
 const EpisodesItem: FC<episodeItemPropsType> = ({item}) => {
 

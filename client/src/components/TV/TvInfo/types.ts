@@ -1,5 +1,5 @@
-import {castProps} from "../../types/MoviePageTypes";
-import {ExternalLinksType} from "../ExternalLinks/types";
+import {castProps} from "../../../types/MoviePageTypes";
+import {ExternalLinksType} from "../../ExternalLinks/types";
 
 export interface TvInfoPropsType {
     "item": TvInfoProps

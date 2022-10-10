@@ -1,4 +1,4 @@
-import {peopleProps} from "../../types/MoviePageTypes";
+import {peopleProps} from "../../../types/MoviePageTypes";
 
 export interface PersonInfoPropsType {
     "person":peopleProps

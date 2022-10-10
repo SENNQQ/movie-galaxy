@@ -1,13 +1,13 @@
 import React, {FC, useEffect, useState} from 'react';
-import {apiImgUrl, getTvShowRecommended} from "../../api/zxc";
-import {GenresType} from "../Movie/MovieInfo/types";
-import {castProps} from "../../types/MoviePageTypes";
-import {cinemaProps} from "../../types/MainPageTypes";
+import {apiImgUrl, getTvShowRecommended} from "../../../api/zxc";
+import {GenresType} from "../../Movie/MovieInfo/types";
+import {castProps} from "../../../types/MoviePageTypes";
+import {cinemaProps} from "../../../types/MainPageTypes";
 import cn from "classnames";
-import st from "../Movie/MovieInfo/overview.module.scss";
-import {arrayToList, fullDate, fullLang} from "../../helper/additionalFun";
-import ExternalLinks from "../ExternalLinks";
-import Carousel from "../Carousel";
+import st from "../../Movie/MovieInfo/overview.module.scss";
+import {arrayToList, fullDate, fullLang} from "../../../helper/additionalFun";
+import ExternalLinks from "../../ExternalLinks";
+import Carousel from "../../Carousel";
 import {TvInfoPropsType} from "./types";
 
 const TvInfo:FC<TvInfoPropsType> = ({item}) => {

@@ -1,8 +1,7 @@
 import React, {FC, useEffect, useState} from 'react';
-import NavMovie from "../../oldcomponents/NavMovie";
 import MovieInfo from "../../components/Movie/MovieInfo";
 import Videos from "../../components/Videos";
-import InfoPhotos from "../../components/InfoPhotos";
+import Images from "../../components/Images";
 import {MoviePropsTypes} from "../../types/MoviePageTypes";
 import MediaNav from "../../components/MediaNav";
 
@@ -49,7 +48,7 @@ const MovieID:FC<MoviePropsTypes> = ({item}) => {
             <MediaNav menu={menu} changeTabHandler={changeTab}/>
             {tab === "overview" &&  <MovieInfo item={item}/>}
             {tab === "videos" && <Videos videos={item.videos.results}/>}
-            {tab === "photos" && <InfoPhotos image={item.images}/>}
+            {tab === "photos" && <Images image={item.images}/>}
         </>
     );
 };

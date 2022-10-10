@@ -1,5 +1,5 @@
 import React, {FC, useEffect, useState} from 'react';
-import st from "../InfoPhotos/photos.module.scss";
+import st from "../Images/photos.module.scss";
 import cn from "classnames";
 import {PhotosBlockPropsType} from "./types";
 import {apiImgUrl} from "../../api/zxc";
@@ -7,7 +7,7 @@ import Modal from "../Modal";
 import ContentLoader from "react-content-loader";
 import LoadableImage from "../LoadableImage";
 
-const PhotosBlock: FC<PhotosBlockPropsType> = ({
+const ImagesItem: FC<PhotosBlockPropsType> = ({
                                                    title,
                                                    type= "posters",
                                                    image
@@ -105,4 +105,4 @@ const PhotosBlock: FC<PhotosBlockPropsType> = ({
     );
 };
 
-export default PhotosBlock;
+export default ImagesItem;

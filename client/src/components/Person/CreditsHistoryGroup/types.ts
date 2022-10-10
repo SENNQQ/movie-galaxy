@@ -1,4 +1,4 @@
-import {CastUnitedCrew} from "../../types/MoviePageTypes";
+import {CastUnitedCrew} from "../../../types/MoviePageTypes";
 
 export interface CreditsHistoryGroupProps {
     groups:{
