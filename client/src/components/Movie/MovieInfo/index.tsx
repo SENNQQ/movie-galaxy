@@ -9,6 +9,7 @@ import {directors} from "../../../helper/detailsInfo";
 import ExternalLinks from "../../ExternalLinks";
 import {cinemaProps} from "../../../types/MainPageTypes";
 import {castProps} from "../../../types/MoviePageTypes";
+import Comments from "../../Comments";
 
 const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
 
@@ -189,6 +190,7 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
             </div>
             {showCredits() > 0 && <Carousel items={CarouselCast} title={"Cast"} allUrl={CreditsUrl}/>}
             {recommendMovie.length > 0 && <Carousel items={recommendMovie} title={"More Like This"} allUrl={recommendUrl}/>}
+            <Comments/>
         </>
 
     );

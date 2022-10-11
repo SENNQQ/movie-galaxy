@@ -56,10 +56,8 @@ const Person = () => {
                 return;
             const department = person.known_for_department;
             let results;
-            console.log(person);
             if (department === 'Acting') {
                 results = person.combined_credits.cast;
-                console.log(results);
             } else if (department === 'Directing') {
                 results = person.combined_credits.crew.filter(item => item.department === 'Directing');
             } else if (department === 'Production') {

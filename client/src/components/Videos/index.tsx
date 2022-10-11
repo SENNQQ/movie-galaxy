@@ -93,7 +93,7 @@ const Videos: FC<InfoVideoPropsType> = ({videos}) => {
                     </ContentLoader>
                     :
                     <>
-                        <div className={st.headDropdown}>
+                        <div className={"headDropdown"}>
 
                             <select name="infoVideo_dropdown" onChange={(event) => filterVideos(event)}>
                                 <option value="all">All</option>
