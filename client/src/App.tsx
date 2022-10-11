@@ -9,6 +9,7 @@ import GenreMovie from "./pages/Genre/GenreMovie";
 import GenreTV from "./pages/Genre/GenreTV";
 import CategoryMovie from "./pages/Movie/category";
 import CategoryTV from "./pages/TV/category";
+import Profile from "./pages/Profile";
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
                 <Route path="/tv/category/:name" element={<CategoryTV/>}/>
 
                 <Route path="/person/:id" element={<Person/>}/>
+                <Route path="/profile/" element={<Profile/>}/>
             </Route>
         </Routes>
     );
