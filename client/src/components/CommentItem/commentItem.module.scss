@@ -1,0 +1,88 @@
+.comments {
+
+  &__item{
+    position: relative;
+    margin-top: 28px;
+    display: -webkit-box;
+    display: flex;
+
+
+    &__body{
+      padding-left: 8px;
+    }
+
+    &_content{
+      padding: 5px 10px;
+      display: flex;
+      flex-direction: column;
+      background-color: #2a2a2a;
+      margin-right: 1rem;
+      border: 1px solid #726e6e;
+      border-radius: 10px;
+    }
+
+    &_header{
+      margin-top: 5px;
+      position: relative;
+      padding-right: 80px;
+
+      &__title{
+        font-weight: 700;
+        font-size: 15px;
+      }
+    }
+
+    &_text{
+      width: 100%;
+      margin-top: 10px;
+      z-index: 1;
+      font-size: 17px;
+    }
+
+    &_action{
+      display: flex;
+      -webkit-box-align: center;
+      align-items: center;
+      font-weight: 500;
+      color: #b2b2b2;
+      margin-top: 10px;
+
+      .like_btn{
+        display: flex;
+        -webkit-box-align: center;
+        align-items: center;
+        background-color: inherit;
+
+        &__count{
+          margin-right: 8px;
+          font-weight: 700;
+          line-height: 1;
+          color: #b2b2b2;
+          font-size: 20px;
+        }
+
+        &__img svg{
+          stroke: #2196f3;
+          line-height: 0;
+        }
+      }
+
+      .action_block__date span{
+        padding: 0 9px;
+      }
+    }
+  }
+}
+
+.user_img{
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+
+  img{
+    width: 100%;
+    height: auto;
+  }
+}

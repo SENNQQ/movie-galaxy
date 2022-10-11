@@ -1,6 +1,7 @@
 import React from 'react';
 import userImg from '../../image/unnamed.png';
 import st from './comments.module.scss'
+import CommentItem from "../CommentItem";
 
 const Comments = () => {
 
@@ -11,7 +12,7 @@ const Comments = () => {
                 <div className={st.comments__head}>
                     <div className={st.comments__title}>
                         <strong>4 </strong>
-                        комментария
+                        comments
                     </div>
                     <div className="comments__filter">
                         <div className="headDropdown">
@@ -35,7 +36,7 @@ const Comments = () => {
                         <form className={st.comment_form}>
                             <div className={st.comment_form__textarea__wrapper}>
                                 <textarea className={st.comment_form__textarea} name="comment"
-                                          placeholder="Напишите комментарий..."
+                                          placeholder="Write a comment..."
                                           spellCheck="false"></textarea>
                             </div>
                             <div className={st.comment_form__button}>
@@ -48,6 +49,7 @@ const Comments = () => {
 
                         </form>
                     </div>
+                    <CommentItem/>
                 </div>
             </div>
         </div>
