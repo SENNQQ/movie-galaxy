@@ -1,23 +1,55 @@
 .profile_wrapper{
-  height: 600px;
   background-color: #2a2a2a;
   border-radius: 10px;
 }
 
 .profile{
-  display: grid;
-  grid-template: 1fr/25% 1fr;
   padding: 30px;
+  width: 100%;
+
+  &_content{
+    display: grid;
+    grid-template: 1fr/25% 1fr;
+    grid-template-areas:
+            "a ."
+            "b c";
+
+
+    &:not(:first-child){
+      margin-top: 50px;
+    }
+  }
+
+  h2{
+    letter-spacing: 0.4px;
+    font-size: 1.7rem;
+    grid-area: a;
+  }
+
+  h5{
+    font-size: 17px;
+    font-weight: 400;
+    margin: 0 0 4px;
+    padding: 0 0 2px;
+  }
+
+  &_stat{
+    grid-template: 1fr/1fr 1fr;
+    grid-template-areas:
+            "a ."
+            "b c";
+  }
 
   &_left{
     display: flex;
     flex-direction: column;
     padding: 0 8px 8px 0;
+    grid-area: b;
   }
 
   &_right{
     display: flex;
-
+    grid-area: c;
     form{
       width: 100%;
 
@@ -147,6 +179,120 @@
     &_data.online{
       color: #56db3a;
       font-weight: 700;
+    }
+  }
+
+
+  &_statistics{
+    margin-top: 18px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+
+    .stat_score{
+      display: flex;
+      justify-content: space-between;
+
+      &__mean .score_label, &__days .score_label {
+        font-weight: 700!important;
+      }
+    }
+
+     .stats_graph {
+      background-color: #f8f8f8;
+      border-radius: 2px;
+      display: block;
+      height: 18px;
+      margin: 0 auto;
+      overflow: hidden;
+      width: 100%;
+
+       .graph{
+         display: inline-block;
+         height: 18px;
+       }
+
+       .graph.watching{
+         background-color: #2db039;
+       }
+       .graph.completed{
+         background-color: #26448f;
+       }
+       .graph.on_hold{
+         background-color: #f9d457;
+       }
+       .graph.dropped{
+         background-color: #a12f31;
+       }
+       .graph.plan_to_watch{
+         background-color: #8424a7;
+       }
+    }
+
+    .stat_catalog{
+      margin-left: 21px !important;
+      margin-top: 12px !important;
+      display: flex;
+      justify-content: space-between;
+
+      .stats_status{
+        margin: 0;
+        padding: 0;
+        width: 40%;
+        .circle{
+          position: relative;
+          text-indent: 24px;
+
+          &:after{
+            border-radius: 1em;
+            content: '';
+            display: block;
+            height: 12px;
+            left: -20px;
+            margin-top: -6px;
+            position: absolute;
+            top: 50%;
+            width: 12px;
+          }
+
+          &.watching:after{
+            background-color: #2db039;
+          }
+
+          &.completed:after{
+            background-color: #26448f;
+          }
+          &.on_hold:after{
+            background-color: #f9d457;
+          }
+          &.dropped:after{
+            background-color: #a12f31;
+          }
+          &.plan_to_watch:after{
+            background-color: #8424a7;
+          }
+        }
+      }
+
+      .stats_data{
+        margin: 0;
+        padding: 0;
+        width: 40%;
+      }
+
+      li{
+        margin-bottom: 12px!important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        a{
+          line-height: 1em!important;
+        }
+        a:visited{
+          text-decoration: none;
+        }
+      }
     }
   }
 }
