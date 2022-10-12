@@ -47,13 +47,15 @@ const Profile = () => {
                         <div className="user">
                             <div className="user_img">
                                 <div className="add_picture">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"  version="1.1"
-                                         id="Capa_1" x="0px" y="0px" viewBox="0 0 52 52" className="plus_circle" fill="#787878">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px" version="1.1"
+                                         id="Capa_1" x="0px" y="0px" viewBox="0 0 52 52" className="plus_circle"
+                                         fill="#787878">
                                         <path
                                             d="M26,0C11.664,0,0,11.663,0,26s11.664,26,26,26s26-11.663,26-26S40.336,0,26,0z M38.5,28H28v11c0,1.104-0.896,2-2,2  s-2-0.896-2-2V28H13.5c-1.104,0-2-0.896-2-2s0.896-2,2-2H24V14c0-1.104,0.896-2,2-2s2,0.896,2,2v10h10.5c1.104,0,2,0.896,2,2  S39.604,28,38.5,28z"/>
                                     </svg>
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                         version="1.1" id="Capa_1" x="0px" y="0px" width="48px" height="48px" fill="#787878"
+                                         version="1.1" id="Capa_1" x="0px" y="0px" width="48px" height="48px"
+                                         fill="#787878"
                                          viewBox="0 0 480.7 480.7" className="add_camera">
                                         <g>
                                             <g id="XMLID_1793_">
@@ -83,26 +85,35 @@ const Profile = () => {
                     <div className="profile_right">
                         <form>
                             <div className="info">
-                                <div className="form-block">
-                                    <div className="form-group">
-                                        <input className={cn('form-control', {'error': errors.fullName})} placeholder="ФИО"
+                                <div className="form_block">
+                                    <div className="form_group">
+                                        <input className={cn('form_control', {'error': errors.fullName})}
+                                               placeholder="Ф"
                                                {...register('fullName', {
-                                                   required: {value: true, message: 'Поле объязательное для заполнения'},
-                                                   minLength: {value: 10, message: 'Мимальное количество символов - 10'},
+                                                   required: {
+                                                       value: true,
+                                                       message: 'Поле объязательное для заполнения'
+                                                   },
+                                                   minLength: {
+                                                       value: 10,
+                                                       message: 'Мимальное количество символов - 10'
+                                                   },
                                                    maxLength: {
                                                        value: 250,
                                                        message: 'Максимальное количество символов - 250',
                                                    },
                                                })}/>
-                                        <span>*</span>
                                     </div>
-                                    <div className="form-group">
+                                    <div className="form_group">
                                         <div className="input-block">
-                                            <input className={cn('form-control', {'error': errors.phone})} type="tel"
+                                            <input className={cn('form_control', {'error': errors.phone})} type="tel"
                                                    title="Подтвержден"
-                                                   placeholder="Телефон"
+                                                   placeholder="И"
                                                    {...register('phone', {
-                                                       pattern: {value: /^\d+$/, message: 'Должен состоять только из цифр'},
+                                                       pattern: {
+                                                           value: /^\d+$/,
+                                                           message: 'Должен состоять только из цифр'
+                                                       },
                                                        minLength: {
                                                            value: 9,
                                                            message: 'Минимальная длина номера 9 символов',
@@ -112,11 +123,11 @@ const Profile = () => {
                                                            message: 'Максимальная длина номера 12 символов',
                                                        },
                                                    })}/>
-                                            <span>*</span>
                                         </div>
                                     </div>
-                                    <div className="form-group">
-                                        <input className={cn('form-control', {'error': errors.email})} placeholder="Email"
+                                    <div className="form_group">
+                                        <input className={cn('form_control', {'error': errors.email})}
+                                               placeholder="О"
                                                title="Подтвержден"
                                                {...register('email', {
                                                    required: {
@@ -128,12 +139,13 @@ const Profile = () => {
                                                        message: 'Неверный формат почты, пример: test@test.test',
                                                    },
                                                })}/>
-                                        <span>*</span>
                                     </div>
-                                    <div className="form-group">
+                                </div>
+                                <div className="form_block">
+                                    <div className="form_group">
                                         <input
-                                            className={cn('form-control', {'error': errors.birthDate})}
-                                            placeholder="Дата рождения"
+                                            className={cn('form_control', {'error': errors.birthDate})}
+                                            placeholder="ПСЕВДОНИМ"
                                             {...register('birthDate', {
                                                 required: {
                                                     value: true,
@@ -144,13 +156,10 @@ const Profile = () => {
                                                     message: 'Неверный формат даты, пример: 28.06.2020',
                                                 },
                                             })}/>
-                                        <span>*</span>
                                     </div>
-                                </div>
-                                <div className="form-block">
-                                    <div className="form-group">
-                                    <textarea className={cn('form-control', {'error': errors.address})}
-                                              placeholder="Домашний адрес"
+                                    <div className="form_group">
+                                        <input className={cn('form_control', {'error': errors.address})}
+                                              placeholder="Т"
                                               {...register('address', {
                                                   required: {
                                                       value: true,
@@ -161,48 +170,69 @@ const Profile = () => {
                                                       message: 'Минимальная длина 10 символов',
                                                   },
                                               })}/>
-                                        <span>*</span>
-                                    </div>
-                                    <div className="form-group">
-                                    <textarea className={cn('form-control', {'error': errors.studyPlace})}
-                                              placeholder="Место учебы"
-                                              {...register('studyPlace', {
-                                                  required: {
-                                                      value: true,
-                                                      message: 'Поле объязательное для заполнения',
-                                                  },
-                                                  minLength: {
-                                                      value: 10,
-                                                      message: 'Минимальная длина 10 символов',
-                                                  },
-                                              })}/>
-                                        <span>*</span>
-                                    </div>
-                                </div>
-                                <div className="form-block">
-                                    <div className="form-group">
-                                        <input className="form-control" placeholder="Facebook"
-                                               {...register('facebook')}/>
-                                    </div>
-                                    <div className="form-group">
-                                        <input className="form-control" placeholder="Instagram"
 
-                                               {...register('instagram')}/>
                                     </div>
-                                    <div className="form-group">
-                                        <input className="form-control" placeholder="Ссылка на соц.сеть"
-                                               {...register('social')}/>
+                                </div>
+                                <div className="form_block">
+                                    <div className="form_group">
+                                        <input
+                                            className={cn('form_control', {'error': errors.birthDate})}
+                                            placeholder="ПОЛ"
+                                            {...register('birthDate', {
+                                                required: {
+                                                    value: true,
+                                                    message: 'Поле объязательное для заполнения',
+                                                },
+                                                pattern: {
+                                                    value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
+                                                    message: 'Неверный формат даты, пример: 28.06.2020',
+                                                },
+                                            })}/>
                                     </div>
-                                    <button className="btn" type="submit">Сохранить</button>
+                                    <div className="form_group">
+                                        <input className={cn('form_control', {'error': errors.address})}
+                                               placeholder="Дата"
+                                               {...register('address', {
+                                                   required: {
+                                                       value: true,
+                                                       message: 'Поле объязательное для заполнения',
+                                                   },
+                                                   minLength: {
+                                                       value: 10,
+                                                       message: 'Минимальная длина 10 символов',
+                                                   },
+                                               })}/>
+
+                                    </div>
+                                    <div className="form_group">
+                                        <input className={cn('form_control', {'error': errors.address})}
+                                               placeholder="Почта"
+                                               {...register('address', {
+                                                   required: {
+                                                       value: true,
+                                                       message: 'Поле объязательное для заполнения',
+                                                   },
+                                                   minLength: {
+                                                       value: 10,
+                                                       message: 'Минимальная длина 10 символов',
+                                                   },
+                                               })}/>
+
+                                    </div>
                                 </div>
-                                <div className="form-group no-flex">
-                                    <p className="required-fields">
-                                        <span>*</span>
-                                        поля обязательные для заполнения
-                                    </p>
+                                <div className="form_block">
+                                    <button className="btn" type="submit">Save</button>
                                 </div>
+                                {/*<div className="form_group no_flex">*/}
+                                {/*    <p className="required-fields">*/}
+                                {/*        <span>*</span>*/}
+                                {/*        поля обязательные для заполнения*/}
+                                {/*    </p>*/}
+                                {/*</div>*/}
+
+
                                 {(Object.keys(errors).length > 0 || Object.keys(imageForm.formState.errors).length > 0) &&
-                                    <div className="form-group errors">
+                                    <div className="form_group errors">
                                         {errors.fullName && <div className="error">
                                             <span>ФИО:</span><span>{errors.fullName.message}</span>
                                         </div>}
@@ -236,6 +266,14 @@ const Profile = () => {
                                     </div>}
                             </div>
                         </form>
+                    </div>
+                </div>
+                <div className="profile">
+                    <div className="profile_left">
+
+                    </div>
+                    <div className="profile_right">
+
                     </div>
                 </div>
             </div>

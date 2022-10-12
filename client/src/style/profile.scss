@@ -15,6 +15,60 @@
     padding: 0 8px 8px 0;
   }
 
+  &_right{
+    display: flex;
+
+    form{
+      width: 100%;
+
+      & *:required {
+        background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/162656/asterisk.svg);
+
+        background-repeat: no-repeat;
+        background-position: center right 12px;
+        background-size: 15px 15px;
+      }
+
+      .info{
+        display: flex;
+        flex-direction: column;
+        grid-gap: 35px;
+      }
+
+      .form{
+
+        &_block{
+          display: flex;
+          width: 100%;
+          justify-content: space-between;
+
+          &:nth-of-type(2) .form_group{
+            width: 48%;
+          }
+        }
+
+        &_group{
+          width: 30%;
+        }
+      }
+
+      input, button[type=submit]{
+        width: 100%;
+        line-height: 1.5;
+        padding: 15px 10px;
+        border: 1px solid #1a1a1a;
+        background-color: #242424;
+        transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25), transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
+        color: white;
+      }
+
+      button[type=submit]{
+        width: 30%;
+      }
+
+    }
+  }
+
 
 }
 
