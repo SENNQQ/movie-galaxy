@@ -4,6 +4,9 @@ import cn from "classnames";
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import '../../style/profile.scss';
+import tempImage from '../../image/zOGINv5sJxEZQWw2dGuO8JUzvyK.jpg';
+import LoadableImage from "../../components/LoadableImage";
+
 
 type FormInputs = {
     fullName: string;
@@ -334,12 +337,78 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className="profile_right">
-
+                            <div className="last_updates">
+                                <h5 className="history">
+                                    Last Updates
+                                    <a href="">History</a>
+                                </h5>
+                                <div className="last_updates_item">
+                                    <a href="" className="history_image">
+                                        <LoadableImage src={tempImage} alt=""/>
+                                    </a>
+                                    <div className="last_updates_item__data">
+                                        <a href="">TOG GUN: MAVARIC</a>
+                                        <div className="graph_content">
+                                            <div className="graph">
+                                                <span className="graph_inner completed" style={{width: 300}}></span>
+                                            </div>
+                                            <span className="zxc">Sep 26, 9:02 AM</span>
+                                        </div>
+                                        <div className="condition">
+                                            Completed
+                                            <span className="text completed"> 13</span>
+                                            /13 · Score
+                                            <span className="text score_label"> 9</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="last_updates_item">
+                                    <a href="" className="history_image">
+                                        <LoadableImage src={tempImage} alt=""/>
+                                    </a>
+                                    <div className="last_updates_item__data">
+                                        <a href="">TOG GUN: MAVARIC</a>
+                                        <div className="graph_content">
+                                            <div className="graph">
+                                                <span className="graph_inner completed" style={{width: 300}}></span>
+                                            </div>
+                                            <span className="zxc">Sep 26, 9:02 AM</span>
+                                        </div>
+                                        <div className="condition">
+                                            Completed
+                                            <span className="text completed"> 13</span>
+                                            /13 · Score
+                                            <span className="text score_label"> 9</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="last_updates_item">
+                                    <a href="" className="history_image">
+                                        <LoadableImage src={tempImage} alt=""/>
+                                    </a>
+                                    <div className="last_updates_item__data">
+                                        <a href="">TOG GUN: MAVARIC</a>
+                                        <div className="graph_content">
+                                            <div className="graph">
+                                                <span className="graph_inner completed" style={{width: 300}}></span>
+                                            </div>
+                                            <span className="zxc">Sep 26, 9:02 AM</span>
+                                        </div>
+                                        <div className="condition">
+                                            Completed
+                                            <span className="text completed"> 13</span>
+                                            /13 · Score
+                                            <span className="text score_label"> 9</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
             </div>
+            <h1>YOUR FAVORITES CAROUSEL</h1>
         </div>
     );
 };

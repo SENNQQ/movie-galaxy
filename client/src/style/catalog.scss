@@ -1,0 +1,142 @@
+.navbar_header{
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-color: #000;
+}
+
+.list_block{
+  margin-top: 25px;
+}
+
+.list_unit{
+  display: block;
+  margin: 0 3%;
+}
+
+.list_status_title{
+  position: relative;
+  display: table;
+  background-color: #000000;
+  width: 100%;
+
+  .text{
+    display: table-cell;
+    width: 1024px;
+    height: 38px;
+    font-size: 2.0em;
+    color: #FFF;
+    font-weight: bold;
+    font-family: 'Helvetica neue', Helvetica, "lucida grande", tahoma, verdana, arial, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.list_table{
+  width: 100%;
+  margin: 0 auto;
+  border-collapse: collapse;
+
+  & > tbody:nth-of-type(2n+1) {
+    background-color: #fcfcfc;
+  }
+
+  &_header{
+
+    background-color: #2A2A2A;
+    border-bottom: 1px solid #000;
+
+    .header_title{
+      display: table-cell;
+      height: 36px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .header_title.status {
+      background-image: none;
+      width: 4px;
+    }
+
+    .header_title.number {
+      width: 30px;
+    }
+
+    .header_title.image {
+      width: 66px;
+    }
+
+    .header_title.title {
+      padding-left: 8px;
+      text-align: left;
+    }
+
+    .header_title.score {
+      width: 65px;
+    }
+
+    .header_title.type {
+      width: 60px;
+    }
+
+    .header_title.progress {
+      width: 90px;
+    }
+
+  }
+
+  &_data{
+
+    background-color: #2A2A2A;
+
+    .data{
+      display: table-cell;
+      padding: 15px 0;
+      text-align: center;
+      vertical-align: middle;
+      border-bottom: #030303 1px solid;
+    }
+
+    .data.status{
+      width: 4px;
+    }
+
+    .data.image img{
+      width: 48px;
+      height: 68px;
+    }
+
+    .data.title{
+      padding-left: 8px;
+      text-align: left;
+      width: 50%;
+    }
+
+    .data.status.watching {
+      background-color: #2db039;
+    }
+
+    .data.status.completed {
+      background-color: #3a6ff3;
+    }
+
+    .data.status.on_hold {
+      background-color: #f9d457;
+    }
+
+    .data.status.dropped {
+      background-color: #a12f31;
+    }
+
+    .data.status.plan_to_watch {
+      background-color: #8424a7;
+    }
+
+    data.title{
+      padding-left: 8px;
+      text-align: left;
+      word-wrap: break-word;
+    }
+  }
+}

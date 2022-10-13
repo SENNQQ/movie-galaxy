@@ -10,6 +10,7 @@ import GenreTV from "./pages/Genre/GenreTV";
 import CategoryMovie from "./pages/Movie/category";
 import CategoryTV from "./pages/TV/category";
 import Profile from "./pages/Profile";
+import Catalog from "./pages/Catalog";
 
 
 const App = () => {
@@ -33,6 +34,8 @@ const App = () => {
 
                 <Route path="/person/:id" element={<Person/>}/>
                 <Route path="/profile/" element={<Profile/>}/>
+                <Route path="/catalog/" element={<Catalog/>}/>
+
             </Route>
         </Routes>
     );
