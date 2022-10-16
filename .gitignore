@@ -9,6 +9,8 @@
 /client/.idea
 /client/src/configData.json
 /client/src/oldcomponents
+/server/node_modules
+/server/db.js
 .idea
 # testing
 /coverage
