@@ -1,10 +1,11 @@
-const Pool = require('pg').Pool
-const pool = new Pool({
-    user: 'zxc',
+import Pool from 'pg'
+
+const pool = new Pool.Pool({
+    user: 'postgres',
     host: 'localhost',
     database: 'movie-galaxy',
     password: 'cawaq359268',
     port: 5432,
 })
 
-module.exports = pool;
+export default pool;

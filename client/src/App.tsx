@@ -11,6 +11,7 @@ import CategoryMovie from "./pages/Movie/category";
 import CategoryTV from "./pages/TV/category";
 import Profile from "./pages/Profile";
 import Catalog from "./pages/Catalog";
+import Authorization from "./pages/Authorization";
 
 
 const App = () => {
@@ -37,6 +38,8 @@ const App = () => {
                 <Route path="/catalog/" element={<Catalog/>}/>
 
             </Route>
+            <Route path="/login" element={<Authorization/>}/>
+            <Route path="/register" element={<Authorization/>}/>
         </Routes>
     );
 };

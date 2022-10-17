@@ -1,7 +1,6 @@
 import React from 'react';
 import st from './sidebar.module.scss';
 import {Link} from "react-router-dom";
-import {useSelector} from "react-redux";
 import {useAppSelector} from "../../../store/hook";
 
 

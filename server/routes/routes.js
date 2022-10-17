@@ -4,18 +4,10 @@ import {Router} from 'express';
 // import {productCreateValidation} from './validators/product.js';
 // import validationError from './validators/handleValidationErrors.js';
 // import {orderCreateValidation} from './validators/order.js';
+import authRoutes from './auth.js'
 
 const router = Router();
 
-
-router.get('/', (request, response) => {
-    console.log('running')
-    console.log({ info: 'Node.js, Express, and Postgres API' })
-})
-
-// router.get('/product', ProductController.getAll);
-// router.post('/product', productCreateValidation, validationError, ProductController.create);
-// router.get('/order', OrderController.getAll);
-// router.post('/order', OrderController.create);
+router.use('/auth', authRoutes); // Роуты для авторизации, регистрации и изменения данных UserModel
 
 export default router;
