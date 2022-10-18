@@ -26,11 +26,12 @@ export type UserType = {
     nickname: string
     email: string
     birthdate: string
+    avatar:string
     sex: boolean
-    name?: string
-    patronymic?: string
-    surname?: string
-    phone_number?: string
+    name: string
+    patronymic: string
+    surname: string
+    phone_number: string
     admin: string
     token: string
 }

@@ -12,6 +12,7 @@
 /server/node_modules
 /server/db.js
 /server/config.js
+/server/files
 .gitignore
 .idea
 # testing

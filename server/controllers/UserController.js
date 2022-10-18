@@ -7,7 +7,7 @@ import {SECRET_KEY} from "../config.js"
 /**
 //  * Обработка запроса на регистрацию нового пользователя*/
 export const register = async (req, res) => {
-    console.log(req.body);
+
     const {nickname, email, password} = req.body;
     try {
         //Проверяем, существует ли пользователь
@@ -28,9 +28,6 @@ export const register = async (req, res) => {
                 password: passwordHas,
             };
 
-
-            const token = jwt.sign({email: user.email}, SECRET_KEY, {expiresIn: '30d'});
-
             // Вставка данных в базу данных
             await pool.query(`INSERT INTO clients (nickname, email, password) VALUES ($1,$2,$3);`, [user.nickname, user.email, user.password],
                 (err) => {
@@ -41,6 +38,7 @@ export const register = async (req, res) => {
                     }
             })
 
+
             // Получение пользователя из базы
             await pool.query(`SELECT * FROM clients WHERE email= $1 or nickname = $2;`, [email, nickname], (err, results) =>{
                 if (err) {
@@ -49,6 +47,8 @@ export const register = async (req, res) => {
                     })
                 }
                 else {
+                    const token = jwt.sign({id: results.rows[0].clients_id}, SECRET_KEY, {expiresIn: '30d'});
+
                     res.status(201).json({
                         success: true,
                         data: {
@@ -93,7 +93,7 @@ export const login = async (req, res) => {
                 });
             }
 
-            const token = jwt.sign({email: email}, SECRET_KEY, {expiresIn: '30d'});
+            const token = jwt.sign({id: arr[0].clients_id}, SECRET_KEY, {expiresIn: '30d'});
 
             // Получение пользователя из базы
             await pool.query(`SELECT * FROM clients WHERE email= $1`, [email], (err, results) =>{
@@ -126,7 +126,7 @@ export const getMe = async (req, res) => {
 
     try {
         //Проверяем, существует ли пользователь
-        const data = await pool.query(`SELECT * FROM clients WHERE email = $1;`, [req.email]);
+        const data = await pool.query(`SELECT * FROM clients WHERE clients_id = $1;`, [req.id]);
 
         const arr = data.rows;
 
@@ -155,17 +155,30 @@ export const getMe = async (req, res) => {
 export const update = async (req, res) => {
 
     try {
-        const {nickname, email, surname, patronymic, phone, sex, birthdate, name, id} = req.body;
 
-        // Обновление пользователя из базы
-        await pool.query(`UPDATE clients SET birth_date = $1, nickname = $2, sex = $3, name = $4, patronymic = $5, surname = $6, phone_number = $7, email = $8 WHERE clients_id = $9;`,
-            [birthdate,nickname, sex, name, patronymic, surname, phone, email, id],(err, results) => {
-            if (err) {
-                return res.status(500).json({
-                    error: "Failed to update user"
+        const {nickname, email, surname, patronymic, phone, sex, birthdate, name, id, avatar} = req.body;
+        if(avatar){
+            // Обновление аватара пользователя
+            await pool.query(`UPDATE clients SET avatar = $1 WHERE clients_id = $2;`,
+                [avatar, id],(err) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: "Failed to update user"
+                        })
+                    }
                 })
-            }
-        })
+        }
+        else{
+            // Обновление данных пользователя
+            await pool.query(`UPDATE clients SET birth_date = $1, nickname = $2, sex = $3, name = $4, patronymic = $5, surname = $6, phone_number = $7, email = $8 WHERE clients_id = $9;`,
+                [birthdate,nickname, sex, name, patronymic, surname, phone, email, id],(err) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: "Failed to update user"
+                        })
+                    }
+                })
+        }
 
         // Получение пользователя из базы
         await pool.query(`SELECT * FROM clients WHERE clients_id = $1`, [id], (err, results) =>{
@@ -175,6 +188,7 @@ export const update = async (req, res) => {
                 })
             }
             else {
+                console.log(results.rows)
                 res.status(201).json({
                     success: true,
                     data: {

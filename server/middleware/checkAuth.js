@@ -12,7 +12,7 @@ export default (req, res, next) => {
     if (token) {
         try {
             const decoded = jwt.verify(token, SECRET_KEY); // Расшифрофка токена
-            req.email = decoded.email; // Добавлени userId в request
+            req.id = decoded.id; // Добавлени userId в request
             next();                   // Вызов callback`а
         }
         catch (e) {

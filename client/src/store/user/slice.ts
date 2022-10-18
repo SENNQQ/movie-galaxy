@@ -77,7 +77,11 @@ export const updateUser = createAsyncThunk<UserType, updateForm, { rejectValue: 
 const userSlice = createSlice({
     name: 'user',
     initialState,
-    reducers: {},
+    reducers: {
+        setAvatar(state, {payload}: PayloadAction<string>) {
+            state.userData!.avatar = payload;
+        },
+    },
     extraReducers: builder => {
         builder.addCase(loginUser.pending, (state) => {
             state.userData = null;
@@ -120,4 +124,5 @@ function isError(action: AnyAction) {
     return action.type.endsWith('rejected');
 }
 
+export const {setAvatar} = userSlice.actions;
 export default userSlice.reducer;
