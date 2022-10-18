@@ -107,7 +107,8 @@ const Profile = () => {
                                                            value: 250,
                                                            message: 'Максимальное количество символов - 250',
                                                        },
-                                                   })}/>
+                                                   })}
+                                                   autoComplete="off"/>
                                         </div>
                                         <div className="form_group">
                                             <div className="input-block">
@@ -128,7 +129,7 @@ const Profile = () => {
                                                                value: 12,
                                                                message: 'Максимальная длина номера 12 символов',
                                                            },
-                                                       })}/>
+                                                       })} autoComplete="off"/>
                                             </div>
                                         </div>
                                         <div className="form_group">
@@ -144,7 +145,7 @@ const Profile = () => {
                                                            value: /^(([^<>()[\]\\.,;:\s@а-яА-ЯA-Z"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-z-]+\.)+[a-z]{2,}))$/,
                                                            message: 'Неверный формат почты, пример: test@test.test',
                                                        },
-                                                   })}/>
+                                                   })} autoComplete="off"/>
                                         </div>
                                     </div>
                                     <div className="form_block">
@@ -161,7 +162,7 @@ const Profile = () => {
                                                         value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
                                                         message: 'Неверный формат даты, пример: 28.06.2020',
                                                     },
-                                                })}/>
+                                                })} autoComplete="off"/>
                                         </div>
                                         <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.address})}
@@ -175,7 +176,7 @@ const Profile = () => {
                                                            value: 10,
                                                            message: 'Минимальная длина 10 символов',
                                                        },
-                                                   })}/>
+                                                   })} autoComplete="off"/>
 
                                         </div>
                                     </div>
@@ -193,7 +194,7 @@ const Profile = () => {
                                                         value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
                                                         message: 'Неверный формат даты, пример: 28.06.2020',
                                                     },
-                                                })}/>
+                                                })} autoComplete="off"/>
                                         </div>
                                         <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.address})}
@@ -207,7 +208,7 @@ const Profile = () => {
                                                            value: 10,
                                                            message: 'Минимальная длина 10 символов',
                                                        },
-                                                   })}/>
+                                                   })} autoComplete="off"/>
 
                                         </div>
                                         <div className="form_group">
@@ -222,7 +223,7 @@ const Profile = () => {
                                                            value: 10,
                                                            message: 'Минимальная длина 10 символов',
                                                        },
-                                                   })}/>
+                                                   })} autoComplete="off"/>
 
                                         </div>
                                     </div>

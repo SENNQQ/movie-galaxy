@@ -1,7 +1,12 @@
-
 export type LoginForm = {
     email: string
-    password:string
+    password: string
+}
+
+export type registerForm = {
+    email: string
+    nickname: string
+    password: string
 }
 
 export type UserType = {
@@ -18,4 +23,7 @@ export type UserType = {
     token: string
 }
 
-export type ErrorType = { code: number, message: string } | null
+export type ErrorType = {
+    code: number,
+    message: string
+}
