@@ -32,13 +32,13 @@ const Authorization = () => {
         }
     };
 
-    const validatePassword = (value: string) => {
-        if (value.match(/[a-z]/g) && value.match(/[a-z]/g)!.length >= 2 && value.match(/[A-Z]/g) && value.match(/[A-Z]/g)!.length >= 2) {
-            return true;
-        } else if (value.match(/[а-яА-Я]/g)) {
-            return 'The password must contain only latin letters, numbers or special characters';
-        } else return 'Password must contain at least 2 characters (a-z) and 2 characters (A-Z)';
-    };
+    // const validatePassword = (value: string) => {
+    //     if (value.match(/[a-z]/g) && value.match(/[a-z]/g)!.length >= 2 && value.match(/[A-Z]/g) && value.match(/[A-Z]/g)!.length >= 2) {
+    //         return true;
+    //     } else if (value.match(/[а-яА-Я]/g)) {
+    //         return 'The password must contain only latin letters, numbers or special characters';
+    //     } else return 'Password must contain at least 2 characters (a-z) and 2 characters (A-Z)';
+    // };
 
     useEffect(() => {
         clearErrors();
@@ -99,7 +99,7 @@ const Authorization = () => {
                                                        value: 8,
                                                        message: 'Minimum password length 8 characters'
                                                    },
-                                                   validate: validatePassword,
+                                                   // validate: validatePassword,
                                                })}/>
                                         <label onClick={() => setVisiblePass(!visiblePass)}
                                                style={{backgroundImage: `url(${visiblePass ? visiblePassImg : hiddenPassImg})`}}/>

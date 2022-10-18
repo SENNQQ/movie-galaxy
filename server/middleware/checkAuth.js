@@ -17,12 +17,13 @@ export default (req, res, next) => {
         }
         catch (e) {
             return res.status(403).json({
-                message: 'No access',
+                error: 'No access email',
             });
         }
-    } else {
+    }
+    else {
         return res.status(403).json({
-            message: 'No access',
+            error: 'No access',
         });
     }
 }

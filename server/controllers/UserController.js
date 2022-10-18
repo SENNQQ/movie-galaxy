@@ -51,7 +51,7 @@ export const register = async (req, res) => {
                     res.status(201).json({
                         success: true,
                         data: {
-                            user:results.rows[0],
+                            ...results.rows[0],
                             token
                         },
                     });
@@ -105,7 +105,7 @@ export const login = async (req, res) => {
                     res.status(201).json({
                         success: true,
                         data: {
-                            user:results.rows[0],
+                            ...results.rows[0],
                             token
                         },
                     });
@@ -126,6 +126,7 @@ export const getMe = async (req, res) => {
     try {
         //Проверяем, существует ли пользователь
         const data = await pool.query(`SELECT * FROM clients WHERE email = $1;`, [req.email]);
+
         const arr = data.rows;
 
         if (arr.length === 0) {
@@ -134,18 +135,17 @@ export const getMe = async (req, res) => {
             });
         }
         else {
-
             res.status(201).json({
                 success: true,
                 data: {
-                    user:arr[0],
+                    ...arr[0],
                 },
             });
         }
     }
     catch (err) {
         res.status(500).json({
-            message: "No access!", //Database connection error
+            error: "No access!", //Database connection error
         });
     }
 

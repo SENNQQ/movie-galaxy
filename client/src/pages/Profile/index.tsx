@@ -6,6 +6,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import '../../style/profile.scss';
 import tempImage from '../../image/zOGINv5sJxEZQWw2dGuO8JUzvyK.jpg';
 import LoadableImage from "../../components/LoadableImage";
+import {useAppSelector} from "../../store/hook";
 
 
 type FormInputs = {
@@ -28,6 +29,8 @@ const Profile = () => {
 
     const {register, handleSubmit, setError, setValue, formState: {errors}} = useForm<FormInputs>();
 
+    const {userData, load, error} = useAppSelector(state => state.user);
+
     const schema = yup.object().shape({
         image: yup
             .mixed()
@@ -40,14 +43,14 @@ const Profile = () => {
     });
 
     const imageForm = useForm<FormImage>({resolver: yupResolver(schema)});
-
+    console.log(userData);
 
     return (
         <div className={"spacing"}>
             <div className="profile_wrapper">
                 <div className="profile">
                     <div className="profile_content">
-                        <h2>Profile sennqq</h2>
+                        <h2>Profile {userData?.nickname}</h2>
                         <div className="profile_left">
                             <div className="user">
                                 <div className="user_img">
@@ -88,12 +91,13 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className="profile_right">
-                            <form>
+                            <form autoComplete="off">
                                 <div className="info">
                                     <div className="form_block">
                                         <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.fullName})}
                                                    placeholder="Ф"
+                                                   value={userData?.surname}
                                                    {...register('fullName', {
                                                        required: {
                                                            value: true,
@@ -108,7 +112,7 @@ const Profile = () => {
                                                            message: 'Максимальное количество символов - 250',
                                                        },
                                                    })}
-                                                   autoComplete="off"/>
+                                                   autoComplete="off" role={"presentation"}/>
                                         </div>
                                         <div className="form_group">
                                             <div className="input-block">
@@ -129,7 +133,7 @@ const Profile = () => {
                                                                value: 12,
                                                                message: 'Максимальная длина номера 12 символов',
                                                            },
-                                                       })} autoComplete="off"/>
+                                                       })} autoComplete="off"  role={"presentation"}/>
                                             </div>
                                         </div>
                                         <div className="form_group">
@@ -145,7 +149,7 @@ const Profile = () => {
                                                            value: /^(([^<>()[\]\\.,;:\s@а-яА-ЯA-Z"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-z-]+\.)+[a-z]{2,}))$/,
                                                            message: 'Неверный формат почты, пример: test@test.test',
                                                        },
-                                                   })} autoComplete="off"/>
+                                                   })} autoComplete="off"  role={"presentation"}/>
                                         </div>
                                     </div>
                                     <div className="form_block">
@@ -162,7 +166,7 @@ const Profile = () => {
                                                         value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
                                                         message: 'Неверный формат даты, пример: 28.06.2020',
                                                     },
-                                                })} autoComplete="off"/>
+                                                })} autoComplete="off"  role={"presentation"}/>
                                         </div>
                                         <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.address})}
@@ -176,7 +180,7 @@ const Profile = () => {
                                                            value: 10,
                                                            message: 'Минимальная длина 10 символов',
                                                        },
-                                                   })} autoComplete="off"/>
+                                                   })} autoComplete="off"  role={"presentation"}/>
 
                                         </div>
                                     </div>
