@@ -86,7 +86,7 @@
         }
       }
 
-      input, button[type=submit] {
+      input, button[type=submit], select {
         width: 100%;
         line-height: 1.5;
         padding: 15px 10px;
@@ -94,6 +94,10 @@
         background-color: #242424;
         transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25), transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
         color: white;
+      }
+
+      select option {
+        border-radius: 0;
       }
 
       button[type=submit] {
@@ -399,5 +403,13 @@
         }
       }
     }
+  }
+}
+
+div.errors {
+  color: #ff0000;
+  font-size: 15px;
+  &.full {
+    padding: 10px 0 0 20px;
   }
 }

@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import pool from "../db.js";
 import {SECRET_KEY} from "../config.js"
 
+
 /**
 //  * Обработка запроса на регистрацию нового пользователя*/
 export const register = async (req, res) => {
@@ -142,6 +143,47 @@ export const getMe = async (req, res) => {
                 },
             });
         }
+    }
+    catch (err) {
+        res.status(500).json({
+            error: "No access!", //Database connection error
+        });
+    }
+
+}
+
+export const update = async (req, res) => {
+
+    try {
+        const {nickname, email, surname, patronymic, phone, sex, birthdate, name, id} = req.body;
+
+        // Обновление пользователя из базы
+        await pool.query(`UPDATE clients SET birth_date = $1, nickname = $2, sex = $3, name = $4, patronymic = $5, surname = $6, phone_number = $7, email = $8 WHERE clients_id = $9;`,
+            [birthdate,nickname, sex, name, patronymic, surname, phone, email, id],(err, results) => {
+            if (err) {
+                return res.status(500).json({
+                    error: "Failed to update user"
+                })
+            }
+        })
+
+        // Получение пользователя из базы
+        await pool.query(`SELECT * FROM clients WHERE clients_id = $1`, [id], (err, results) =>{
+            if (err) {
+                return res.status(500).json({
+                    message: "User not found after update"
+                })
+            }
+            else {
+                res.status(201).json({
+                    success: true,
+                    data: {
+                        ...results.rows[0],
+                    },
+                });
+            }
+        })
+
     }
     catch (err) {
         res.status(500).json({

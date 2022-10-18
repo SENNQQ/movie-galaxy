@@ -1,7 +1,7 @@
 import {AnyAction, createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
 import axios from "../../axios";
 import {AxiosError, AxiosResponse} from "axios";
-import {ErrorType, LoginForm, registerForm, UserType} from "./types";
+import {ErrorType, LoginForm, registerForm, updateForm, UserType} from "./types";
 
 interface userDataType {
     userData: UserType | null
@@ -58,6 +58,21 @@ export const registerUser = createAsyncThunk<UserType, registerForm, { rejectVal
     }
 });
 
+export const updateUser = createAsyncThunk<UserType, updateForm, { rejectValue: ErrorType }>(
+    'user/update', async (userData, {rejectWithValue}) => {
+        try {
+            const response = await axios.patch('/api/auth/update', userData) as AxiosResponse<{ success: boolean, data: UserType }>;
+            if (!response.data.success) {
+                return rejectWithValue({code: response.status, message: response.statusText});
+            }
+            return response.data.data;
+        }
+        catch (err) {
+            let error = err as AxiosError<{ message: string }>;
+            return rejectWithValue({code: error.response!.status, message: error.response!.data.message});
+        }
+    });
+
 
 const userSlice = createSlice({
     name: 'user',
@@ -88,8 +103,14 @@ const userSlice = createSlice({
             state.load = true;
             state.error = null;
         });
+        builder.addCase(updateUser.fulfilled, (state, {payload}) => {
+            state.userData = payload;
+            state.load = true;
+            state.error = null;
+        });
         builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
             state.load = false
+            console.log(action);
             state.error = action.payload.message
         });
     }

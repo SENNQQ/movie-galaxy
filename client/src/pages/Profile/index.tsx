@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from "react-hook-form";
 import cn from "classnames";
 import * as yup from 'yup';
@@ -6,19 +6,19 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import '../../style/profile.scss';
 import tempImage from '../../image/zOGINv5sJxEZQWw2dGuO8JUzvyK.jpg';
 import LoadableImage from "../../components/LoadableImage";
-import {useAppSelector} from "../../store/hook";
+import {useAppDispatch, useAppSelector} from "../../store/hook";
+import {updateUser} from "../../store/user/slice";
 
 
 type FormInputs = {
-    fullName: string;
+    surname: string;
+    name: string;
+    patronymic: string;
+    nickname: string;
     phone: string;
     email: string;
     birthDate: string;
-    address: string;
-    studyPlace: string;
-    facebook: string;
-    instagram: string;
-    social: string;
+    sex: boolean;
 }
 
 type FormImage = {
@@ -27,8 +27,8 @@ type FormImage = {
 
 const Profile = () => {
 
-    const {register, handleSubmit, setError, setValue, formState: {errors}} = useForm<FormInputs>();
-
+    const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
+    const dispatch = useAppDispatch();
     const {userData, load, error} = useAppSelector(state => state.user);
 
     const schema = yup.object().shape({
@@ -43,7 +43,26 @@ const Profile = () => {
     });
 
     const imageForm = useForm<FormImage>({resolver: yupResolver(schema)});
-    console.log(userData);
+
+    useEffect(()=>{
+        if(userData){
+            // console.log(userData)
+            // const date =  new Date(userData.birthdate).toDateString();
+            // console.log(date);
+            userData.surname && setValue('surname', userData.surname,  {shouldDirty: false})
+            userData.name && setValue('name', userData.name,  {shouldDirty: false})
+            userData.patronymic && setValue('patronymic', userData.patronymic,  {shouldDirty: false})
+            setValue('sex', userData.sex,  {shouldDirty: false})
+            userData.birthdate && setValue('birthDate', userData.birthdate,  {shouldDirty: false})
+            userData.phone_number && setValue('phone', userData.phone_number,  {shouldDirty: false})
+            userData.nickname && setValue('nickname', userData.nickname,  {shouldDirty: false})
+            userData.email && setValue('email', userData.email,  {shouldDirty: false})
+        }
+    }, [setValue, userData])
+
+    const onSubmit = async (dataForm:FormInputs) =>{
+        dispatch(updateUser({...dataForm, id:userData!.clients_id}))
+    }
 
     return (
         <div className={"spacing"}>
@@ -91,188 +110,167 @@ const Profile = () => {
                             </div>
                         </div>
                         <div className="profile_right">
-                            <form autoComplete="off">
+                            <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="info">
                                     <div className="form_block">
                                         <div className="form_group">
-                                            <input className={cn('form_control', {'error': errors.fullName})}
-                                                   placeholder="Ф"
-                                                   value={userData?.surname}
-                                                   {...register('fullName', {
-                                                       required: {
-                                                           value: true,
-                                                           message: 'Поле объязательное для заполнения'
-                                                       },
+                                            <input className={cn('form_control', {'error': errors.surname})}
+                                                   placeholder="Surname"
+                                                   {...register('surname', {
                                                        minLength: {
-                                                           value: 10,
-                                                           message: 'Мимальное количество символов - 10'
+                                                           value: 6,
+                                                           message: 'Мимальное количество символов - 6'
                                                        },
                                                        maxLength: {
-                                                           value: 250,
-                                                           message: 'Максимальное количество символов - 250',
+                                                           value: 20,
+                                                           message: 'Максимальное количество символов - 20',
                                                        },
                                                    })}
                                                    autoComplete="off" role={"presentation"}/>
                                         </div>
                                         <div className="form_group">
                                             <div className="input-block">
-                                                <input className={cn('form_control', {'error': errors.phone})}
-                                                       type="tel"
-                                                       title="Подтвержден"
-                                                       placeholder="И"
-                                                       {...register('phone', {
-                                                           pattern: {
-                                                               value: /^\d+$/,
-                                                               message: 'Должен состоять только из цифр'
-                                                           },
+                                                <input className={cn('form_control', {'error': errors.name})}
+                                                       type="text"
+                                                       placeholder="Name"
+                                                       {...register('name', {
                                                            minLength: {
-                                                               value: 9,
-                                                               message: 'Минимальная длина номера 9 символов',
+                                                               value: 3,
+                                                               message: 'Минимальное количество символов - 3'
                                                            },
                                                            maxLength: {
-                                                               value: 12,
-                                                               message: 'Максимальная длина номера 12 символов',
+                                                               value: 16,
+                                                               message: 'Максимальное количество символов - 16',
                                                            },
                                                        })} autoComplete="off"  role={"presentation"}/>
                                             </div>
                                         </div>
                                         <div className="form_group">
+                                            <input className={cn('form_control', {'error': errors.patronymic})}
+                                                   placeholder="Patronymic"
+                                                   {...register('patronymic', {
+                                                       minLength: {
+                                                           value: 5,
+                                                           message: 'Минимальное количество символов - 5'
+                                                       },
+                                                       maxLength: {
+                                                           value: 16,
+                                                           message: 'Максимальное количество символов - 16',
+                                                       },
+                                                   })} autoComplete="off"  role={"presentation"}/>
+                                        </div>
+                                    </div>
+                                    <div className="form_block">
+                                        <div className="form_group">
+                                            <input
+                                                className={cn('form_control', {'error': errors.nickname})}
+                                                placeholder="Nickname"
+                                                {...register('nickname', {
+                                                    required: {
+                                                        value: true,
+                                                        message: 'Поле обязательное для заполнения',
+                                                    },
+                                                    minLength: {
+                                                        value: 5,
+                                                        message: 'Минимальное количество символов - 5'
+                                                    },
+                                                    maxLength: {
+                                                        value: 16,
+                                                        message: 'Максимальное количество символов - 16',
+                                                    },
+                                                })} autoComplete="off"  role={"presentation"}/>
+                                        </div>
+                                        <div className="form_group">
+                                            <input className={cn('form_control', {'error': errors.phone})}
+                                                   placeholder="Telephone"
+                                                   {...register('phone', {
+                                                       pattern: {
+                                                           value: /^\d+$/,
+                                                           message: 'Должен состоять только из цифр'
+                                                       },
+                                                       minLength: {
+                                                           value: 9,
+                                                           message: 'Минимальная длина номера 9 символов',
+                                                       },
+                                                       maxLength: {
+                                                           value: 12,
+                                                           message: 'Максимальная длина номера 12 символов',
+                                                       },
+                                                   })}  autoComplete="off"  role={"presentation"}/>
+
+                                        </div>
+                                    </div>
+                                    <div className="form_block">
+                                        <div className="form_group">
+
+
+                                            <select {...register("sex")}
+                                                    className={cn('form_control', {'error': errors.sex})}>
+                                                <option value="true">Man</option>
+                                                <option value="false">Woman</option>
+                                            </select>
+
+                                        </div>
+                                        <div className="form_group">
+                                            <input className={cn('form_control', {'error': errors.birthDate})}
+                                                   placeholder="Birthday"
+                                                   type="text"
+                                                   {...register('birthDate', {
+                                                       pattern: {
+                                                           value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
+                                                           message: 'Неверный формат даты, пример: 28.06.2020',
+                                                       },
+                                                   })} autoComplete="off"/>
+                                        </div>
+                                        <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.email})}
-                                                   placeholder="О"
-                                                   title="Подтвержден"
+                                                   placeholder="Email"
                                                    {...register('email', {
                                                        required: {
                                                            value: true,
-                                                           message: 'Поле объязательное для заполнения',
+                                                           message: 'Поле обязательное для заполнения',
                                                        },
                                                        pattern: {
                                                            value: /^(([^<>()[\]\\.,;:\s@а-яА-ЯA-Z"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-z-]+\.)+[a-z]{2,}))$/,
                                                            message: 'Неверный формат почты, пример: test@test.test',
                                                        },
-                                                   })} autoComplete="off"  role={"presentation"}/>
-                                        </div>
-                                    </div>
-                                    <div className="form_block">
-                                        <div className="form_group">
-                                            <input
-                                                className={cn('form_control', {'error': errors.birthDate})}
-                                                placeholder="ПСЕВДОНИМ"
-                                                {...register('birthDate', {
-                                                    required: {
-                                                        value: true,
-                                                        message: 'Поле объязательное для заполнения',
-                                                    },
-                                                    pattern: {
-                                                        value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
-                                                        message: 'Неверный формат даты, пример: 28.06.2020',
-                                                    },
-                                                })} autoComplete="off"  role={"presentation"}/>
-                                        </div>
-                                        <div className="form_group">
-                                            <input className={cn('form_control', {'error': errors.address})}
-                                                   placeholder="Т"
-                                                   {...register('address', {
-                                                       required: {
-                                                           value: true,
-                                                           message: 'Поле объязательное для заполнения',
-                                                       },
-                                                       minLength: {
-                                                           value: 10,
-                                                           message: 'Минимальная длина 10 символов',
-                                                       },
-                                                   })} autoComplete="off"  role={"presentation"}/>
-
-                                        </div>
-                                    </div>
-                                    <div className="form_block">
-                                        <div className="form_group">
-                                            <input
-                                                className={cn('form_control', {'error': errors.birthDate})}
-                                                placeholder="ПОЛ"
-                                                {...register('birthDate', {
-                                                    required: {
-                                                        value: true,
-                                                        message: 'Поле объязательное для заполнения',
-                                                    },
-                                                    pattern: {
-                                                        value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
-                                                        message: 'Неверный формат даты, пример: 28.06.2020',
-                                                    },
-                                                })} autoComplete="off"/>
-                                        </div>
-                                        <div className="form_group">
-                                            <input className={cn('form_control', {'error': errors.address})}
-                                                   placeholder="Дата"
-                                                   {...register('address', {
-                                                       required: {
-                                                           value: true,
-                                                           message: 'Поле объязательное для заполнения',
-                                                       },
-                                                       minLength: {
-                                                           value: 10,
-                                                           message: 'Минимальная длина 10 символов',
-                                                       },
-                                                   })} autoComplete="off"/>
-
-                                        </div>
-                                        <div className="form_group">
-                                            <input className={cn('form_control', {'error': errors.address})}
-                                                   placeholder="Почта"
-                                                   {...register('address', {
-                                                       required: {
-                                                           value: true,
-                                                           message: 'Поле объязательное для заполнения',
-                                                       },
-                                                       minLength: {
-                                                           value: 10,
-                                                           message: 'Минимальная длина 10 символов',
-                                                       },
-                                                   })} autoComplete="off"/>
+                                                   })}  autoComplete="off"/>
 
                                         </div>
                                     </div>
                                     <div className="form_block">
                                         <button className="btn" type="submit">Save</button>
                                     </div>
-                                    {/*<div className="form_group no_flex">*/}
-                                    {/*    <p className="required-fields">*/}
-                                    {/*        <span>*</span>*/}
-                                    {/*        поля обязательные для заполнения*/}
-                                    {/*    </p>*/}
-                                    {/*</div>*/}
-
 
                                     {(Object.keys(errors).length > 0 || Object.keys(imageForm.formState.errors).length > 0) &&
                                         <div className="form_group errors">
-                                            {errors.fullName && <div className="error">
-                                                <span>ФИО:</span><span>{errors.fullName.message}</span>
+                                            {errors.surname && <div className="error">
+                                                <span>Surname: </span><span>{errors.surname.message}</span>
+                                            </div>}
+                                            {errors.name && <div className="error">
+                                                <span>Name: </span><span>{errors.name.message}</span>
+                                            </div>}
+                                            {errors.patronymic && <div className="error">
+                                                <span>Patronymic: </span><span>{errors.patronymic.message}</span>
                                             </div>}
                                             {errors.phone && <div className="error">
-                                                <span>Телефон:</span><span>{errors.phone.message}</span>
+                                                <span>Phone: </span><span>{errors.phone.message}</span>
                                             </div>}
                                             {errors.email && <div className="error">
-                                                <span>Email:</span><span>{errors.email.message}</span>
+                                                <span>Email: </span><span>{errors.email.message}</span>
                                             </div>}
                                             {errors.birthDate && <div className="error">
-                                                <span>Дата рождения:</span><span>{errors.birthDate.message}</span>
+                                                <span>BirthDate: </span><span>{errors.birthDate.message}</span>
                                             </div>}
-                                            {errors.address && <div className="error">
-                                                <span>Домашний адрес:</span><span>{errors.address.message}</span>
+                                            {errors.sex && <div className="error">
+                                                <span>Sex: </span><span>{errors.sex.message}</span>
                                             </div>}
-                                            {errors.studyPlace && <div className="error">
-                                                <span>Место учебы:</span><span>{errors.studyPlace.message}</span>
+                                            {errors.nickname && <div className="error">
+                                                <span>Nickname: </span><span>{errors.nickname.message}</span>
                                             </div>}
-                                            {errors.instagram && <div className="error">
-                                                <span>Instagram:</span><span>{errors.instagram.message}</span>
-                                            </div>}
-                                            {errors.facebook && <div className="error">
-                                                <span>Facebook:</span><span>{errors.facebook.message}</span>
-                                            </div>}
-                                            {errors.social && <div className="error">
-                                                <span>Соц.сеть:</span><span>{errors.social.message}</span>
-                                            </div>}
+
                                             {imageForm.formState.errors.image && <div className="error">
-                                                <span>Фото:</span><span>{imageForm.formState.errors.image.message}</span>
+                                                <span>Фото: </span><span>{imageForm.formState.errors.image.message}</span>
                                             </div>}
                                         </div>}
                                 </div>

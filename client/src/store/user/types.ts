@@ -9,12 +9,24 @@ export type registerForm = {
     password: string
 }
 
+export type updateForm = {
+    id: string
+    surname: string;
+    name: string;
+    patronymic: string;
+    nickname: string;
+    phone: string;
+    email: string;
+    birthDate: string;
+    sex: boolean;
+}
+
 export type UserType = {
     clients_id: string
     nickname: string
     email: string
-    birthdate?: string
-    sex?: string
+    birthdate: string
+    sex: boolean
     name?: string
     patronymic?: string
     surname?: string
