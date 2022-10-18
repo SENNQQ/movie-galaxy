@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Route, Routes} from "react-router-dom";
 import Main from "./pages/Main";
 import Layout from "./components/Layout";
@@ -12,9 +12,18 @@ import CategoryTV from "./pages/TV/category";
 import Profile from "./pages/Profile";
 import Catalog from "./pages/Catalog";
 import Authorization from "./pages/Authorization";
+import {useAppDispatch} from "./store/hook";
+import {fetchAuth} from "./store/user/slice";
 
 
 const App = () => {
+
+    const dispatch = useAppDispatch();
+
+    useEffect(() => {
+        dispatch(fetchAuth());
+    }, []);
+
     return (
         <Routes>
             <Route path="/" element={<Layout/>}>

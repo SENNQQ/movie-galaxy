@@ -3,21 +3,41 @@ import axios from "../../axios";
 import {AxiosError, AxiosResponse} from "axios";
 import {ErrorType, LoginForm, UserType} from "./types";
 
-interface zxcslice {
+interface userDataType {
     userData:UserType | null
 }
 
-const initialState:zxcslice = {
+const initialState:userDataType = {
     userData: null,
 };
 
 export const fetchUser = createAsyncThunk<UserType, LoginForm, { rejectValue: ErrorType }>('user/fetchUser', async (userData, {rejectWithValue}) => {
     try {
-        const response = await axios.post('/api/auth/register', userData) as AxiosResponse<{ success: boolean, data: UserType, message: string }>;
-        if (response.data.success) {
+        const response = await axios.post('/api/auth/login', userData) as AxiosResponse<{ success: boolean, data: UserType }>;
+
+        if (response.data) {
+            return response.data.data;
+        }
+        else {
+            return rejectWithValue({code: response.status, message: response.data});
+        }
+    }
+    catch (err) {
+        let error = err as AxiosError<{ message: string }>;
+        if (!error.response) {
+            throw err;
+        }
+        return rejectWithValue({code: error.response.status, message: error.response.data.message});
+    }
+});
+
+export const fetchAuth = createAsyncThunk<UserType, void, { rejectValue: ErrorType }>('user/fetchAuth', async (_arg, {rejectWithValue}) => {
+    try {
+        const response = await axios.get('/api/auth') as AxiosResponse<{ success: boolean, data: UserType}>;
+        if (response.data) {
             return response.data.data;
         } else {
-            return rejectWithValue({code: response.status, message: response.data.message});
+            return rejectWithValue({code: response.status, message: response.data});
         }
     } catch (err) {
         let error = err as AxiosError<{ message: string }>;
@@ -37,11 +57,18 @@ const userSlice = createSlice({
             state.userData = null;
         });
         builder.addCase(fetchUser.fulfilled, (state, {payload}) => {
-            console.log(payload)
             state.userData = payload;
         });
         builder.addCase(fetchUser.rejected, (state, {payload}) => {
-            console.log(payload)
+            state.userData = null;
+        });
+        builder.addCase(fetchAuth.pending, (state) => {
+            state.userData = null;
+        });
+        builder.addCase(fetchAuth.fulfilled, (state, {payload}) => {
+            state.userData = payload;
+        });
+        builder.addCase(fetchAuth.rejected, (state, {payload}) => {
             state.userData = null;
         });
     }

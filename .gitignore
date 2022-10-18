@@ -11,6 +11,8 @@
 /client/src/oldcomponents
 /server/node_modules
 /server/db.js
+/server/config.js
+.gitignore
 .idea
 # testing
 /coverage

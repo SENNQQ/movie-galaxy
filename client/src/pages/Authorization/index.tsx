@@ -5,7 +5,7 @@ import visiblePassImg from '../../image/visible-password.png';
 import hiddenPassImg from '../../image/hidden-password.png';
 import {useLocation} from "react-router-dom";
 import {fetchUser} from "../../store/user/slice";
-import {useAppDispatch} from "../../store/hook";
+import {useAppDispatch, useAppSelector} from "../../store/hook";
 
 type FormInputs = {
     email: string;
@@ -18,6 +18,7 @@ const Authorization = () => {
     const location = useLocation();
     const locationRegister = location.pathname === "/register";
     const dispatch = useAppDispatch();
+    const {userData} = useAppSelector(state => state.user);
 
     const [visiblePass, setVisiblePass] = useState<boolean>(false);
 
@@ -27,13 +28,17 @@ const Authorization = () => {
         dispatch(fetchUser(data))
     };
 
-    const validatePassword = (value: string) => {
-        if (value.match(/[a-z]/g) && value.match(/[a-z]/g)!.length >= 2 && value.match(/[A-Z]/g) && value.match(/[A-Z]/g)!.length >= 2) {
-            return true;
-        } else if (value.match(/[а-яА-Я]/g)) {
-            return 'The password must contain only latin letters, numbers or special characters';
-        } else return 'Password must contain at least 2 characters (a-z) and 2 characters (A-Z)';
-    };
+    // const validatePassword = (value: string) => {
+    //     if (value.match(/[a-z]/g) && value.match(/[a-z]/g)!.length >= 2 && value.match(/[A-Z]/g) && value.match(/[A-Z]/g)!.length >= 2) {
+    //         return true;
+    //     } else if (value.match(/[а-яА-Я]/g)) {
+    //         return 'The password must contain only latin letters, numbers or special characters';
+    //     } else return 'Password must contain at least 2 characters (a-z) and 2 characters (A-Z)';
+    // };
+
+    if (userData && 'token' in userData) {
+        window.localStorage.setItem('token', 'Bearer ' + userData.token);
+    }
 
     return (
         <>
@@ -74,7 +79,7 @@ const Authorization = () => {
                                                       message: 'Required field',
                                                   },
                                                   minLength: {value: 8, message: 'Minimum password length 8 characters'},
-                                                  validate: validatePassword,
+                                                  // validate: validatePassword,
                                               })}/>
                                        <label onClick={() => setVisiblePass(!visiblePass)}
                                               style={{backgroundImage: `url(${visiblePass ? visiblePassImg : hiddenPassImg})`}}/>

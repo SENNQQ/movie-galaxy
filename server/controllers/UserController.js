@@ -18,7 +18,7 @@ export const register = async (req, res) => {
         }
         else {
             const salt = await bcrypt.genSalt(10);
-            const passwordHas = bcrypt.hash(req.body.password, salt);
+            const passwordHas = await bcrypt.hash(password, salt);
 
             const user = {
                 nickname,
@@ -27,7 +27,6 @@ export const register = async (req, res) => {
             };
 
 
-            console.log(SECRET_KEY)
             const token = jwt.sign({email: user.email}, SECRET_KEY, {expiresIn: '30d'});
 
             // Вставка данных в базу данных
@@ -53,7 +52,10 @@ export const register = async (req, res) => {
                     console.log(results)
                     res.status(201).json({
                         success: true,
-                        data: {...results.rows, token},
+                        data: {
+                            user:results.rows[0],
+                            token
+                        },
                     });
                 }
             })
@@ -63,6 +65,94 @@ export const register = async (req, res) => {
         console.log(err);
         res.status(500).json({
             error: "Database error while registring user!", //Database connection error
+        });
+    }
+
+}
+
+export const login = async (req, res) => {
+    const {email, password} = req.body;
+
+    try {
+        //Проверяем, существует ли пользователь
+        const data = await pool.query(`SELECT * FROM clients WHERE email= $1;`, [email]);
+        const arr = data.rows;
+
+        if (arr.length === 0) {
+            return res.status(400).json({
+                error: "Email or nickname already there, No need to register again.",
+            });
+        }
+        else {
+            // const salt = await bcrypt.genSalt(10);
+            // const passwordHas = bcrypt.hash(req.body.password, salt);
+
+            const isValidPassword = await bcrypt.compare(password, arr[0].password)
+
+            if (!isValidPassword) {
+                return res.status(401).json({
+                    message: 'Invalid username or password',
+                });
+            }
+
+            const token = jwt.sign({email: email}, SECRET_KEY, {expiresIn: '30d'});
+
+            // Получение пользователя из базы
+            await pool.query(`SELECT * FROM clients WHERE email= $1`, [email], (err, results) =>{
+                if (err) {
+                    console.error(err);
+                    return res.status(500).json({
+                        error: "Database error"
+                    })
+                }
+                else {
+                    console.log(results.rows)
+                    res.status(201).json({
+                        success: true,
+                        data: {
+                            user:results.rows[0],
+                            token
+                        },
+                    });
+                }
+            })
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "Database error while login user!", //Database connection error
+        });
+    }
+
+}
+
+export const getMe = async (req, res) => {
+
+    try {
+        //Проверяем, существует ли пользователь
+        const data = await pool.query(`SELECT * FROM clients WHERE email = $1;`, [req.email]);
+        const arr = data.rows;
+
+        if (arr.length === 0) {
+            return res.status(400).json({
+                error: "User is not found",
+            });
+        }
+        else {
+
+            res.status(201).json({
+                success: true,
+                data: {
+                    user:arr[0],
+                },
+            });
+        }
+    }
+    catch (err) {
+        console.log(err);
+        res.status(500).json({
+            error: "No access!", //Database connection error
         });
     }
 
