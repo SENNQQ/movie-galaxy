@@ -14,6 +14,7 @@ import Catalog from "./pages/Catalog";
 import Authorization from "./pages/Authorization";
 import {useAppDispatch} from "./store/hook";
 import {fetchAuth} from "./store/user/slice";
+import PageNotFound from "./components/Global/PageNotFound";
 
 
 const App = () => {
@@ -22,7 +23,7 @@ const App = () => {
 
     useEffect(() => {
         dispatch(fetchAuth());
-    }, []);
+    }, [dispatch]);
 
     return (
         <Routes>
@@ -45,10 +46,11 @@ const App = () => {
                 <Route path="/person/:id" element={<Person/>}/>
                 <Route path="/profile/" element={<Profile/>}/>
                 <Route path="/catalog/" element={<Catalog/>}/>
-
+                <Route path="/page" element={<PageNotFound/>}/>
             </Route>
             <Route path="/login" element={<Authorization/>}/>
             <Route path="/register" element={<Authorization/>}/>
+
         </Routes>
     );
 };
