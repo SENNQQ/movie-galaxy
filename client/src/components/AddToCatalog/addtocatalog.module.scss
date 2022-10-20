@@ -1,0 +1,126 @@
+.user_status_block {
+  color: #323232 !important;
+  grid-gap: 10px;
+  flex-direction: column;
+  display: flex;
+}
+
+
+.user_status_add_list{
+  background-color: #4f74c8;
+  border: #4f74c8 1px solid;
+  border-radius: 4px;
+  color: #fff!important;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
+  font-size: 11px;
+  line-height: 1.0em;
+  margin: 0 auto;
+  opacity: 1;
+  padding: 6px 12px 6px 24px;
+  position: relative;
+  text-align: left;
+  text-decoration: none!important;
+  -webkit-transition-duration: .3s;
+  transition-duration: .3s;
+  -webkit-transition-property: all;
+  transition-property: all;
+  -webkit-transition-timing-function: ease-in-out;
+  transition-timing-function: ease-in-out;
+  vertical-align: middle;
+
+  &:hover{
+    background-color: rgba(79,116,200,.8);
+    color: #fff;
+  }
+}
+
+.user_stat_line {
+  display: flex;
+  grid-gap: 10px;
+  justify-content: space-between;
+}
+
+.form_user_status {
+
+  appearance: none;
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-select.png?v=1634263200");
+  background-position: 100px 8px;
+  background-repeat: no-repeat;
+  background-size: 10px auto;
+  border: #4f74c8 2px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Avenir, lucida grande, tahoma, verdana, arial, sans-serif;
+  font-size: 11px;
+  opacity: 1;
+  padding: 4px 8px;
+  text-align: left;
+  text-decoration: none;
+  transition-duration: .3s;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  vertical-align: middle;
+  width: 43%;
+
+  color: #fff;
+  background-color: #202124;
+
+}
+
+.form_user_score {
+  appearance: none;
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-blue.png?v=1634263200");
+  background-position: 100px 8px;
+  background-repeat: no-repeat;
+  background-size: 10px auto;
+  border: #bebebe 1px solid;
+  border-radius: 4px;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Avenir, lucida grande, tahoma, verdana, arial, sans-serif;
+  font-size: 12px;
+  opacity: 1;
+  padding: 4px 8px;
+  text-align: left;
+  text-decoration: none;
+  transition-duration: .3s;
+  transition-property: all;
+  transition-timing-function: ease-in-out;
+  vertical-align: middle;
+  width: 43%;
+
+  color: #fff;
+  background-color: #202124;
+}
+
+.form_user_episode {
+  border: #bebebe 1px solid;
+  border-radius: 4px;
+  font-family: Avenir, lucida grande, tahoma, verdana, arial, sans-serif;
+  font-size: 12px;
+  padding: 3px 8px;
+  text-align: left;
+  text-decoration: none;
+  vertical-align: middle;
+  display: flex;
+  width: 43%;
+  color: #fff;
+  background-color: #202124;
+
+  &__input {
+    border-bottom: 1px solid #343738;
+    color: #2e51a2;
+    display: inline-block;
+    font-family: Avenir, lucida grande, tahoma, verdana, arial, sans-serif;
+    font-size: 12px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    text-decoration: none;
+    width: 100%;
+    background-color: #202124;
+  }
+}

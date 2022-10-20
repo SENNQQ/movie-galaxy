@@ -10,6 +10,7 @@ import ExternalLinks from "../../ExternalLinks";
 import {cinemaProps} from "../../../types/MainPageTypes";
 import {castProps} from "../../../types/MoviePageTypes";
 import Comments from "../../Comments";
+import AddToCatalog from "../../AddToCatalog";
 
 const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
 
@@ -58,6 +59,7 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
 
     }, [item.id, recommendMovie.length])
 
+    console.log(item);
 
     return (
         <>
@@ -179,6 +181,7 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
+                <AddToCatalog/>
                 {(item.external_ids.facebook_id
                     || item.external_ids.imdb_id
                     || item.external_ids.instagram_id

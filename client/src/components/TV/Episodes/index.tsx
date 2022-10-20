@@ -62,7 +62,7 @@ const Episodes:FC<EpisodesPropsType> = ({numberOfSeasons}) => {
             return `${activeEpisodes.length} ${activeEpisodes.length > 1 ? 'Episodes' : 'Episode'}`;
 
     }
-
+    console.log(activeEpisodes);
     return (
         <div className={"spacing"}>
             <div className={st.head}>

@@ -65,6 +65,7 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
 
     }, [item.id, recommendTv])
 
+    console.log(item);
 
     return (
         <>
