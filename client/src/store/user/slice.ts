@@ -39,6 +39,7 @@ export const fetchAuth = createAsyncThunk<UserType, void, { rejectValue: ErrorTy
         return response.data.data;
     } catch (err) {
         let error = err as AxiosError<{ message: string }>;
+        console.log(error);
         return rejectWithValue({code: error.response!.status, message: error.response!.data.message});
     }
 });

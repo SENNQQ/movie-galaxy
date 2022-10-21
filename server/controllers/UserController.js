@@ -188,7 +188,6 @@ export const update = async (req, res) => {
                 })
             }
             else {
-                console.log(results.rows)
                 res.status(201).json({
                     success: true,
                     data: {

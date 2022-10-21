@@ -59,7 +59,6 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
 
     }, [item.id, recommendMovie.length])
 
-    console.log(item);
 
     return (
         <>
@@ -181,7 +180,7 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <AddToCatalog/>
+                <AddToCatalog _id={item.id} type={"movie"}/>
                 {(item.external_ids.facebook_id
                     || item.external_ids.imdb_id
                     || item.external_ids.instagram_id

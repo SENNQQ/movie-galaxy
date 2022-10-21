@@ -5,9 +5,11 @@ import {Router} from 'express';
 // import validationError from './validators/handleValidationErrors.js';
 // import {orderCreateValidation} from './validators/order.js';
 import authRoutes from './auth.js'
+import catalogRoutes from './catalog.js'
 
 const router = Router();
 
 router.use('/auth', authRoutes); // Роуты для авторизации, регистрации и изменения данных UserModel
+router.use('/catalog', catalogRoutes); // Получение, обновление и добавление фильмов,тв шоу в каталог юзера
 
 export default router;

@@ -1,10 +1,36 @@
 .user_status_block {
   color: #323232 !important;
-  grid-gap: 10px;
+  grid-gap: 20px;
   flex-direction: column;
-  display: flex;
+  display: grid;
+  grid-template: 1fr/ 1fr 1fr;
 }
 
+.on {
+  position: relative;
+
+  &::before{
+    background-color: rgba(19,19,19, 0.9);
+    left: 0;
+    margin-left: 0;
+    width: 100%;
+    background-image: url(https://cdn.myanimelist.net/images/xmlhttp-loader.gif?v=1634263200);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 24px 24px;
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.on .user_status_add_list{
+  background-color: rgba(79,116,200, 0.5);
+  border: #162a58 1px solid;
+  color: #ddd6d6 !important;
+}
 
 .user_status_add_list{
   background-color: #4f74c8;
@@ -16,17 +42,13 @@
   font-family: Avenir,lucida grande,tahoma,verdana,arial,sans-serif;
   font-size: 11px;
   line-height: 1.0em;
-  margin: 0 auto;
   opacity: 1;
   padding: 6px 12px 6px 24px;
   position: relative;
   text-align: left;
   text-decoration: none!important;
-  -webkit-transition-duration: .3s;
   transition-duration: .3s;
-  -webkit-transition-property: all;
   transition-property: all;
-  -webkit-transition-timing-function: ease-in-out;
   transition-timing-function: ease-in-out;
   vertical-align: middle;
 
@@ -46,7 +68,7 @@
 
   appearance: none;
   background-image: url("https://cdn.myanimelist.net/images/icon-triangles-select.png?v=1634263200");
-  background-position: 100px 8px;
+  background-position: 110px 8px;
   background-repeat: no-repeat;
   background-size: 10px auto;
   border: #4f74c8 2px solid;
@@ -63,8 +85,6 @@
   transition-property: all;
   transition-timing-function: ease-in-out;
   vertical-align: middle;
-  width: 43%;
-
   color: #fff;
   background-color: #202124;
 
@@ -73,7 +93,7 @@
 .form_user_score {
   appearance: none;
   background-image: url("https://cdn.myanimelist.net/images/icon-triangles-blue.png?v=1634263200");
-  background-position: 100px 8px;
+  background-position: 110px 8px;
   background-repeat: no-repeat;
   background-size: 10px auto;
   border: #bebebe 1px solid;
@@ -90,8 +110,6 @@
   transition-property: all;
   transition-timing-function: ease-in-out;
   vertical-align: middle;
-  width: 43%;
-
   color: #fff;
   background-color: #202124;
 }
@@ -106,7 +124,6 @@
   text-decoration: none;
   vertical-align: middle;
   display: flex;
-  width: 43%;
   color: #fff;
   background-color: #202124;
 
@@ -122,5 +139,16 @@
     text-decoration: none;
     width: 100%;
     background-color: #202124;
+
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
   }
 }
