@@ -9,6 +9,7 @@ import {arrayToList, fullDate, fullLang} from "../../../helper/additionalFun";
 import ExternalLinks from "../../ExternalLinks";
 import Carousel from "../../Carousel";
 import {TvInfoPropsType} from "./types";
+import AddToCatalog from "../../AddToCatalog";
 
 const TvInfo:FC<TvInfoPropsType> = ({item}) => {
 
@@ -65,7 +66,6 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
 
     }, [item.id, recommendTv])
 
-    console.log(item);
 
     return (
         <>
@@ -187,6 +187,7 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
+                <AddToCatalog _id={item.id} type={"tv"}/>
                 {(item.external_ids.facebook_id
                         || item.external_ids.imdb_id
                         || item.external_ids.instagram_id

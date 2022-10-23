@@ -5,7 +5,6 @@ import {CarouselPropsType, CarouselType} from "./types";
 import {apiImgUrl} from "../../api/zxc";
 import {cinemaProps} from "../../types/MainPageTypes";
 import {Link} from "react-router-dom";
-import "../../mixins/Carousel.js";
 import {castProps} from "../../types/MoviePageTypes";
 import {rating} from "../../helper/additionalFun";
 

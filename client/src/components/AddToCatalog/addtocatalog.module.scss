@@ -65,7 +65,6 @@
 }
 
 .form_user_status {
-
   appearance: none;
   background-image: url("https://cdn.myanimelist.net/images/icon-triangles-select.png?v=1634263200");
   background-position: 110px 8px;
@@ -87,8 +86,38 @@
   vertical-align: middle;
   color: #fff;
   background-color: #202124;
-
 }
+
+.status_watching{
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-watching.png?v=1634263200");
+  border: #2db039 1px solid;
+  color: #2db039;
+}
+
+.status_completed{
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-completed.png?v=1634263200");
+  border: #26448f 1px solid;
+  color: #26448f;
+}
+
+.status_on_hold{
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-hold.png?v=1634263200");
+  border: #e7b715 1px solid;
+  color: #e7b715;
+}
+
+.status_dropped{
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-dropped.png?v=1634263200");
+  border: #a12f31 1px solid;
+  color: #a12f31;
+}
+
+.status_platWatch{
+  background-image: url("https://cdn.myanimelist.net/images/icon-triangles-planto.png?v=1634263200");
+  border: #8424a7 1px solid;
+  color: #8424a7;
+}
+
 
 .form_user_score {
   appearance: none;

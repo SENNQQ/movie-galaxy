@@ -3,13 +3,19 @@ import st from './addtocatalog.module.scss'
 import {AddToCatalogPropsType} from "./types";
 import axios from "../../axios";
 import cn from "classnames";
+import {episodesType} from "../TV/Episodes/types";
 
 interface iEntry {
-    id: number,
+    id?: number,
     mt_id: number,
     score: number,
     status: number,
     watchedep: string
+}
+
+interface iSeasons {
+    season: number,
+    episodes: episodesType[]
 }
 
 const AddToCatalog: FC<AddToCatalogPropsType> = ({
@@ -24,14 +30,32 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
     const refScore = useRef<HTMLSelectElement>(null);
     const refEpisodesCount = useRef<HTMLInputElement>(null);
 
-    const [EntryData, setEntryData] = useState<iEntry>();
+    const [EntryData, setEntryData] = useState<iEntry>({
+        mt_id: _id,
+        score: 0,
+        status: 1,
+        watchedep: ""
+    });
 
-    const calcCountEpisodes = () =>{
-        if(type==="movie"){
+
+    const calcCountEpisodes = () => {
+        if (type === "movie") {
             return 1
-        }else{
+        } else {
             return 10
         }
+    }
+
+    const seasons = (): iSeasons[] => {
+        const seasons: iSeasons[] = [];
+        for (let index = 0; index < 2; index++) {
+            seasons.push({
+                season: index + 1,
+                episodes: [],
+            });
+        }
+        seasons.sort((a, b) => a.season > b.season ? -1 : 1);
+        return seasons;
     }
 
     useEffect(() => {
@@ -46,60 +70,116 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
             if (resolve.status !== 204) {
                 setIsEntry(true);
                 setEntryData({...resolve.data.data})
+            } else {
+                setEntryData({
+                    mt_id: _id,
+                    score: 0,
+                    status: 1,
+                    watchedep: ""
+                });
             }
         })
     }, [_id])
 
-    useEffect(()=>{
-       if(EntryData){
-           refStatus.current!.selectedIndex = EntryData.status-1;
-           refScore.current!.selectedIndex = EntryData.score;
-           refEpisodesCount.current!.value = EntryData.watchedep;
-       }
+    useEffect(() => {
+        if (isEntry) {
+            refStatus.current!.selectedIndex = EntryData.status - 1;
+            refScore.current!.selectedIndex = EntryData.score;
+            refEpisodesCount.current!.value = EntryData.watchedep;
+        } else {
+            refScore.current!.selectedIndex = 0;
+            refEpisodesCount.current!.value = '';
+        }
     }, [EntryData])
 
-    const onChangeInput = () =>{
+    const onChangeInput = () => {
         setLoading(true);
-        setIsEntry(true);
 
         let watchedEpCount = refEpisodesCount.current!.value === "" ? "0" : refEpisodesCount.current!.value;
-        if(parseInt(watchedEpCount) > calcCountEpisodes())
+        if (parseInt(watchedEpCount) > calcCountEpisodes())
             watchedEpCount = "0";
 
-        if(!isEntry){
+        if (!isEntry) {
             const data = async () => {
                 return await axios.post('/api/catalog/createEntry', {
-                    score:refScore.current!.value,
-                    status:"1",
-                    watchedEp:watchedEpCount,
-                    mt_id:_id,
+                    score: refScore.current!.value,
+                    status: "1",
+                    watchedEp: watchedEpCount,
+                    mt_id: _id,
                 })
             }
-            data().then(()=>setLoading(false))
+            data().then(() => setLoading(false))
         }
-        else{
+        else {
             const data = async () => {
                 return await axios.patch('/api/catalog/update', {
-                    score:refScore.current!.value,
-                    status:refStatus.current!.value,
-                    watchedEp:watchedEpCount,
-                    mt_id:_id,
+                    score: refScore.current!.value,
+                    status: refStatus.current!.value,
+                    watchedEp: watchedEpCount,
+                    mt_id: _id,
                 })
             }
-            data().then(()=>setLoading(false))
+            data().then((resolve) => {
+                if(resolve.data.success){
+                    setLoading(false)
+                    setEntryData({
+                        ...EntryData,
+                        status: parseInt(refStatus.current!.value),
+                        score: parseInt(refScore.current!.value),
+                        watchedep: watchedEpCount
+                    })
+                } else{
+                    console.log(resolve.data.error)
+                }
+            })
         }
+    }
 
+    const addToCatalog = () => {
+        setLoading(true);
+
+        if (!isEntry) {
+            const data = async () => {
+                return await axios.post('/api/catalog/createEntry', {
+                    score: "0",
+                    status: "1",
+                    watchedEp: "0",
+                    mt_id: _id,
+                })
+            }
+            data().then((resolve) => {
+                if(resolve.data.status){
+                    setLoading(false)
+                    setIsEntry(true)
+                    setEntryData({
+                        ...EntryData,
+                        status: 1,
+                        score: parseInt(refScore.current!.value),
+                        watchedep: ''
+                    })
+                }
+                else {
+                    console.log(resolve.data.error)
+                }
+
+            })
+        }
 
     }
 
-
     return (
-        <div className={cn(st.user_status_block, {[st.on]:loading})}>
+        <div className={cn(st.user_status_block, {[st.on]: loading})}>
             {isEntry
                 ?
                 <select name="myinfo_status"
                         id="myinfo_status"
-                        className={st.form_user_status}
+                        className={cn(st.form_user_status, {
+                            [st.status_watching]: EntryData?.status === 1,
+                            [st.status_completed]: EntryData?.status === 2,
+                            [st.status_on_hold]: EntryData?.status === 3,
+                            [st.status_dropped]: EntryData?.status === 4,
+                            [st.status_platWatch]: EntryData?.status === 5
+                        })}
                         onChange={onChangeInput}
                         ref={refStatus}>
                     <option value="1">Watching</option>
@@ -109,7 +189,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                     <option value="5">Plan to Watch</option>
                 </select>
                 :
-                <div className={st.user_status_add_list}>
+                <div className={st.user_status_add_list} onClick={() => addToCatalog()}>
                     Add to Catalog
                 </div>}
 
