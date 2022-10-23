@@ -3,7 +3,7 @@ import st from './addtocatalog.module.scss'
 import {AddToCatalogPropsType} from "./types";
 import axios from "../../axios";
 import cn from "classnames";
-import {episodesType} from "../TV/Episodes/types";
+import { getTvShowEpisodesCount } from "../../api/zxc";
 
 interface iEntry {
     id?: number,
@@ -11,11 +11,6 @@ interface iEntry {
     score: number,
     status: number,
     watchedep: string
-}
-
-interface iSeasons {
-    season: number,
-    episodes: episodesType[]
 }
 
 const AddToCatalog: FC<AddToCatalogPropsType> = ({
@@ -29,6 +24,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
     const refStatus = useRef<HTMLSelectElement>(null);
     const refScore = useRef<HTMLSelectElement>(null);
     const refEpisodesCount = useRef<HTMLInputElement>(null);
+    const [countEpisodes, setCountEpisodes] = useState(1);
 
     const [EntryData, setEntryData] = useState<iEntry>({
         mt_id: _id,
@@ -37,28 +33,22 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
         watchedep: ""
     });
 
-
-    const calcCountEpisodes = () => {
-        if (type === "movie") {
+    const calcCountEpisodes = async () => {
+        if(type ==="movie"){
             return 1
-        } else {
-            return 10
+        }
+        else{
+            return await getTvShowEpisodesCount(_id)
         }
     }
 
-    const seasons = (): iSeasons[] => {
-        const seasons: iSeasons[] = [];
-        for (let index = 0; index < 2; index++) {
-            seasons.push({
-                season: index + 1,
-                episodes: [],
-            });
-        }
-        seasons.sort((a, b) => a.season > b.season ? -1 : 1);
-        return seasons;
-    }
 
     useEffect(() => {
+
+        calcCountEpisodes().then(response=>{
+            setCountEpisodes(response)
+        });
+
         const data = async () => {
             return await axios.get('/api/catalog/get/', {
                 params: {
@@ -96,7 +86,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
         setLoading(true);
 
         let watchedEpCount = refEpisodesCount.current!.value === "" ? "0" : refEpisodesCount.current!.value;
-        if (parseInt(watchedEpCount) > calcCountEpisodes())
+        if (parseInt(watchedEpCount) > countEpisodes)
             watchedEpCount = "0";
 
         if (!isEntry) {
@@ -202,7 +192,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                        onChange={onChangeInput}
                        ref={refEpisodesCount}/>
                 <span> / </span>
-                <span> {calcCountEpisodes()} </span>
+                <span> {countEpisodes} </span>
             </div>
             <select name="myinfo_score"
                     id="myinfo_score"

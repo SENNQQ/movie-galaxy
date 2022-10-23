@@ -17,18 +17,18 @@ export const apiImgUrl = 'https://image.tmdb.org/t/p';
  */
 const lists = {
     movie: [
-        { title: 'Trending Movies', query: 'trending' },
-        { title: 'Popular Movies', query: 'popular' },
-        { title: 'Top Rated Movies', query: 'top_rated' },
-        { title: 'Upcoming Movies', query: 'upcoming' },
-        { title: 'Now Playing Movies', query: 'now_playing' },
+        {title: 'Trending Movies', query: 'trending'},
+        {title: 'Popular Movies', query: 'popular'},
+        {title: 'Top Rated Movies', query: 'top_rated'},
+        {title: 'Upcoming Movies', query: 'upcoming'},
+        {title: 'Now Playing Movies', query: 'now_playing'},
     ],
     tv: [
-        { title: 'Trending TV Shows', query: 'trending' },
-        { title: 'Popular TV Shows', query: 'popular' },
-        { title: 'Top Rated TV Shows', query: 'top_rated' },
-        { title: 'Currently Airing TV Shows', query: 'on_the_air' },
-        { title: 'TV Shows Airing Today', query: 'airing_today' },
+        {title: 'Trending TV Shows', query: 'trending'},
+        {title: 'Popular TV Shows', query: 'popular'},
+        {title: 'Top Rated TV Shows', query: 'top_rated'},
+        {title: 'Currently Airing TV Shows', query: 'on_the_air'},
+        {title: 'TV Shows Airing Today', query: 'airing_today'},
     ],
 }
 
@@ -241,7 +241,7 @@ export function getListItem(type, query) {
 /**
  * Get TV shows (listing)
  */
-export function getTvShows (query, page = 1) {
+export function getTvShows(query, page = 1) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/tv/${query}`, {
             params: {
@@ -252,7 +252,7 @@ export function getTvShows (query, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -273,7 +273,7 @@ export function getTvShow(id, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -281,7 +281,7 @@ export function getTvShow(id, page = 1) {
 /**
  * Get TV show recommended (single)
  */
-export function getTvShowRecommended (id, page = 1) {
+export function getTvShowRecommended(id, page = 1) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/tv/${id}/recommendations`, {
             params: {
@@ -292,7 +292,7 @@ export function getTvShowRecommended (id, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -300,7 +300,7 @@ export function getTvShowRecommended (id, page = 1) {
 /**
  * Get TV show episodes from season (single)
  */
-export function getTvShowEpisodes (id, season) {
+export function getTvShowEpisodes(id, season) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/tv/${id}/season/${season}`, {
             params: {
@@ -310,16 +310,42 @@ export function getTvShowEpisodes (id, season) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
 
+/**
+ * Get number of TV show episodes (single)
+ */
+export function getTvShowEpisodesCount(id) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/tv/${id}`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+            },
+        }).then((response) => {
+            if (response.data.seasons) {
+
+                let countEpisodes = response.data.seasons.map((item) => {
+                        if (item.season_number !== 0)
+                            return item.episode_count
+                        return 0
+                    }
+                ).reduce((total, count) => total + count)
+                resolve(countEpisodes);
+            }
+        }).catch((error) => {
+            reject(error);
+        });
+    });
+}
 
 /**
  * Get movies (listing)
  */
-export function getMovies (query, page = 1) {
+export function getMovies(query, page = 1) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/movie/${query}`, {
             params: {
@@ -331,7 +357,7 @@ export function getMovies (query, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -353,7 +379,7 @@ export function getMovie(id, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -372,7 +398,7 @@ export function getTrending(media, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -391,7 +417,7 @@ export function getMovieRecommended(id, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -407,12 +433,12 @@ export function getYouTubeVideo(id) {
                 key: config.API_YOUTUBE_KEY,
                 id,
                 part: 'contentDetails',
-                access_token:config.API_YOUTUBE_KEY_CLIENT
+                access_token: config.API_YOUTUBE_KEY_CLIENT
             },
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -421,7 +447,7 @@ export function getYouTubeVideo(id) {
 /**
  * Get person (single)
  */
-export function getPerson (id) {
+export function getPerson(id) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/person/${id}`, {
             params: {
@@ -433,15 +459,15 @@ export function getPerson (id) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
-            });
+            reject(error);
+        });
     });
 }
 
 /**
  * Get genre list
  */
-export function getGenreList (media) {
+export function getGenreList(media) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/genre/${media}/list`, {
             params: {
@@ -450,7 +476,7 @@ export function getGenreList (media) {
         }).then((response) => {
             resolve(response.data.genres);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
@@ -458,7 +484,7 @@ export function getGenreList (media) {
 /**
  * Discover media by genre
  */
-export function getMediaByGenre (media, genre, page = 1) {
+export function getMediaByGenre(media, genre, page = 1) {
     return new Promise((resolve, reject) => {
         axios.get(`${apiUrl}/discover/${media}`, {
             params: {
@@ -470,7 +496,7 @@ export function getMediaByGenre (media, genre, page = 1) {
         }).then((response) => {
             resolve(response.data);
         }).catch((error) => {
-                reject(error);
+            reject(error);
         });
     });
 }
