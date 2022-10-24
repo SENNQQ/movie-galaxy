@@ -1,12 +1,21 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import st from './sidebar.module.scss';
 import {Link} from "react-router-dom";
-import {useAppSelector} from "../../../store/hook";
+import {useAppDispatch, useAppSelector} from "../../../store/hook";
+import {fetchCatalog} from "../../../store/catalog/slice";
 
 
 const Sidebar = () => {
 
-    const {load} = useAppSelector(selector => selector.user)
+    const {load} = useAppSelector(selector => selector.user);
+    const dispatch = useAppDispatch();
+
+    useEffect(()=>{
+         console.log(load);
+         if(load){
+             dispatch(fetchCatalog());
+         }
+    }, [dispatch, load])
 
     return (
         <aside>

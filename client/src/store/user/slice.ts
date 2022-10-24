@@ -115,7 +115,6 @@ const userSlice = createSlice({
         });
         builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
             state.load = false
-            console.log(action);
             state.error = action.payload.message
         });
     }

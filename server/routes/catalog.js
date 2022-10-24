@@ -1,7 +1,7 @@
 import {Router} from 'express';
 
 
-import * as CatalogController from '../controllers/CatalogController.js';
+import * as CatalogController from '../controllers/AddCatalogController.js';
 import checkAuth from "../middleware/checkAuth.js";
 
 

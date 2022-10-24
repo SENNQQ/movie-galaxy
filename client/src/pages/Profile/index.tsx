@@ -11,6 +11,7 @@ import {setAvatar, updateUser} from "../../store/user/slice";
 import axios from "../../axios";
 
 
+
 type FormInputs = {
     surname: string;
     name: string;
@@ -30,10 +31,10 @@ const Profile = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
     const {userData, load, error} = useAppSelector(state => state.user);
-
-
+    const {catalogData} = useAppSelector(state => state.catalog)
+    console.log(catalogData);
     const dispatch = useAppDispatch();
-
+    
 
     const schema = yup.object().shape({
         image: yup
@@ -68,6 +69,7 @@ const Profile = () => {
     const onSubmit = async (dataForm: FormInputs) => {
         dispatch(updateUser({...dataForm, id: userData!.clients_id}))
     }
+
     const onSubmitImage: SubmitHandler<FormImage> = async ({image}) => {
         try {
             const formData = new FormData();
