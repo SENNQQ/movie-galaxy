@@ -21,9 +21,9 @@ export const getAllEntryCatalog = async (req, res) => {
         else {
             res.status(200).json({
                 success: true,
-                data: {
+                data: [
                     ...arr,
-                },
+                ],
             });
         }
     }

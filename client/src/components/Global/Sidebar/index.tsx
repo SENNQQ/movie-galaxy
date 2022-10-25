@@ -11,7 +11,6 @@ const Sidebar = () => {
     const dispatch = useAppDispatch();
 
     useEffect(()=>{
-         console.log(load);
          if(load){
              dispatch(fetchCatalog());
          }

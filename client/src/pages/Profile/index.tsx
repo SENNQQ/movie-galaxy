@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import cn from "classnames";
 import * as yup from 'yup';
@@ -9,7 +9,8 @@ import LoadableImage from "../../components/LoadableImage";
 import {useAppDispatch, useAppSelector} from "../../store/hook";
 import {setAvatar, updateUser} from "../../store/user/slice";
 import axios from "../../axios";
-
+import {catalogType} from "../../store/catalog/types";
+import {getTvShowEpisodesCount} from "../../api/zxc";
 
 
 type FormInputs = {
@@ -30,11 +31,20 @@ type FormImage = {
 const Profile = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
-    const {userData, load, error} = useAppSelector(state => state.user);
+    const {userData, } = useAppSelector(state => state.user);
     const {catalogData} = useAppSelector(state => state.catalog)
-    console.log(catalogData);
+
+    const ContainerStats = useRef<HTMLDivElement>(null);
+    const [pixelMult, setPixelMult] = useState(6.2);
+
+    const [watching, setWatching] = useState<catalogType[]>();
+    const [completed, setCompleted] = useState<catalogType[]>();
+    const [on_hold, setOn_hold] = useState<catalogType[]>();
+    const [dropped, setDropped] = useState<catalogType[]>();
+    const [plan_to_watch, setPlan_to_watch] = useState<catalogType[]>();
+
+
     const dispatch = useAppDispatch();
-    
 
     const schema = yup.object().shape({
         image: yup
@@ -49,6 +59,26 @@ const Profile = () => {
     });
 
     const imageForm = useForm<FormImage>({resolver: yupResolver(schema)});
+
+    const onSubmit = async (dataForm: FormInputs) => {
+        dispatch(updateUser({...dataForm, id: userData!.clients_id}))
+    }
+
+    const onSubmitImage: SubmitHandler<FormImage> = async ({image}) => {
+        try {
+            const formData = new FormData();
+            formData.append('avatar', image[0]);
+            const {data} = await axios.post<{ success: boolean, message: string, url: string }>('/upload', formData);
+
+            if (data.success) {
+                await axios.patch('/api/auth/update', {avatar: data.url, id: userData!.clients_id});
+                dispatch(setAvatar(data.url));
+            }
+
+        } catch (e) {
+            return console.log('error');
+        }
+    };
 
     useEffect(() => {
         if (userData) {
@@ -66,25 +96,32 @@ const Profile = () => {
         }
     }, [setValue, userData])
 
-    const onSubmit = async (dataForm: FormInputs) => {
-        dispatch(updateUser({...dataForm, id: userData!.clients_id}))
-    }
-
-    const onSubmitImage: SubmitHandler<FormImage> = async ({image}) => {
-        try {
-            const formData = new FormData();
-            formData.append('avatar', image[0]);
-            const {data} = await axios.post<{ success: boolean, message: string, url: string }>('/upload', formData);
-
-            if (data.success) {
-                await axios.patch('/api/auth/update', {avatar: data.url, id:userData!.clients_id});
-                dispatch(setAvatar(data.url));
-            }
-
-        } catch (e) {
-            return console.log('error');
+    useEffect(() => {
+        if (catalogData && ContainerStats.current) {
+            setPixelMult((ContainerStats.current.offsetWidth / catalogData.length));
+            setWatching(catalogData.filter(item => item.status === 1))
+            setCompleted(catalogData.filter(item => item.status === 2))
+            setOn_hold(catalogData.filter(item => item.status === 3))
+            setDropped(catalogData.filter(item => item.status === 4))
+            setPlan_to_watch(catalogData.filter(item => item.status === 5))
         }
-    };
+    }, [catalogData]);
+
+    // const calcCountEpisodes = async (_id:number) => {
+    //     return await getTvShowEpisodesCount(_id)
+    // }
+
+    // useEffect(() => {
+    //
+    //    if(catalogData){
+    //     catalogData.map((item)=>{
+    //         calcCountEpisodes(item.mt_id).then(response=>{
+    //             console.log(response)
+    //         });
+    //     })
+    //
+    //    }
+    // }, [])
 
     return (
         <div className={"spacing"}>
@@ -104,7 +141,8 @@ const Profile = () => {
                                             <>
                                                 <label htmlFor="image">
                                                     <div className="add_picture">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px" height="18px"
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="18px"
+                                                             height="18px"
                                                              version="1.1"
                                                              id="Capa_1" x="0px" y="0px" viewBox="0 0 52 52"
                                                              className="plus_circle"
@@ -130,9 +168,6 @@ const Profile = () => {
                                                         <span className="text">Add Picture</span>
                                                     </div>
                                                 </label>
-                                                {/*<div className="form_block">*/}
-                                                {/*    <button className="btn" type="submit">Save</button>*/}
-                                                {/*</div>*/}
                                                 <input accept="image/png, image/jpeg"
                                                        className="form-control"
                                                        type="file"
@@ -338,44 +373,66 @@ const Profile = () => {
                                         <span className="score_label">8.25</span>
                                     </div>
                                 </div>
-                                <div className="stats_graph">
-                                    <span className="graph watching" style={{width: 60}}></span>
-                                    <span className="graph completed" style={{width: 354.2}}></span>
-                                    <span className="graph on_hold" style={{width: 20}}></span>
-                                    <span className="graph dropped" style={{width: 40}}></span>
-                                    <span className="graph plan_to_watch" style={{width: 25.7}}></span>
+
+                                <div className="stats_graph" ref={ContainerStats}>
+                                    {
+                                        watching &&
+                                        completed &&
+                                        on_hold &&
+                                        dropped &&
+                                        plan_to_watch &&
+                                        <>
+                                            <span className="graph watching"
+                                                  style={{width: watching.length * pixelMult}}></span>
+                                            <span className="graph completed"
+                                                  style={{width: completed.length * pixelMult}}></span>
+                                            <span className="graph on_hold"
+                                                  style={{width: on_hold.length * pixelMult}}></span>
+                                            <span className="graph dropped"
+                                                  style={{width: dropped.length * pixelMult}}></span>
+                                            <span className="graph plan_to_watch"
+                                                  style={{width: plan_to_watch.length * pixelMult}}></span>
+                                        </>
+                                    }
                                 </div>
+
                                 <div className="stat_catalog">
                                     <ul className="stats_status">
                                         <li className="clearfix">
                                             <a href="#" className="circle watching">Watching</a>
-                                            <span className="di-ib fl-r lh10">2</span>
+                                            <span className="di-ib fl-r lh10">
+                                                {watching ? watching.length : 0}
+                                            </span>
                                         </li>
                                         <li className="clearfix">
                                             <a href="#" className="circle completed">Completed</a>
-                                            <span className="di-ib fl-r lh10">55</span>
+                                            <span className="di-ib fl-r lh10">
+                                                {completed ? completed.length : 0}
+                                            </span>
                                         </li>
                                         <li className="clearfix">
                                             <a href="#" className="circle on_hold">On-Hold</a>
-                                            <span className="di-ib fl-r lh10">0</span>
+                                            <span className="di-ib fl-r lh10">
+                                                {on_hold ? on_hold.length : 0}
+                                            </span>
                                         </li>
                                         <li className="clearfix">
                                             <a href="#" className="circle dropped">Dropped</a>
-                                            <span className="di-ib fl-r lh10">0</span>
+                                            <span className="di-ib fl-r lh10">
+                                                {dropped ? dropped.length : 0}
+                                            </span>
                                         </li>
                                         <li className="clearfix">
                                             <a href="#" className="circle plan_to_watch">Plan to Watch</a>
-                                            <span className="di-ib fl-r lh10">2</span>
+                                            <span className="di-ib fl-r lh10">
+                                                {plan_to_watch ? plan_to_watch.length : 0}
+                                            </span>
                                         </li>
                                     </ul>
                                     <ul className="stats_data">
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Total Entries</span>
-                                            <span className="stats_data__count">59</span>
-                                        </li>
-                                        <li className="clearfix">
-                                            <span className="stats_data_entries">Rewatched</span>
-                                            <span className="stats_data__count">0</span>
+                                            <span className="stats_data__count"> {catalogData ? catalogData.length : 0}</span>
                                         </li>
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Episodes</span>
