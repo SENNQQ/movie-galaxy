@@ -337,7 +337,7 @@ export function getTvShowEpisodesCount(id) {
                 resolve(countEpisodes);
             }
         }).catch((error) => {
-            resolve(1)
+            reject(error);
         });
     });
 }

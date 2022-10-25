@@ -180,7 +180,11 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <AddToCatalog _id={item.id} type={"movie"}/>
+                <AddToCatalog _id={item.id}
+                              type={"movie"}
+                              img={posterItem ? item.poster_path : undefined}
+                              name_mt={item.name}
+                />
                 {(item.external_ids.facebook_id
                     || item.external_ids.imdb_id
                     || item.external_ids.instagram_id

@@ -9,6 +9,7 @@ const router = Router();
 
 
 router.get('/get', checkAuth, ProfileController.getAllEntryCatalog); // Роут получения всех записей каталога
+router.get('/getHistory', checkAuth, ProfileController.getHistoryLastThree); // Роут получения последних 3 записей
 
 
 export default router;

@@ -4,13 +4,15 @@ import cn from "classnames";
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 import '../../style/profile.scss';
-import tempImage from '../../image/zOGINv5sJxEZQWw2dGuO8JUzvyK.jpg';
 import LoadableImage from "../../components/LoadableImage";
 import {useAppDispatch, useAppSelector} from "../../store/hook";
 import {setAvatar, updateUser} from "../../store/user/slice";
 import axios from "../../axios";
 import {catalogType} from "../../store/catalog/types";
-import {getTvShowEpisodesCount} from "../../api/zxc";
+import {formatAMPM} from "../../helper/dateFormat";
+import {Link} from "react-router-dom";
+import {apiImgUrl} from "../../api/zxc";
+
 
 
 type FormInputs = {
@@ -37,12 +39,21 @@ const Profile = () => {
     const ContainerStats = useRef<HTMLDivElement>(null);
     const [pixelMult, setPixelMult] = useState(6.2);
 
+    const [lastUpdate, setLastUpdate] = useState<catalogType[]>();
+
     const [watching, setWatching] = useState<catalogType[]>();
     const [completed, setCompleted] = useState<catalogType[]>();
     const [on_hold, setOn_hold] = useState<catalogType[]>();
     const [dropped, setDropped] = useState<catalogType[]>();
     const [plan_to_watch, setPlan_to_watch] = useState<catalogType[]>();
 
+    const poster = (item:string) => {
+        if (item) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${item}`;
+        } else {
+            return '';
+        }
+    };
 
     const dispatch = useAppDispatch();
 
@@ -50,7 +61,6 @@ const Profile = () => {
         image: yup
             .mixed()
             .test('fileSize', 'Размер файла не должен превышать 20МБ', (value) => {
-                console.log(value)
                 return value && value[0].size <= 20 * 1024 * 1024;
             })
             .test('type', 'Допустимые форматы: png, jpg', value => {
@@ -107,21 +117,27 @@ const Profile = () => {
         }
     }, [catalogData]);
 
-    // const calcCountEpisodes = async (_id:number) => {
-    //     return await getTvShowEpisodesCount(_id)
-    // }
+    useEffect(()=>{
+        const data = async () => {
+            return await axios.get('/api/profile/getHistory/',)
+        }
+        data().then(resolve => {
+            if (resolve.status !== 204) {
+                setLastUpdate(resolve.data.data);
+            }
+            else {
+                console.log(resolve.data.error)
+            }
+        })
+    }, [])
 
-    // useEffect(() => {
-    //
-    //    if(catalogData){
-    //     catalogData.map((item)=>{
-    //         calcCountEpisodes(item.mt_id).then(response=>{
-    //             console.log(response)
-    //         });
-    //     })
-    //
-    //    }
-    // }, [])
+    useEffect(()=>{
+       if(lastUpdate){
+           console.log(lastUpdate);
+           console.log(lastUpdate[0].watchedep)
+           console.log(formatAMPM(lastUpdate[0].last_update))
+       }
+    }, [lastUpdate])
 
     return (
         <div className={"spacing"}>
@@ -366,11 +382,16 @@ const Profile = () => {
                                 <div className="stat_score">
                                     <div className="stat_score__days">
                                         <span>Days: </span>
-                                        <span className="score_label">37.1</span>
+                                        <span className="score_label">{catalogData ?
+                                            (catalogData.length*35/60)
+                                                .toFixed(2) : 0}</span>
                                     </div>
                                     <div className="stat_score__mean">
                                         <span>Mean Score: </span>
-                                        <span className="score_label">8.25</span>
+                                        <span className="score_label">{catalogData ?
+                                            (catalogData.map((item) => item.score)
+                                                .reduce((prev,current) => (prev+current))/catalogData.length)
+                                                .toFixed(2) : 0}</span>
                                     </div>
                                 </div>
 
@@ -436,7 +457,9 @@ const Profile = () => {
                                         </li>
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Episodes</span>
-                                            <span className="stats_data__count">2,232</span>
+                                            <span className="stats_data__count">{catalogData ?
+                                                catalogData.map((item) => item.episodes)
+                                                    .reduce((prev,current) => prev+current) : 0}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -446,68 +469,47 @@ const Profile = () => {
                             <div className="last_updates">
                                 <h5 className="history">
                                     Last Updates
-                                    <a href="">History</a>
+                                    {/*<a href="">History</a>*/}
                                 </h5>
-                                <div className="last_updates_item">
-                                    <a href="" className="history_image">
-                                        <LoadableImage src={tempImage} alt=""/>
-                                    </a>
-                                    <div className="last_updates_item__data">
-                                        <a href="">TOG GUN: MAVARIC</a>
-                                        <div className="graph_content">
-                                            <div className="graph">
-                                                <span className="graph_inner completed" style={{width: 300}}></span>
+                                {lastUpdate && lastUpdate.map((item) =>(
+                                    <div className="last_updates_item" key={`history-last-${item.id}-${item.name_mt_id}`}>
+                                        <Link to={item.type_mt === 'tv' ? `/tv/${item.mt_id}` : `/movie/${item.mt_id}`}
+                                              className="history_image">
+                                            <LoadableImage src={poster(item.img_string)} alt=""/>
+                                        </Link>
+                                        <div className="last_updates_item__data">
+                                            <a href="">{item.name_mt_id}</a>
+                                            <div className="graph_content">
+                                                <div className="graph">
+                                                    <span className={cn("graph_inner", {
+                                                        'watching': item.status === 1,
+                                                        'completed': item.status === 2,
+                                                        'on_hold': item.status === 3,
+                                                        'dropped': item.status === 4,
+                                                        'plan_to_watch': item.status === 5
+                                                    })} style={{width: (350/item.episodes)*item.watchedep}}></span>
+                                                </div>
+                                                <span className="zxc">{formatAMPM(item.last_update)}</span>
                                             </div>
-                                            <span className="zxc">Sep 26, 9:02 AM</span>
-                                        </div>
-                                        <div className="condition">
-                                            Completed
-                                            <span className="text completed"> 13</span>
-                                            /13 · Score
-                                            <span className="text score_label"> 9</span>
+                                            <div className="condition">
+                                                {item.status === 1 && 'Watching'}
+                                                {item.status === 2 && 'Completed'}
+                                                {item.status === 3 && 'On-Hold'}
+                                                {item.status === 4 && 'Dropped'}
+                                                {item.status === 5 && 'Plan to Watch'}
+                                                <span className={cn("text", {
+                                                    'watching': item.status === 1,
+                                                    'completed': item.status === 2,
+                                                    'on_hold': item.status === 3,
+                                                    'dropped': item.status === 4,
+                                                    'plan_to_watch': item.status === 5
+                                                })}> {item.watchedep}</span>
+                                                /{item.episodes} · Score
+                                                <span className="text score_label"> {item.score}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="last_updates_item">
-                                    <a href="" className="history_image">
-                                        <LoadableImage src={tempImage} alt=""/>
-                                    </a>
-                                    <div className="last_updates_item__data">
-                                        <a href="">TOG GUN: MAVARIC</a>
-                                        <div className="graph_content">
-                                            <div className="graph">
-                                                <span className="graph_inner completed" style={{width: 300}}></span>
-                                            </div>
-                                            <span className="zxc">Sep 26, 9:02 AM</span>
-                                        </div>
-                                        <div className="condition">
-                                            Completed
-                                            <span className="text completed"> 13</span>
-                                            /13 · Score
-                                            <span className="text score_label"> 9</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="last_updates_item">
-                                    <a href="" className="history_image">
-                                        <LoadableImage src={tempImage} alt=""/>
-                                    </a>
-                                    <div className="last_updates_item__data">
-                                        <a href="">TOG GUN: MAVARIC</a>
-                                        <div className="graph_content">
-                                            <div className="graph">
-                                                <span className="graph_inner completed" style={{width: 300}}></span>
-                                            </div>
-                                            <span className="zxc">Sep 26, 9:02 AM</span>
-                                        </div>
-                                        <div className="condition">
-                                            Completed
-                                            <span className="text completed"> 13</span>
-                                            /13 · Score
-                                            <span className="text score_label"> 9</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
                         </div>
                     </div>

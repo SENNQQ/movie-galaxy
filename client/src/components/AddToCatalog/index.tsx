@@ -15,7 +15,9 @@ interface iEntry {
 
 const AddToCatalog: FC<AddToCatalogPropsType> = ({
                                                      _id,
-                                                     type
+                                                     type,
+                                                     img,
+                                                     name_mt
                                                  }) => {
 
     const [isEntry, setIsEntry] = useState(false);
@@ -69,7 +71,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                 });
             }
         })
-    }, [_id])
+    }, [_id, calcCountEpisodes])
 
     useEffect(() => {
         if (isEntry) {
@@ -96,9 +98,22 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                     status: "1",
                     watchedEp: watchedEpCount,
                     mt_id: _id,
+                    type_mt:type,
+                    episodes:countEpisodes,
+                    img:img,
+                    name_mt:name_mt
                 })
             }
-            data().then(() => setLoading(false))
+            data().then(() => {
+                setLoading(false)
+                setIsEntry(true)
+                setEntryData({
+                    mt_id: _id,
+                    status: 1,
+                    score: parseInt(refScore.current!.value),
+                    watchedep: watchedEpCount
+                })
+            })
         }
         else {
             const data = async () => {
@@ -107,6 +122,10 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                     status: refStatus.current!.value,
                     watchedEp: watchedEpCount,
                     mt_id: _id,
+                    type_mt:type,
+                    episodes:countEpisodes,
+                    img:img,
+                    name_mt:name_mt
                 })
             }
             data().then((resolve) => {
@@ -135,6 +154,10 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                     status: "1",
                     watchedEp: "0",
                     mt_id: _id,
+                    type_mt:type,
+                    episodes:countEpisodes,
+                    img:img,
+                    name_mt:name_mt
                 })
             }
             data().then((resolve) => {
@@ -189,7 +212,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                        id="my_info_watchedeps"
                        className={st.form_user_episode__input}
                        name="myinfo_watchedeps"
-                       onChange={onChangeInput}
+                       onBlur={onChangeInput}
                        ref={refEpisodesCount}/>
                 <span> / </span>
                 <span> {countEpisodes} </span>

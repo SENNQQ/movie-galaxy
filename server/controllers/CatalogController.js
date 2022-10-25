@@ -32,18 +32,23 @@ export const get = async (req, res) => {
 
 }
 
+
+
 export const createEntry = async (req, res) => {
 
     const id = req.id;
-    const {status, score, watchedEp, mt_id} = req.body;
-
+    const {status, score, watchedEp, mt_id, type_mt, episodes, img, name_mt} = req.body;
+    console.log(type_mt);
     try {
 
         // Вставка данных в базу данных
-        await pool.query(`INSERT INTO catalog (clients_id, mt_id, score, watchedep, status) VALUES ($1,$2,$3, $4, $5);`,
-            [id, mt_id, score, watchedEp, status],
+        await pool.query(`INSERT INTO catalog (clients_id, mt_id, score, watchedep, status, type_mt, 
+                                                                                episodes, img_string, name_mt_id) 
+                            VALUES ($1,$2,$3, $4, $5, $6, $7, $8, $9);`,
+            [id, mt_id, score, watchedEp, status, type_mt, episodes, img, name_mt],
             (err) => {
                 if (err) {
+                    console.log(err);
                     return res.status(500).json({
                         error: "Database error"
                     })
@@ -65,11 +70,15 @@ export const updateEntry = async (req, res) => {
 
     try {
         const id = req.id;
-        const {status, score, watchedEp, mt_id} = req.body;
+        const {status, score, watchedEp, mt_id, episodes, img, name_mt} = req.body;
         // Обновление данных каталога
-        await pool.query(`UPDATE catalog SET score = $1, status = $2, watchedep = $3 WHERE clients_id = $4 and mt_id = $5;`,
-            [score, status, watchedEp, id, mt_id], (err, resolve) => {
+        await pool.query(`UPDATE catalog SET score = $1, status = $2, watchedep = $3, 
+                            episodes = $4, img_string = $5, name_mt_id = $6
+                            WHERE clients_id = $7 and mt_id = $8;`,
+            [score, status, watchedEp, episodes, img, name_mt, id, mt_id],
+            (err, resolve) => {
                 if (err) {
+                    console.log(err)
                     return res.status(500).json({
                         error: "Failed to update catalog"
                     })

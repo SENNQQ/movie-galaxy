@@ -187,7 +187,11 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <AddToCatalog _id={item.id} type={"tv"}/>
+                <AddToCatalog _id={item.id}
+                              type={"tv"}
+                              img={posterItem ? item.poster_path : undefined}
+                              name_mt={item.name}
+                />
                 {(item.external_ids.facebook_id
                         || item.external_ids.imdb_id
                         || item.external_ids.instagram_id

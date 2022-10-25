@@ -1,4 +1,6 @@
 export interface AddToCatalogPropsType {
     _id:number,
-    type:string
+    type:string,
+    img?:string,
+    name_mt?:string
 }

@@ -123,6 +123,9 @@
         transition-property: all;
         transition-timing-function: ease-in-out;
         width: 60px;
+        display: flex;
+        justify-content: center;
+        //border: 1px solid #424242;
       }
 
     }
@@ -135,16 +138,18 @@
         width: 100%;
 
         .graph_content {
-          display: flex;
+          display: grid;
+          grid-template: 1fr/1fr 30%;
           justify-content: space-between;
           align-items: center;
+          grid-gap: 25px;
 
           .graph {
             background-color: #f8f8f8;
             display: flex;
             height: 13px;
             align-items: center;
-            width: 300px;
+            width: 350px;
 
             .graph_inner {
               display: inline-block;
