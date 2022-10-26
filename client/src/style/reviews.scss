@@ -1,0 +1,118 @@
+.reviews_unit{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+}
+
+.reviews_status_title{
+  position: relative;
+  display: table;
+  background-color: #000000;
+  width: 100%;
+
+  .text {
+    display: table-cell;
+    width: 1024px;
+    height: 38px;
+    font-size: 2em;
+    color: #FFF;
+    font-weight: bold;
+    font-family: "Helvetica neue", Helvetica, "lucida grande", tahoma, verdana, arial, sans-serif;
+    text-align: center;
+    vertical-align: middle;
+  }
+}
+
+.reviews_wrapper{
+  margin: 50px 10%;
+
+  .reviews_block{
+    width: 100%;
+    display: flex;
+    grid-gap: 20px;
+    flex-direction: column;
+
+    &__title{
+      display: flex;
+      justify-content: space-between;
+
+      .reviews_username span{
+        font-weight: 700;
+        font-size: 17px;
+      }
+      .reviews_left_comment span{
+        font-weight: 700;
+        font-size: 17px;
+      }
+    }
+
+    &__main{
+      display: flex;
+      grid-gap: 15px;
+    }
+
+    &__item{
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      grid-gap: 15px;
+      border: 1px solid #707070;
+    }
+
+    &__image_user{
+      height: 150px;
+      border: 1px solid #000;
+      img{
+        height: 100%;
+      }
+    }
+
+    &__approve{
+      display: flex;
+      align-items: end;
+
+      .button-40 {
+        background-color: #111827;
+        border: 1px solid transparent;
+        border-radius: .75rem;
+        box-sizing: border-box;
+        color: #FFFFFF;
+        cursor: pointer;
+        flex: 0 0 auto;
+        font-family: "Inter var",ui-sans-serif,system-ui,-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+        font-size: 1.125rem;
+        font-weight: 600;
+        line-height: 1.5rem;
+        padding: 7px 15px;
+        text-align: center;
+        text-decoration: none #6B7280 solid;
+        text-decoration-thickness: auto;
+        transition-duration: .2s;
+        transition-property: background-color,border-color,color,fill,stroke;
+        transition-timing-function: cubic-bezier(.4, 0, 0.2, 1);
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+        width: auto;
+      }
+
+      .button-40:hover {
+        background-color: #374151;
+      }
+
+      .button-40:focus {
+        box-shadow: none;
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+      }
+
+      @media (min-width: 768px) {
+        .button-40 {
+          padding: 7px 20px;
+        }
+      }
+    }
+  }
+}
