@@ -183,7 +183,7 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
                 <AddToCatalog _id={item.id}
                               type={"movie"}
                               img={posterItem ? item.poster_path : undefined}
-                              name_mt={item.name}
+                              name_mt={item.name || item.title}
                 />
                 {(item.external_ids.facebook_id
                     || item.external_ids.imdb_id

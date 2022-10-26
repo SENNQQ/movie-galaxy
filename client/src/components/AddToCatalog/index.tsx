@@ -46,7 +46,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
 
 
     useEffect(() => {
-
+        setLoading(true);
         calcCountEpisodes().then(response=>{
             setCountEpisodes(response)
         });
@@ -61,8 +61,10 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
         data().then(resolve => {
             if (resolve.status !== 204) {
                 setIsEntry(true);
+                setLoading(false);
                 setEntryData({...resolve.data.data})
             } else {
+                setLoading(false);
                 setEntryData({
                     mt_id: _id,
                     score: 0,
@@ -71,7 +73,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                 });
             }
         })
-    }, [_id, calcCountEpisodes])
+    }, [_id])
 
     useEffect(() => {
         if (isEntry) {
