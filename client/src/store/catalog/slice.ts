@@ -6,14 +6,14 @@ import {catalogType, ErrorType} from "./types";
 
 interface catalogDataType {
     catalogData: catalogType[] | null
-    error: string | null
-    load: boolean
+    errorCatalog: string | null
+    loadCatalog: boolean
 }
 
 const initialState: catalogDataType = {
     catalogData: null,
-    error: null,
-    load: false
+    errorCatalog: null,
+    loadCatalog: false
 };
 
 
@@ -36,21 +36,44 @@ export const fetchCatalog = createAsyncThunk<catalogType[], void, { rejectValue:
 const catalogSlice = createSlice({
     name: 'catalog',
     initialState,
-    reducers: {},
+    reducers: {
+        addEntryCatalog(state, {payload}: PayloadAction<catalogType>) {
+           if(state.catalogData === null){
+               state.catalogData = []
+               state.catalogData.push(payload);
+           } else {
+               state.catalogData.push(payload);
+           }
+        },
+        updateEntryCatalog(state, {payload}: PayloadAction<catalogType>) {
+            if(state.catalogData !== null){
+                state.catalogData.forEach((item, index) => {
+                    if(item.mt_id === payload.mt_id){
+                        state.catalogData![index] = payload
+                    }
+                })
+            }
+        },
+    },
     extraReducers: builder => {
         builder.addCase(fetchCatalog.pending, (state) => {
             state.catalogData = null;
         });
         builder.addCase(fetchCatalog.fulfilled, (state, {payload}) => {
             state.catalogData = payload;
-            state.load = true;
-            state.error = null;
+            state.loadCatalog = true;
+            state.errorCatalog = null;
         });
-        builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
-            state.load = false
-            console.log(action);
-            state.error = action.payload.message
+        builder.addCase(fetchCatalog.rejected, (state, {payload}) => {
+                state.loadCatalog = false
+                state.errorCatalog = payload!.message || null
+                state.catalogData = null;
         });
+        // builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
+        //     state.loadCatalog = false
+        //     console.log(action);
+        //     state.errorCatalog = action.payload.message
+        // });
     }
 })
 
@@ -58,5 +81,5 @@ function isError(action: AnyAction) {
     return action.type.endsWith('rejected');
 }
 
-// export const {setAvatar} = catalogSlice.actions;
+export const {addEntryCatalog, updateEntryCatalog} = catalogSlice.actions;
 export default catalogSlice.reducer;

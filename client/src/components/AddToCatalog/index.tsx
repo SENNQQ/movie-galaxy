@@ -4,6 +4,9 @@ import {AddToCatalogPropsType} from "./types";
 import axios from "../../axios";
 import cn from "classnames";
 import { getTvShowEpisodesCount } from "../../api/zxc";
+import {useAppDispatch} from "../../store/hook";
+import {addEntryCatalog, updateEntryCatalog} from "../../store/catalog/slice";
+
 
 interface iEntry {
     id?: number,
@@ -16,7 +19,7 @@ interface iEntry {
 const AddToCatalog: FC<AddToCatalogPropsType> = ({
                                                      _id,
                                                      type,
-                                                     img,
+                                                     img = '',
                                                      name_mt
                                                  }) => {
 
@@ -27,6 +30,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
     const refScore = useRef<HTMLSelectElement>(null);
     const refEpisodesCount = useRef<HTMLInputElement>(null);
     const [countEpisodes, setCountEpisodes] = useState(1);
+    const dispatch = useAppDispatch();
 
     const [EntryData, setEntryData] = useState<iEntry>({
         mt_id: _id,
@@ -115,6 +119,17 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                     score: parseInt(refScore.current!.value),
                     watchedep: watchedEpCount
                 })
+                dispatch(addEntryCatalog( {
+                    mt_id: _id,
+                    status: 1,
+                    score: parseInt(refScore.current!.value),
+                    watchedep: parseInt(watchedEpCount),
+                    last_update: new Date().toDateString(),
+                    type_mt: type,
+                    episodes: countEpisodes,
+                    img_string:img,
+                    name_mt_id:name_mt,
+                }))
             })
         }
         else {
@@ -139,6 +154,18 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                         score: parseInt(refScore.current!.value),
                         watchedep: watchedEpCount
                     })
+                    dispatch(updateEntryCatalog( {
+                        id:EntryData.id,
+                        mt_id: _id,
+                        status: parseInt(refStatus.current!.value),
+                        score: parseInt(refScore.current!.value),
+                        watchedep: parseInt(watchedEpCount),
+                        last_update: new Date().toDateString(),
+                        type_mt: type,
+                        episodes: countEpisodes,
+                        img_string:img,
+                        name_mt_id:name_mt,
+                    }))
                 } else{
                     console.log(resolve.data.error)
                 }
@@ -172,6 +199,17 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                         score: parseInt(refScore.current!.value),
                         watchedep: ''
                     })
+                    dispatch(addEntryCatalog( {
+                        mt_id: _id,
+                        status: 1,
+                        score: 0,
+                        watchedep: 0,
+                        last_update: new Date().toDateString(),
+                        type_mt: type,
+                        episodes: countEpisodes,
+                        img_string:img,
+                        name_mt_id:name_mt,
+                    }))
                 }
                 else {
                     console.log(resolve.data.error)

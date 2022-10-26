@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import st from "./pageNotFound.module.scss"
 
 const PageNotFound = () => {
+
     return (
         <div className={st.block}>
             <div className={st.error}>

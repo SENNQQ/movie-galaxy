@@ -3,6 +3,7 @@ import axios from "../../axios";
 import {AxiosError, AxiosResponse} from "axios";
 import {ErrorType, LoginForm, registerForm, updateForm, UserType} from "./types";
 
+
 interface userDataType {
     userData: UserType | null
     error: string | null
@@ -92,6 +93,11 @@ const userSlice = createSlice({
             state.load = true;
             state.error = null;
         });
+        builder.addCase(loginUser.rejected, (state, {payload}) => {
+            state.load = false
+            state.error = payload!.message || null
+            state.userData = null;
+        });
         builder.addCase(fetchAuth.pending, (state) => {
             state.userData = null;
         });
@@ -99,6 +105,11 @@ const userSlice = createSlice({
             state.userData = payload;
             state.load = true;
             state.error = null;
+        });
+        builder.addCase(fetchAuth.rejected, (state, {payload}) => {
+            state.load = false
+            state.error = payload!.message || null
+            state.userData = null;
         });
         builder.addCase(registerUser.pending, (state) => {
             state.userData = null;
@@ -108,15 +119,26 @@ const userSlice = createSlice({
             state.load = true;
             state.error = null;
         });
+        builder.addCase(registerUser.rejected, (state, {payload}) => {
+            state.load = false
+            state.error = payload!.message || null
+            state.userData = null;
+        });
         builder.addCase(updateUser.fulfilled, (state, {payload}) => {
             state.userData = payload;
             state.load = true;
             state.error = null;
         });
-        builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
+        builder.addCase(updateUser.rejected, (state, {payload}) => {
             state.load = false
-            state.error = action.payload.message
+            state.error = payload!.message || null
+            state.userData = null;
         });
+
+        // builder.addMatcher(isError, (state, action: PayloadAction<ErrorType>) => {
+        //     state.load = false
+        //     state.error = action.payload.message
+        // });
     }
 })
 

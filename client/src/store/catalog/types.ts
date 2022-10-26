@@ -1,6 +1,6 @@
 export type catalogType = {
-    id: number
-    clients_id: number
+    id?: number
+    clients_id?: number
     mt_id: number
     score: number
     watchedep: number

@@ -14,7 +14,6 @@ import {Link} from "react-router-dom";
 import {apiImgUrl} from "../../api/zxc";
 
 
-
 type FormInputs = {
     surname: string;
     name: string;
@@ -33,8 +32,9 @@ type FormImage = {
 const Profile = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
-    const {userData, } = useAppSelector(state => state.user);
+    const {userData} = useAppSelector(state => state.user);
     const {catalogData} = useAppSelector(state => state.catalog)
+
 
     const ContainerStats = useRef<HTMLDivElement>(null);
     const [pixelMult, setPixelMult] = useState(6.2);
@@ -131,13 +131,6 @@ const Profile = () => {
         })
     }, [])
 
-    useEffect(()=>{
-       if(lastUpdate){
-           console.log(lastUpdate);
-           console.log(lastUpdate[0].watchedep)
-           console.log(formatAMPM(lastUpdate[0].last_update))
-       }
-    }, [lastUpdate])
 
     return (
         <div className={"spacing"}>
