@@ -413,31 +413,31 @@ const Profile = () => {
                                 <div className="stat_catalog">
                                     <ul className="stats_status">
                                         <li className="clearfix">
-                                            <a href="#" className="circle watching">Watching</a>
+                                            <Link to="/catalog/1" className="circle watching">Watching</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {watching ? watching.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <a href="#" className="circle completed">Completed</a>
+                                            <Link to="/catalog/2"  className="circle completed">Completed</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {completed ? completed.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <a href="#" className="circle on_hold">On-Hold</a>
+                                            <Link to="/catalog/3"  className="circle on_hold">On-Hold</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {on_hold ? on_hold.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <a href="#" className="circle dropped">Dropped</a>
+                                            <Link to="/catalog/4"  className="circle dropped">Dropped</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {dropped ? dropped.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <a href="#" className="circle plan_to_watch">Plan to Watch</a>
+                                            <Link to="/catalog/5"  className="circle plan_to_watch">Plan to Watch</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {plan_to_watch ? plan_to_watch.length : 0}
                                             </span>
@@ -471,7 +471,12 @@ const Profile = () => {
                                             <LoadableImage src={poster(item.img_string)} alt=""/>
                                         </Link>
                                         <div className="last_updates_item__data">
-                                            <a href="">{item.name_mt_id}</a>
+                                            <Link
+                                                to={item.type_mt === 'tv'
+                                                    ? `/tv/${item.mt_id}`
+                                                    : `/movie/${item.mt_id}`}>
+                                                {item.name_mt_id}
+                                            </Link>
                                             <div className="graph_content">
                                                 <div className="graph">
                                                     <span className={cn("graph_inner", {

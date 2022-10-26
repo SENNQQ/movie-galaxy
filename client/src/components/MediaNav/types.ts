@@ -5,4 +5,5 @@ export interface MediaNavType {
     changeTabHandler: (nameTab:string) => void,
     styleContainer?: CSSProperties
     styleButton?: CSSProperties
+    catalogIndex?:number
 }

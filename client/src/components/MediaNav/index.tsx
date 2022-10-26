@@ -8,10 +8,11 @@ const MediaNav: FC<MediaNavType> = ({
                                         menu,
                                         changeTabHandler,
                                         styleContainer,
-                                        styleButton
+                                        styleButton,
+                                        catalogIndex= 0
                                     }) => {
 
-    const [active, setActive] = useState<number>(0);
+    const [active, setActive] = useState<number>(catalogIndex);
 
     const clicked = (index: number, item: string) => {
         setActive(index);
