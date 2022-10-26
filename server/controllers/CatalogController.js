@@ -32,14 +32,12 @@ export const getOneEntry = async (req, res) => {
 
 }
 
-export const getEntryStatus = async (req, res) => {
-
+export const getAllEntry = async (req, res) => {
     const id = req.id;
-    const status = req.query.status;
 
     try {
         //Выбираем записи и передаем их
-        const data = await pool.query(`SELECT * FROM catalog WHERE clients_id = $1 and status = $2;`, [id, status]);
+        const data = await pool.query(`SELECT * FROM catalog WHERE clients_id = $1`, [id]);
         const arr = data.rows;
 
         res.status(200).json({
@@ -57,12 +55,14 @@ export const getEntryStatus = async (req, res) => {
 
 }
 
-export const getAllEntry = async (req, res) => {
+export const getEntryStatus = async (req, res) => {
+
     const id = req.id;
+    const status = req.query.status;
 
     try {
         //Выбираем записи и передаем их
-        const data = await pool.query(`SELECT * FROM catalog WHERE clients_id = $1`, [id]);
+        const data = await pool.query(`SELECT * FROM catalog WHERE clients_id = $1 and status = $2;`, [id, status]);
         const arr = data.rows;
 
         res.status(200).json({

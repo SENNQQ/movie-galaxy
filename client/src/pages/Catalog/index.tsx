@@ -74,7 +74,7 @@ const Catalog = () => {
         <>
             <div className="navbar_header">
                 <MediaNav menu={menu} changeTabHandler={changeTab}
-                          catalogIndex={params.status ? parseInt(params.status) : 0}
+                          catalogIndex={params.status ? parseInt(params.status) === 6 ? 0 :  parseInt(params.status) : 0}
                           styleContainer={{margin: 0, width: '100%'}} styleButton={{margin: '0 2rem'}}/>
             </div>
             <div className="list_block">
