@@ -18,8 +18,9 @@
   }
 
   .current__comments{
-    display: flex;
-
+    display: grid;
+    grid-template: 1fr/5% 1fr;
+    grid-template-areas: "a b" "a c";
     .current_comment__img{
       margin-right: 8px;
     }
@@ -31,11 +32,15 @@
     height: 40px;
     border-radius: 50%;
     overflow: hidden;
-
+    grid-area: a;
     img{
       width: 100%;
       height: auto;
     }
+  }
+
+  .comment_error{
+    grid-area: c;
   }
 
   .comment_form{
@@ -50,7 +55,7 @@
     margin-right: 1rem;
     border: 1px solid #726e6e;
     border-radius: 10px;
-
+    grid-area: b;
     &__textarea__wrapper{
       position: relative;
       width: 100%;

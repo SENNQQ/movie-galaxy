@@ -3,13 +3,9 @@
   &__item{
     position: relative;
     margin-top: 28px;
-    display: -webkit-box;
-    display: flex;
+    display: grid;
+    grid-template: 1fr/5% 1fr;
 
-
-    &__body{
-      padding-left: 8px;
-    }
 
     &_content{
       padding: 5px 10px;
