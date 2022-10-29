@@ -1,12 +1,13 @@
-import React, {FC} from 'react';
-import userImg from '../../image/unnamed.png';
+import React, {FC, useEffect, useState} from 'react';
 import st from './comments.module.scss'
 import CommentItem from "../CommentItem";
 import {useForm} from "react-hook-form";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../axios";
-import {CommentsPropsType} from "./types";
+import {CommentsGetData, CommentsPropsType} from "./types";
+import {useAppSelector} from "../../store/hook";
+import LoadableImage from "../LoadableImage";
 
 type commentFormType = {
     comment: string
@@ -15,6 +16,8 @@ type commentFormType = {
 const Comments:FC<CommentsPropsType> = ({mt_id}) => {
 
     const {register, handleSubmit, formState: {errors}} = useForm<commentFormType>();
+    const {userData} = useAppSelector(state => state.user);
+    const [allContentComments, setAllContentComments] = useState<CommentsGetData[]>();
 
     const onSubmit = (dataForm: commentFormType) => {
         toast.info('Your comment has been sent for review!', {
@@ -37,9 +40,37 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
             if (resolve.status !== 204) {
                 console.log(resolve);
             } else {
+                console.log(resolve.data.error)
             }
         })
     };
+
+    const userImage = (avatar:string):string =>{
+        if(avatar){
+            return `http://localhost:3100/${avatar}`
+        }else {
+            return  ''
+        }
+    }
+
+    useEffect(()=>{
+        const data = async () => {
+            return await axios.get('/api/comment/getAll', {
+                params: {
+                    content_id: mt_id
+                }
+            })
+        }
+        data().then(resolve => {
+            if (resolve.status !== 204) {
+                setAllContentComments(resolve.data.data);
+                console.log(resolve);
+            } else {
+                console.log(resolve.data.error)
+            }
+        })
+    },[mt_id])
+
 
     return (
         <>
@@ -67,7 +98,7 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
                     <div className={st.comments__body}>
                         <div className={st.current__comments}>
                             <div className={`${st.current_comment__img} ${st.user_img}`}>
-                                <img src={userImg} alt=""/>
+                                <LoadableImage src={userData ? userImage(userData.avatar) : ''} alt=""/>
                             </div>
 
                             <form className={st.comment_form}
@@ -100,7 +131,10 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
                                 </div>}
                             </div>
                         </div>
-                        <CommentItem/>
+                        {allContentComments && allContentComments.map((item) => (
+                            <CommentItem item={item}
+                                         key={`comment-${item.content_id}-${item.clients_id}-${item.comments_id}`}/>
+                        ))}
                     </div>
                 </div>
             </div>

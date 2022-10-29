@@ -1,24 +1,36 @@
-import React from 'react';
+import React, {FC} from 'react';
 import st from "./commentItem.module.scss";
-import userImg from "../../image/unnamed.png";
+import {CommentsGetData} from "../Comments/types";
+import LoadableImage from "../LoadableImage";
 
-const CommentItem = () => {
+const CommentItem:FC<{ item:CommentsGetData }> = ({item}) => {
+
+    const userImage = (avatar:string):string =>{
+        if(avatar){
+            return `http://localhost:3100/${avatar}`
+        }else {
+            return  ''
+        }
+    }
+
+    const formatDate = (date:string) => {
+        return new Date(date).toDateString();
+    }
+
     return (
         <div className={st.comments__item}>
             <div className={`${st.current_comment__img} ${st.user_img}`}>
-                <img src={userImg} alt=""/>
+                <LoadableImage src={item ? userImage(item.avatar) : ''} alt=""/>
             </div>
             <div className={st.comments__item__body}>
                 <div className={st.comments__item_content}>
                     <div className={st.comments__item_header}>
                         <div className={st.comments__item_header__title}>
-                            Pasha Technik
+                            {item.nickname}
                         </div>
                     </div>
                     <div className={st.comments__item_text}>
-                        I am writing this to strictly touch on my impression of the show.
-                        First and foremost, it is very clear to me that almost all of the actors have
-                        truly mastered their characters.
+                        {item.comment}
                     </div>
                 </div>
                 <div className={st.comments__item_action}>
@@ -34,8 +46,8 @@ const CommentItem = () => {
                     </button>
                     <span className={st.action_block__date}>
                                     <span>·</span>
-                                    10 месяцев назад
-                                </span>
+                                    {formatDate(item.comment_date)}
+                    </span>
                 </div>
             </div>
         </div>
