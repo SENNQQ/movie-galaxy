@@ -19,6 +19,7 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
     const {userData} = useAppSelector(state => state.user);
     const [allContentComments, setAllContentComments] = useState<CommentsGetData[]>();
 
+
     const onSubmit = (dataForm: commentFormType) => {
         toast.info('Your comment has been sent for review!', {
             position: "bottom-right",
@@ -78,22 +79,22 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
                 <div className={st.comments}>
                     <div className={st.comments__head}>
                         <div className={st.comments__title}>
-                            <strong>4 </strong>
+                            <strong>{allContentComments ? allContentComments.length : 0} </strong>
                             comments
                         </div>
-                        <div className="comments__filter">
-                            <div className="headDropdown">
-                                <div className={"headDropdown"}>
+                        {/*<div className="comments__filter">*/}
+                        {/*    <div className="headDropdown">*/}
+                        {/*        <div className={"headDropdown"}>*/}
 
-                                    <select name="infoVideo_dropdown">
-                                        <option value="all_comments">All comments</option>
-                                        <option value="new_to_old">New to Old</option>
-                                        <option value="popular">Popular</option>
-                                    </select>
+                        {/*            <select name="infoVideo_dropdown">*/}
+                        {/*                <option value="all_comments">All comments</option>*/}
+                        {/*                <option value="new_to_old">New to Old</option>*/}
+                        {/*                <option value="popular">Popular</option>*/}
+                        {/*            </select>*/}
 
-                                </div>
-                            </div>
-                        </div>
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
                     <div className={st.comments__body}>
                         <div className={st.current__comments}>

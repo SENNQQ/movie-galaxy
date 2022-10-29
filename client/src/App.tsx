@@ -16,6 +16,7 @@ import {useAppDispatch} from "./store/hook";
 import {fetchAuth} from "./store/user/slice";
 import PageNotFound from "./components/Global/PageNotFound";
 import Reviews from "./pages/Reviews";
+import RequireAuth from "./hoc/RequireAuth";
 
 
 const App = () => {
@@ -47,7 +48,9 @@ const App = () => {
                 <Route path="/person/:id" element={<Person/>}/>
                 <Route path="/profile/" element={<Profile/>}/>
                 <Route path="/catalog/:status" element={<Catalog/>}/>
-                <Route path="/reviews" element={<Reviews/>}/>
+                <Route element={<RequireAuth/>}>
+                    <Route path="/reviews" element={<Reviews/>}/>
+                </Route>
             </Route>
             <Route path="/login" element={<Authorization/>}/>
             <Route path="/register" element={<Authorization/>}/>

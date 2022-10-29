@@ -32,7 +32,7 @@ export type UserType = {
     patronymic: string
     surname: string
     phone_number: string
-    admin: string
+    admin: boolean
     token: string
 }
 
