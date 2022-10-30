@@ -13,9 +13,12 @@ type commentFormType = {
     comment: string
 }
 
-const Comments:FC<CommentsPropsType> = ({mt_id}) => {
+const Comments: FC<CommentsPropsType> = ({
+                                             mt_id,
+                                             content_name,
+                                             type}) => {
 
-    const {register, handleSubmit, formState: {errors}} = useForm<commentFormType>();
+    const {register, handleSubmit, formState: {errors}, reset} = useForm<commentFormType>();
     const {userData} = useAppSelector(state => state.user);
     const [allContentComments, setAllContentComments] = useState<CommentsGetData[]>();
 
@@ -34,27 +37,29 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
         const data = async () => {
             return await axios.post('/api/comment/create/', {
                 mt_id: mt_id,
-                comment:dataForm.comment
+                comment: dataForm.comment,
+                content_name:content_name,
+                content_type:type
             })
         }
         data().then(resolve => {
             if (resolve.status !== 204) {
-                console.log(resolve);
+                reset();
             } else {
                 console.log(resolve.data.error)
             }
         })
     };
 
-    const userImage = (avatar:string):string =>{
-        if(avatar){
+    const userImage = (avatar: string): string => {
+        if (avatar) {
             return `http://localhost:3100/${avatar}`
-        }else {
-            return  ''
+        } else {
+            return ''
         }
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         const data = async () => {
             return await axios.get('/api/comment/getContentComment', {
                 params: {
@@ -70,7 +75,7 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
                 console.log(resolve.data.error)
             }
         })
-    },[mt_id])
+    }, [mt_id])
 
 
     return (

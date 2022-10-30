@@ -1,5 +1,7 @@
 export interface CommentsPropsType {
     mt_id:number
+    content_name:string
+    type:string
 }
 
 export interface CommentsGetData {
@@ -12,4 +14,6 @@ export interface CommentsGetData {
     nickname: string
     verification: boolean
     comment_date:string
+    content_name:string
+    content_type:string
 }

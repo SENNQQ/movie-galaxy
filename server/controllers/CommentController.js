@@ -4,12 +4,12 @@ import pool from "../db.js";
 export const createComment = async (req, res) => {
 
     const id = req.id;
-
+    const {mt_id, comment, content_name, content_type} = req.body;
     try {
 
         //Создаем комментарий к посту
-        await pool.query(`INSERT INTO comments (clients_id, content_id, comment) VALUES ($1,$2,$3);`,
-            [id, req.body.mt_id, req.body.comment], (err) => {
+        await pool.query(`INSERT INTO comments (clients_id, content_id, comment, content_name, content_type) VALUES ($1,$2,$3,$4,$5);`,
+            [id, mt_id, comment, content_name,content_type], (err) => {
                 if (err) {
                     return res.status(500).json({
                         error: "Database error"
@@ -73,6 +73,36 @@ export const getAll = async (req, res) => {
                 ...arr,
             ],
         });
+
+    } catch (err) {
+        res.status(500).json({
+            error: "No access!", //Database connection error
+        });
+    }
+
+}
+
+export const updateApprove = async (req, res) => {
+
+    const {comments_id} = req.body;
+
+    try {
+        //Обновляем верификацию комментария
+        await pool.query(`UPDATE comments SET verification = true WHERE comments_id = $1;`, [comments_id],
+            (err, results) =>{
+            if(err){
+                console.log(err)
+                return res.status(500).json({
+                    error: "Failed to update user"
+                })
+            }else{
+                console.log(results)
+                return res.status(200).json({
+                    success: true,
+                })
+            }
+        });
+
 
     } catch (err) {
         res.status(500).json({
