@@ -9,7 +9,8 @@ const router = Router();
 
 
 router.post('/create', checkAuth, createComment.createComment); // Роут для создания комментариев
-router.get('/getAll', createComment.getAll); // Роут для получения комментариев
+router.get('/getContentComment', createComment.getContentComment); // Роут для получения комментариев к контенту
+router.get('/getAll', createComment.getAll); // Роут для получения всех комментариев на проверку админа
 
 
 export default router;

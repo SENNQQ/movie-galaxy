@@ -5,7 +5,7 @@ import {useForm} from "react-hook-form";
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../axios";
-import {CommentsGetData, CommentsPropsType} from "./types";
+import {CommentsGetData, CommentsPropsType} from "../../types/CommentTypes";
 import {useAppSelector} from "../../store/hook";
 import LoadableImage from "../LoadableImage";
 
@@ -56,7 +56,7 @@ const Comments:FC<CommentsPropsType> = ({mt_id}) => {
 
     useEffect(()=>{
         const data = async () => {
-            return await axios.get('/api/comment/getAll', {
+            return await axios.get('/api/comment/getContentComment', {
                 params: {
                     content_id: mt_id
                 }

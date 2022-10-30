@@ -31,7 +31,7 @@ export const createComment = async (req, res) => {
 
 }
 
-export const getAll = async (req, res) => {
+export const getContentComment  = async (req, res) => {
 
     const {content_id} = req.query;
 
@@ -40,6 +40,31 @@ export const getAll = async (req, res) => {
         const data = await pool.query(`SELECT clients.nickname, clients.avatar, comments.* FROM comments 
                                         JOIN clients ON clients.clients_id = "comments".clients_id
                                             WHERE content_id = $1 and verification = true`, [content_id]);
+        const arr = data.rows;
+
+        res.status(200).json({
+            success: true,
+            data: [
+                ...arr,
+            ],
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: "No access!", //Database connection error
+        });
+    }
+
+}
+
+export const getAll = async (req, res) => {
+
+    try {
+        //Выбираем записи и передаем их
+        const data = await pool.query(`SELECT clients.nickname, clients.avatar, comments.* FROM comments
+                                        JOIN clients ON clients.clients_id = "comments".clients_id
+                                            WHERE verification = false`);
+
         const arr = data.rows;
 
         res.status(200).json({

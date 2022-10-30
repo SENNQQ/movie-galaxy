@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import st from "./commentItem.module.scss";
-import {CommentsGetData} from "../Comments/types";
+import {CommentsGetData} from "../../types/CommentTypes";
 import LoadableImage from "../LoadableImage";
 import {Link} from "react-router-dom";
 

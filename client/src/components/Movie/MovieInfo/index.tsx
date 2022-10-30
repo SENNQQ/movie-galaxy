@@ -9,7 +9,7 @@ import {directors} from "../../../helper/detailsInfo";
 import ExternalLinks from "../../ExternalLinks";
 import {cinemaProps} from "../../../types/MainPageTypes";
 import {castProps} from "../../../types/MoviePageTypes";
-import Comments from "../../Comments";
+import Comments from "../../Comment";
 import AddToCatalog from "../../AddToCatalog";
 
 const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
