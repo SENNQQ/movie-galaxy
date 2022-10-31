@@ -70,7 +70,6 @@ const Comments: FC<CommentsPropsType> = ({
         data().then(resolve => {
             if (resolve.status !== 204) {
                 setAllContentComments(resolve.data.data);
-                console.log(resolve);
             } else {
                 console.log(resolve.data.error)
             }

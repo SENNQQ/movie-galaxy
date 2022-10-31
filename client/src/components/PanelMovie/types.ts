@@ -1,5 +1,6 @@
 export interface PanelMoviePropsTypes {
     "item": PanelMovieTypes,
+    "type"?: "movie" | "tv"
 }
 
 export interface PanelMovieTypes {

@@ -14,7 +14,7 @@ const Main = () => {
     const [trendingMovies, setTrendingMovies] = useState<cinemaProps[]>([]);
     const [trendingTV, setTrendingTV] = useState<cinemaProps[]>([]);
     const [featured, setFeatured] = useState<PanelMovieTypes>();
-
+    const [typeMedia, setTypeMedia] = useState<"movie" | "tv">('movie');
     useEffect(() => {
         const fetchData = async () => {
             const trendingMovies = await getTrending('movie');
@@ -23,18 +23,19 @@ const Main = () => {
 
             const items = [...trendingMovies.results, ...trendingTV.results];
             const randomItem = items[Math.floor(Math.random() * items.length)];
-            const media = randomItem.title ? 'movie' : 'tv';
+            let media:"movie" | "tv" = randomItem.title ? 'movie' : 'tv';
             if (media === 'movie') {
                 featured = await getMovie(randomItem.id);
             } else {
                 featured = await getTvShow(randomItem.id);
             }
-            return {trendingMovies, trendingTV, featured}
+            return {trendingMovies, trendingTV, featured, media}
         }
         fetchData().then(response => {
             setTrendingMovies(response.trendingMovies.results);
             setTrendingTV(response.trendingTV.results);
             setFeatured(response.featured);
+            setTypeMedia(response.media)
         });
     }, []);
 
@@ -58,7 +59,7 @@ const Main = () => {
     return (
         <>
             <>
-                {featured && <PanelMovie item={featured}/>}
+                {featured && <PanelMovie item={featured} type={typeMedia}/>}
             </>
             <>
                 {trendingMovies.length > 0 && <Carousel items={trendingMovies}

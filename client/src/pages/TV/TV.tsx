@@ -89,7 +89,7 @@ const TV = () => {
     return (
         <>
             <>
-                {PanelDataMovie && <PanelMovie item={PanelDataMovie}/>}
+                {PanelDataMovie && <PanelMovie item={PanelDataMovie} type={"tv"}/>}
             </>
             <>
                 {params.id ? TvShow && <TvID item={TvShow}/>

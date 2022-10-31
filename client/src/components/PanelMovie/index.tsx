@@ -9,7 +9,9 @@ import LoadableImage from "../LoadableImage";
 
 
 //TODO сделать получение данных, при клике на кнопку "посмотреть трейлер" открывается модальное окно для просмотра.
-const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
+const PanelMovie: FC<PanelMoviePropsTypes> = ({
+                                                  item,
+                                                  type}) => {
 
     const [modalVisible, setModalVisible] = useState<boolean>(false);
     const trailerMovie:string[] | null = (trailer(item));
@@ -31,7 +33,9 @@ const PanelMovie: FC<PanelMoviePropsTypes> = ({item}) => {
                 <div className={st.panel}>
                     <div className={st.panel_container}>
                         <h1 className={st.panel__title}>
-                            <Link to={`/movie/${item.id}`}>{name(item)}</Link>
+                            <Link to={type === 'tv'
+                                ? `/tv/${item.id}`
+                                : `/movie/${item.id}`}>{name(item)}</Link>
                         </h1>
                         {item.vote_count > 0 && <div className={st.panel__meta}>
                             <div className="rating">

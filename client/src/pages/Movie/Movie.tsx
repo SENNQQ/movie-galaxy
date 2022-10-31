@@ -89,7 +89,7 @@ const Movie = () => {
     return (
         <>
             <>
-                {PanelDataMovie && <PanelMovie item={PanelDataMovie}/>}
+                {PanelDataMovie && <PanelMovie item={PanelDataMovie} type={"movie"}/>}
             </>
             <>
                 {params.id ? DataMovie && <MovieID item={DataMovie}/>
