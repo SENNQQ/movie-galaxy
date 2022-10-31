@@ -13,6 +13,60 @@ import {formatAMPM} from "../../helper/dateFormat";
 import {Link} from "react-router-dom";
 import {apiImgUrl} from "../../api/zxc";
 
+import {Line} from "react-chartjs-2";
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend,
+} from 'chart.js';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+);
+
+const options = {
+    responsive: true,
+    plugins: {
+        legend: {
+            position: 'top' as const,
+        },
+        title: {
+            display: true,
+            text: 'Chart.js Line Chart',
+        },
+    },
+};
+
+const labels = ['January', '23'];
+
+// const data = {
+//     labels,
+//     datasets: [
+//         {
+//             label: 'Dataset 1',
+//             data:  [6, 3, 5, 7, 9, 11, 12,7],
+//             borderColor: 'rgb(255, 99, 132)',
+//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
+//         },
+//         {
+//             label: 'Dataset 2',
+//             data: [0, 1, 5, 7, 9, 8],
+//             borderColor: 'rgb(53, 162, 235)',
+//             backgroundColor: 'rgba(53, 162, 235, 0.5)',
+//         },
+//     ],
+// };
 
 type FormInputs = {
     surname: string;
@@ -29,12 +83,67 @@ type FormImage = {
     image: FileList
 }
 
+
 const Profile = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
     const {userData} = useAppSelector(state => state.user);
     const {catalogData} = useAppSelector(state => state.catalog)
 
+    const data = {
+        labels: ['asd', 'asd', 'dfg'],
+        datasets: [
+            {
+                label: 'Домашние задания',
+                data: [6, 3, 5, 7, 9, 11, 12],
+                borderColor: 'rgb(28,215,204)',
+                backgroundColor: 'rgba(28,215,204)',
+                tension: 0.3
+            },
+            {
+                label: 'Классная работа',
+                data: [6, 3, 3, 1, 9, 11, 12],
+                borderColor: 'rgb(255, 240, 0)',
+                backgroundColor: 'rgba(255, 240, 0)',
+                tension: 0.3
+            },
+            {
+                label: 'Лабораторные работы',
+                data: [6, 2, 3, 6, 9, 4, 12],
+                borderColor: 'rgb(100,181,252)',
+                backgroundColor: 'rgba(100,181,252)',
+                tension: 0.3
+            },
+            {
+                label: 'Тестирование',
+                data: [],
+                borderColor: 'rgb(255,170,170)',
+                backgroundColor: 'rgba(255,170,170)',
+                tension: 0.3
+            },
+            {
+                label: 'Контрольные работы',
+                data: [],
+                borderColor: 'rgb(122,255,122)',
+                backgroundColor: 'rgba(122,255,122)',
+                tension: 0.3
+            },
+            {
+                label: 'Экзамены',
+                data: [],
+                borderColor: 'rgb(181,159,253)',
+                backgroundColor: 'rgba(181,159,253)',
+                tension: 0.3
+            },
+            {
+                label: 'Курсовые',
+                data: [],
+                borderColor: 'rgb(127,131,140)',
+                backgroundColor: 'rgba(127,131,140)',
+                tension: 0.3
+            }
+        ]
+    }
 
     const ContainerStats = useRef<HTMLDivElement>(null);
     const [pixelMult, setPixelMult] = useState(6.2);
@@ -517,6 +626,7 @@ const Profile = () => {
                 </div>
 
             </div>
+            <Line options={options} data={data} />
             <h1>YOUR FAVORITES CAROUSEL</h1>
         </div>
     );
