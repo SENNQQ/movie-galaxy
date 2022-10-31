@@ -15,6 +15,7 @@ const Main = () => {
     const [trendingTV, setTrendingTV] = useState<cinemaProps[]>([]);
     const [featured, setFeatured] = useState<PanelMovieTypes>();
     const [typeMedia, setTypeMedia] = useState<"movie" | "tv">('movie');
+
     useEffect(() => {
         const fetchData = async () => {
             const trendingMovies = await getTrending('movie');

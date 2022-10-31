@@ -66,7 +66,8 @@ export const login = async (req, res) => {
             return res.status(400).json({
                 message: "Email or nickname already there, No need to register again.",
             });
-        } else {
+        }
+        else {
             // const salt = await bcrypt.genSalt(10);
             // const passwordHas = bcrypt.hash(req.body.password, salt);
 

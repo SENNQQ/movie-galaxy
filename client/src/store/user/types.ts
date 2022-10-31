@@ -34,6 +34,7 @@ export type UserType = {
     phone_number: string
     admin: boolean
     token: string
+    joined: string
 }
 
 export type ErrorType = {

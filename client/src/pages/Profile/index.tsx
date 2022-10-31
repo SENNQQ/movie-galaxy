@@ -131,6 +131,9 @@ const Profile = () => {
         })
     }, [])
 
+    const formatJoined = (date:string):string=>{
+        return new Date(date).toDateString().split(/\s(.*)/g,2)[1]
+    }
 
     return (
         <div className={"spacing"}>
@@ -188,14 +191,14 @@ const Profile = () => {
                                     </div>
                                 </form>
                                 <ul className="user_status">
-                                    <li className="clearfix">
-                                        <span className="user_status_title">Last Online</span>
-                                        <span className="user_status_data online">Now</span>
-                                    </li>
-                                    <li className="clearfix">
+                                    {/*<li className="clearfix">*/}
+                                    {/*    <span className="user_status_title">Last Online</span>*/}
+                                    {/*    <span className="user_status_data online">Now</span>*/}
+                                    {/*</li>*/}
+                                    {userData && <li className="clearfix">
                                         <span className="user_status_title">Joined</span>
-                                        <span className="user_status_data">Aug 12, 2021</span>
-                                    </li>
+                                        <span className="user_status_data">{formatJoined(userData.joined)}</span>
+                                    </li>}
                                 </ul>
                             </div>
                         </div>
