@@ -10,6 +10,7 @@ import ExternalLinks from "../../ExternalLinks";
 import Carousel from "../../Carousel";
 import {TvInfoPropsType} from "./types";
 import AddToCatalog from "../../AddToCatalog";
+import Comments from "../../Comment";
 
 const TvInfo:FC<TvInfoPropsType> = ({item}) => {
 
@@ -203,6 +204,7 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
             </div>
             {showCredits() > 0 && <Carousel items={CarouselCast} title={"Cast"} allUrl={CreditsUrl}/>}
             {recommendTv && <Carousel items={recommendTv} title={"More Like This"} allUrl={recommendUrl}/>}
+            <Comments mt_id={item.id} content_name={item.name} type={"tv"}/>
         </>
     );
 };
