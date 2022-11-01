@@ -11,6 +11,7 @@ router.post('/register', UserController.register); // Роут регистра�
 router.post('/login', UserController.login); // Роут авторизации
 router.patch('/update', UserController.update); // Роут авторизации
 router.get('', checkAuth, UserController.getMe); // Роут получения пользователя
+router.get('/getUser', UserController.getUser); // Роут получения пользователя
 
 
 export default router;

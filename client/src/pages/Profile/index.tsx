@@ -10,8 +10,9 @@ import {setAvatar, updateUser} from "../../store/user/slice";
 import axios from "../../axios";
 import {catalogType} from "../../store/catalog/types";
 import {formatAMPM} from "../../helper/dateFormat";
-import {Link} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
 import {apiImgUrl} from "../../api/zxc";
+
 
 import {Line} from "react-chartjs-2";
 import {
@@ -24,6 +25,7 @@ import {
     Tooltip,
     Legend, ChartData,
 } from 'chart.js';
+import {UserType} from "../../store/user/types";
 
 ChartJS.register(
     CategoryScale,
@@ -84,8 +86,12 @@ type FormImage = {
 const Profile = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
-    const {userData} = useAppSelector(state => state.user);
-    const {catalogData} = useAppSelector(state => state.catalog)
+    const userStateData = useAppSelector(state => state.user.userData);
+
+    const params = useParams();
+    // const {catalogData} = useAppSelector(state => state.catalog);
+    const [userData, setUserData] = useState<UserType>();
+    const [catalogData, setCatalogData] = useState<catalogType[]>();
 
     const [dataChart, setDataChart] = useState<ChartData<"line">>();
 
@@ -175,7 +181,29 @@ const Profile = () => {
                 console.log(resolve.data.error)
             }
         })
-    }, [])
+
+        const dataUser = async () => {
+            return await axios.get('/api/auth/getUser', {
+                params:{
+                    nickname:params.nickname
+                }
+            })
+        }
+        dataUser().then(resolve => {
+            if (resolve.status !== 204) {
+                if(userStateData && userStateData.clients_id === resolve.data.data.clients_id){
+                    setUserData(userStateData)
+                }
+                else{
+                    setUserData(resolve.data.data)
+                }
+                console.log(resolve);
+            } else {
+                console.log(resolve.data.error)
+                // return <Navigate to={'/'}  replace/>
+            }
+        })
+    }, [params])
 
     const configurationChart = (catalogData: catalogType[]) => {
         let labels: string[] = [];

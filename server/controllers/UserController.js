@@ -134,6 +134,35 @@ export const getMe = async (req, res) => {
 
 }
 
+export const getUser = async (req, res) => {
+    try {
+        const {nickname} = req.query
+
+        //Проверяем, существует ли пользователь
+        const data = await pool.query(`SELECT * FROM clients WHERE nickname = $1;`, [nickname]);
+
+        const arr = data.rows;
+
+        if (arr.length === 0) {
+            return res.status(204).json({
+                message: "User is not found",
+            });
+        } else {
+            res.status(200).json({
+                success: true,
+                data: {
+                    ...arr[0],
+                },
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            error: "No access!", //Database connection error
+        });
+    }
+
+}
+
 export const update = async (req, res) => {
 
     try {
