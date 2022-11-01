@@ -139,7 +139,7 @@ const Carousel: FC<CarouselPropsType> = ({
                      onScroll={scrollEvent}>
 
                     {!isTypePeopleProps(items) ? items.map((item) => (
-                            <div className={st.card} key={item.id}>
+                            <div className={st.card} key={`carousel-${item.id}-${title}-${item.name}`}>
                                 <Link to={`/${allUrl().name.split('/')[0]}/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
                                         {item.poster_path === null ?
@@ -165,7 +165,7 @@ const Carousel: FC<CarouselPropsType> = ({
                         ))
                         :
                         items.map((item) => (
-                            <div className={st.card} key={item.id}>
+                            <div className={st.card} key={`character-${item.id}-${item.name}-${item.cast_id}`}>
                                 <Link to={`/${allUrl().name}/${item.id}`} className="card__link">
                                     <div className={st.card__img}>
                                         {item.profile_path === null  ?

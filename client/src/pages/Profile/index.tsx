@@ -22,7 +22,7 @@ import {
     LineElement,
     Title,
     Tooltip,
-    Legend,
+    Legend, ChartData,
 } from 'chart.js';
 
 ChartJS.register(
@@ -34,39 +34,36 @@ ChartJS.register(
     Tooltip,
     Legend
 );
+ChartJS.defaults.color = "#fff";
 
 const options = {
     responsive: true,
+    color: '#fff',
     plugins: {
         legend: {
             position: 'top' as const,
         },
         title: {
-            display: true,
+            display: false,
             text: 'Chart.js Line Chart',
         },
     },
+    scales: {
+        x: {  // <-- axis is not array anymore, unlike before in v2.x: '[{'
+            grid: {
+                color: 'rgba(133,41,41,0.1)',
+                borderColor: 'red'  // <-- this line is answer to initial question
+            }
+        },
+        y: {  // <-- axis is not array anymore, unlike before in v2.x: '[{'
+            grid: {
+                color: 'rgba(0,255,0,0.1)',
+                borderColor: 'green'  // <-- this line is answer to initial question
+            }
+        }
+    }
 };
 
-const labels = ['January', '23'];
-
-// const data = {
-//     labels,
-//     datasets: [
-//         {
-//             label: 'Dataset 1',
-//             data:  [6, 3, 5, 7, 9, 11, 12,7],
-//             borderColor: 'rgb(255, 99, 132)',
-//             backgroundColor: 'rgba(255, 99, 132, 0.5)',
-//         },
-//         {
-//             label: 'Dataset 2',
-//             data: [0, 1, 5, 7, 9, 8],
-//             borderColor: 'rgb(53, 162, 235)',
-//             backgroundColor: 'rgba(53, 162, 235, 0.5)',
-//         },
-//     ],
-// };
 
 type FormInputs = {
     surname: string;
@@ -90,60 +87,7 @@ const Profile = () => {
     const {userData} = useAppSelector(state => state.user);
     const {catalogData} = useAppSelector(state => state.catalog)
 
-    const data = {
-        labels: ['asd', 'asd', 'dfg'],
-        datasets: [
-            {
-                label: 'Домашние задания',
-                data: [6, 3, 5, 7, 9, 11, 12],
-                borderColor: 'rgb(28,215,204)',
-                backgroundColor: 'rgba(28,215,204)',
-                tension: 0.3
-            },
-            {
-                label: 'Классная работа',
-                data: [6, 3, 3, 1, 9, 11, 12],
-                borderColor: 'rgb(255, 240, 0)',
-                backgroundColor: 'rgba(255, 240, 0)',
-                tension: 0.3
-            },
-            {
-                label: 'Лабораторные работы',
-                data: [6, 2, 3, 6, 9, 4, 12],
-                borderColor: 'rgb(100,181,252)',
-                backgroundColor: 'rgba(100,181,252)',
-                tension: 0.3
-            },
-            {
-                label: 'Тестирование',
-                data: [],
-                borderColor: 'rgb(255,170,170)',
-                backgroundColor: 'rgba(255,170,170)',
-                tension: 0.3
-            },
-            {
-                label: 'Контрольные работы',
-                data: [],
-                borderColor: 'rgb(122,255,122)',
-                backgroundColor: 'rgba(122,255,122)',
-                tension: 0.3
-            },
-            {
-                label: 'Экзамены',
-                data: [],
-                borderColor: 'rgb(181,159,253)',
-                backgroundColor: 'rgba(181,159,253)',
-                tension: 0.3
-            },
-            {
-                label: 'Курсовые',
-                data: [],
-                borderColor: 'rgb(127,131,140)',
-                backgroundColor: 'rgba(127,131,140)',
-                tension: 0.3
-            }
-        ]
-    }
+    const [dataChart, setDataChart] = useState<ChartData<"line">>();
 
     const ContainerStats = useRef<HTMLDivElement>(null);
     const [pixelMult, setPixelMult] = useState(6.2);
@@ -156,13 +100,6 @@ const Profile = () => {
     const [dropped, setDropped] = useState<catalogType[]>();
     const [plan_to_watch, setPlan_to_watch] = useState<catalogType[]>();
 
-    const poster = (item:string) => {
-        if (item) {
-            return `${apiImgUrl}/w370_and_h556_bestv2${item}`;
-        } else {
-            return '';
-        }
-    };
 
     const dispatch = useAppDispatch();
 
@@ -217,6 +154,7 @@ const Profile = () => {
 
     useEffect(() => {
         if (catalogData && ContainerStats.current) {
+            configurationChart(catalogData);
             setPixelMult((ContainerStats.current.offsetWidth / catalogData.length));
             setWatching(catalogData.filter(item => item.status === 1))
             setCompleted(catalogData.filter(item => item.status === 2))
@@ -226,23 +164,104 @@ const Profile = () => {
         }
     }, [catalogData]);
 
-    useEffect(()=>{
+    useEffect(() => {
         const data = async () => {
             return await axios.get('/api/profile/getHistory/',)
         }
         data().then(resolve => {
             if (resolve.status !== 204) {
                 setLastUpdate(resolve.data.data);
-            }
-            else {
+            } else {
                 console.log(resolve.data.error)
             }
         })
     }, [])
 
-    const formatJoined = (date:string):string=>{
-        return new Date(date).toDateString().split(/\s(.*)/g,2)[1]
+    const configurationChart = (catalogData: catalogType[]) => {
+        let labels: string[] = [];
+
+        let catalogDataChart: catalogType[] = [...catalogData];
+        catalogDataChart.sort((a: catalogType, b: catalogType): number => {
+            if (a.id && b.id) {
+                return a.id - b.id
+            }
+            return 1
+        });
+
+        let dataWatching = getValues(catalogDataChart, 1);
+        let dataCompleted = getValues(catalogDataChart, 2);
+        let dataOnHold = getValues(catalogDataChart, 3);
+        let dataDropped = getValues(catalogDataChart, 4);
+        let dataPlanToWatch = getValues(catalogDataChart, 5);
+        let maxLengthData = Math.max(dataWatching.length, dataCompleted.length, dataOnHold.length, dataDropped.length, dataPlanToWatch.length);
+
+        for (let i = 0; i < maxLengthData; i++) {
+            labels.push(i.toString());
+        }
+
+        setDataChart({
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Watching',
+                    data: dataWatching,
+                    borderColor: '#2db039',
+                    backgroundColor: '#2db039',
+                    tension: 0.3
+                },
+                {
+                    label: 'Completed',
+                    data: dataCompleted,
+                    borderColor: '#26448f',
+                    backgroundColor: '#26448f',
+                    tension: 0.3
+                },
+                {
+                    label: 'On-Hold',
+                    data: dataOnHold,
+                    borderColor: '#f9d457',
+                    backgroundColor: '#f9d457',
+                    tension: 0.3
+                },
+                {
+                    label: 'Dropped',
+                    data: dataDropped,
+                    borderColor: '#a12f31',
+                    backgroundColor: '#a12f31',
+                    tension: 0.3
+                },
+                {
+                    label: 'Plan to Watch',
+                    data: dataPlanToWatch,
+                    borderColor: '#8424a7',
+                    backgroundColor: '#8424a7',
+                    tension: 0.3
+                },
+            ]
+        });
     }
+
+    const getValues = (array: catalogType[], search: number) => {
+        let values: (number | null)[] = [];
+        for (let i = 0; i < array.length; i++) {
+            if (array[i].status === search) {
+                values.push(array[i].score);
+            }
+        }
+        return values
+    }
+
+    const formatJoined = (date: string): string => {
+        return new Date(date).toDateString().split(/\s(.*)/g, 2)[1]
+    }
+
+    const poster = (item: string) => {
+        if (item) {
+            return `${apiImgUrl}/w370_and_h556_bestv2${item}`;
+        } else {
+            return '';
+        }
+    };
 
     return (
         <div className={"spacing"}>
@@ -488,14 +507,14 @@ const Profile = () => {
                                     <div className="stat_score__days">
                                         <span>Days: </span>
                                         <span className="score_label">{catalogData ?
-                                            (catalogData.length*35/60)
+                                            (catalogData.length * 35 / 60)
                                                 .toFixed(2) : 0}</span>
                                     </div>
                                     <div className="stat_score__mean">
                                         <span>Mean Score: </span>
                                         <span className="score_label">{catalogData ?
                                             (catalogData.map((item) => item.score)
-                                                .reduce((prev,current) => (prev+current))/catalogData.length)
+                                                .reduce((prev, current) => (prev + current)) / catalogData.length)
                                                 .toFixed(2) : 0}</span>
                                     </div>
                                 </div>
@@ -531,25 +550,25 @@ const Profile = () => {
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/2"  className="circle completed">Completed</Link>
+                                            <Link to="/catalog/2" className="circle completed">Completed</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {completed ? completed.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/3"  className="circle on_hold">On-Hold</Link>
+                                            <Link to="/catalog/3" className="circle on_hold">On-Hold</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {on_hold ? on_hold.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/4"  className="circle dropped">Dropped</Link>
+                                            <Link to="/catalog/4" className="circle dropped">Dropped</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {dropped ? dropped.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/5"  className="circle plan_to_watch">Plan to Watch</Link>
+                                            <Link to="/catalog/5" className="circle plan_to_watch">Plan to Watch</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {plan_to_watch ? plan_to_watch.length : 0}
                                             </span>
@@ -558,13 +577,14 @@ const Profile = () => {
                                     <ul className="stats_data">
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Total Entries</span>
-                                            <span className="stats_data__count"> {catalogData ? catalogData.length : 0}</span>
+                                            <span
+                                                className="stats_data__count"> {catalogData ? catalogData.length : 0}</span>
                                         </li>
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Episodes</span>
                                             <span className="stats_data__count">{catalogData ?
                                                 catalogData.map((item) => item.episodes)
-                                                    .reduce((prev,current) => prev+current) : 0}</span>
+                                                    .reduce((prev, current) => prev + current) : 0}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -576,8 +596,9 @@ const Profile = () => {
                                     Last Updates
                                     {/*<a href="">History</a>*/}
                                 </h5>
-                                {lastUpdate && lastUpdate.map((item) =>(
-                                    <div className="last_updates_item" key={`history-last-${item.id}-${item.name_mt_id}`}>
+                                {lastUpdate && lastUpdate.map((item) => (
+                                    <div className="last_updates_item"
+                                         key={`history-last-${item.id}-${item.name_mt_id}`}>
                                         <Link to={item.type_mt === 'tv' ? `/tv/${item.mt_id}` : `/movie/${item.mt_id}`}
                                               className="history_image">
                                             <LoadableImage src={poster(item.img_string)} alt=""/>
@@ -597,7 +618,7 @@ const Profile = () => {
                                                         'on_hold': item.status === 3,
                                                         'dropped': item.status === 4,
                                                         'plan_to_watch': item.status === 5
-                                                    })} style={{width: (350/item.episodes)*item.watchedep}}></span>
+                                                    })} style={{width: (350 / item.episodes) * item.watchedep}}></span>
                                                 </div>
                                                 <span className="zxc">{formatAMPM(item.last_update)}</span>
                                             </div>
@@ -623,11 +644,16 @@ const Profile = () => {
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    {dataChart &&
+                        <div className="profile_chart_stat">
+                            <h2 className="title_chart">Chart catalog</h2>
+                            <Line options={options} data={dataChart}/>
+                        </div>
+                    }
+                </div>
             </div>
-            <Line options={options} data={data} />
-            <h1>YOUR FAVORITES CAROUSEL</h1>
+            {/*<h1>YOUR FAVORITES CAROUSEL</h1>*/}
         </div>
     );
 };
