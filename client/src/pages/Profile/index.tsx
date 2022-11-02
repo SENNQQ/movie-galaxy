@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import {SubmitHandler, useForm} from "react-hook-form";
 import cn from "classnames";
 import * as yup from 'yup';
@@ -26,6 +26,8 @@ import {
     Legend, ChartData,
 } from 'chart.js';
 import {UserType} from "../../store/user/types";
+import PageNotFound from "../../components/Global/PageNotFound";
+import Loading from "../../components/Loading";
 
 ChartJS.register(
     CategoryScale,
@@ -83,15 +85,18 @@ type FormImage = {
 }
 
 
-const Profile = () => {
+const Profile:FC = () => {
 
     const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
     const userStateData = useAppSelector(state => state.user.userData);
 
     const params = useParams();
-    // const {catalogData} = useAppSelector(state => state.catalog);
+
     const [userData, setUserData] = useState<UserType>();
     const [catalogData, setCatalogData] = useState<catalogType[]>();
+    const [loadUser, setLoadUser] = useState(false);
+    const [loadingPage, setLoadingPage] = useState(true);
+    const [selfProfile, setSelfProfile] = useState(false);
 
     const [dataChart, setDataChart] = useState<ChartData<"line">>();
 
@@ -171,6 +176,35 @@ const Profile = () => {
     }, [catalogData]);
 
     useEffect(() => {
+        const dataUser = async () => {
+            return await axios.get('/api/auth/getUser', {
+                params: {
+                    id: params.id
+                }
+            })
+        }
+        dataUser().then(resolve => {
+            if (resolve.status !== 204) {
+                if (userStateData && userStateData.clients_id === resolve.data.data.clients_id) {
+                    setUserData(resolve.data.data);
+                    fetchHistoryAndCatalog();
+                    setLoadingPage(false);
+                    setSelfProfile(true);
+                    setLoadUser(true);
+                } else {
+                    setUserData(resolve.data.data)
+                    fetchHistoryAndCatalog();
+                    setLoadingPage(false);
+                    setLoadUser(true);
+                }
+            } else {
+                setLoadingPage(false);
+                console.log(resolve.data.error)
+            }
+        })
+    }, [userStateData])
+
+    const fetchHistoryAndCatalog = () => {
         const data = async () => {
             return await axios.get('/api/profile/getHistory/',)
         }
@@ -181,29 +215,23 @@ const Profile = () => {
                 console.log(resolve.data.error)
             }
         })
-
-        const dataUser = async () => {
-            return await axios.get('/api/auth/getUser', {
-                params:{
-                    nickname:params.nickname
+        const dateHistory = async () => {
+            return await axios.get('/api/catalog/getAllEntryById', {
+                params: {
+                    id: params.id
                 }
             })
         }
-        dataUser().then(resolve => {
+        dateHistory().then(resolve => {
             if (resolve.status !== 204) {
-                if(userStateData && userStateData.clients_id === resolve.data.data.clients_id){
-                    setUserData(userStateData)
+                if (resolve.data.data.length > 0) {
+                    setCatalogData(resolve.data.data)
                 }
-                else{
-                    setUserData(resolve.data.data)
-                }
-                console.log(resolve);
             } else {
                 console.log(resolve.data.error)
-                // return <Navigate to={'/'}  replace/>
             }
         })
-    }, [params])
+    }
 
     const configurationChart = (catalogData: catalogType[]) => {
         let labels: string[] = [];
@@ -293,7 +321,7 @@ const Profile = () => {
 
     return (
         <div className={"spacing"}>
-            <div className="profile_wrapper">
+            {loadingPage ? <Loading/> : loadUser ? <div className="profile_wrapper">
                 <div className="profile">
                     <div className="profile_content">
                         <h2>Profile {userData?.nickname}</h2>
@@ -341,7 +369,7 @@ const Profile = () => {
                                                        type="file"
                                                        id="image"
                                                        hidden={true}
-                                                       {...imageForm.register('image')}/>
+                                                       {...imageForm.register('image', {disabled:!selfProfile})}/>
                                             </>
                                         }
                                     </div>
@@ -374,6 +402,7 @@ const Profile = () => {
                                                            value: 20,
                                                            message: 'Максимальное количество символов - 20',
                                                        },
+                                                       disabled:!selfProfile
                                                    })}
                                                    autoComplete="off" role={"presentation"}/>
                                         </div>
@@ -391,6 +420,7 @@ const Profile = () => {
                                                                value: 16,
                                                                message: 'Максимальное количество символов - 16',
                                                            },
+                                                           disabled:!selfProfile
                                                        })} autoComplete="off" role={"presentation"}/>
                                             </div>
                                         </div>
@@ -406,6 +436,7 @@ const Profile = () => {
                                                            value: 16,
                                                            message: 'Максимальное количество символов - 16',
                                                        },
+                                                       disabled:!selfProfile
                                                    })} autoComplete="off" role={"presentation"}/>
                                         </div>
                                     </div>
@@ -427,6 +458,7 @@ const Profile = () => {
                                                         value: 16,
                                                         message: 'Максимальное количество символов - 16',
                                                     },
+                                                    disabled:!selfProfile
                                                 })} autoComplete="off" role={"presentation"}/>
                                         </div>
                                         <div className="form_group">
@@ -445,6 +477,7 @@ const Profile = () => {
                                                            value: 12,
                                                            message: 'Максимальная длина номера 12 символов',
                                                        },
+                                                       disabled:!selfProfile
                                                    })} autoComplete="off" role={"presentation"}/>
 
                                         </div>
@@ -453,7 +486,7 @@ const Profile = () => {
                                         <div className="form_group">
 
 
-                                            <select {...register("sex")}
+                                            <select {...register("sex", {disabled:!selfProfile})}
                                                     className={cn('form_control', {'error': errors.sex})}>
                                                 <option value="true">Man</option>
                                                 <option value="false">Woman</option>
@@ -469,7 +502,9 @@ const Profile = () => {
                                                            value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
                                                            message: 'Неверный формат даты, пример: 28.06.2020',
                                                        },
-                                                   })} autoComplete="off"/>
+                                                       disabled:!selfProfile
+                                                   })}
+                                                   autoComplete="off"/>
                                         </div>
                                         <div className="form_group">
                                             <input className={cn('form_control', {'error': errors.email})}
@@ -483,13 +518,15 @@ const Profile = () => {
                                                            value: /^(([^<>()[\]\\.,;:\s@а-яА-ЯA-Z"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-z-]+\.)+[a-z]{2,}))$/,
                                                            message: 'Неверный формат почты, пример: test@test.test',
                                                        },
-                                                   })} autoComplete="off"/>
+                                                       disabled:!selfProfile
+                                                   })}
+                                                   autoComplete="off"/>
 
                                         </div>
                                     </div>
-                                    <div className="form_block">
+                                    {selfProfile && <div className="form_block">
                                         <button className="btn" type="submit">Save</button>
-                                    </div>
+                                    </div>}
 
                                     {(Object.keys(errors).length > 0 || Object.keys(imageForm.formState.errors).length > 0) &&
                                         <div className="form_group errors">
@@ -680,7 +717,8 @@ const Profile = () => {
                         </div>
                     }
                 </div>
-            </div>
+            </div> : <PageNotFound/>}
+
             {/*<h1>YOUR FAVORITES CAROUSEL</h1>*/}
         </div>
     );

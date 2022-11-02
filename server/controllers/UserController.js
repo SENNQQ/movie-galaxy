@@ -136,10 +136,10 @@ export const getMe = async (req, res) => {
 
 export const getUser = async (req, res) => {
     try {
-        const {nickname} = req.query
+        const {id} = req.query
 
         //Проверяем, существует ли пользователь
-        const data = await pool.query(`SELECT * FROM clients WHERE nickname = $1;`, [nickname]);
+        const data = await pool.query(`SELECT * FROM clients WHERE clients_id = $1;`, [id]);
 
         const arr = data.rows;
 

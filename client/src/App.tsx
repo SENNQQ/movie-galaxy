@@ -46,7 +46,7 @@ const App = () => {
                 <Route path="/tv/category/:name" element={<CategoryTV/>}/>
 
                 <Route path="/person/:id" element={<Person/>}/>
-                <Route path="/profile/:nickname" element={<Profile/>}/>
+                <Route path="/profile/:id" element={<Profile />}/>
                 <Route path="/catalog/:status" element={<Catalog/>}/>
                 <Route element={<RequireAuth/>}>
                     <Route path="/reviews" element={<Reviews/>}/>

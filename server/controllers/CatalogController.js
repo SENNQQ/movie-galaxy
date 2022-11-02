@@ -55,6 +55,29 @@ export const getAllEntry = async (req, res) => {
 
 }
 
+export const getAllEntryById = async (req, res) => {
+    const {id} = req.query;
+
+    try {
+        //Выбираем записи и передаем их
+        const data = await pool.query(`SELECT catalog.* FROM clients join "catalog" ON "catalog".clients_id = $1`, [id]);
+        const arr = data.rows;
+
+        res.status(200).json({
+            success: true,
+            data: [
+                ...arr,
+            ],
+        });
+
+    } catch (err) {
+        res.status(500).json({
+            error: "No access!", //Database connection error
+        });
+    }
+
+}
+
 export const getEntryStatus = async (req, res) => {
 
     const id = req.id;
@@ -122,7 +145,7 @@ export const updateEntry = async (req, res) => {
                             episodes = $4, img_string = $5, name_mt_id = $6
                             WHERE clients_id = $7 and mt_id = $8;`,
             [score, status, watchedEp, episodes, img, name_mt, id, mt_id],
-            (err, resolve) => {
+            (err) => {
                 if (err) {
                     console.log(err)
                     return res.status(500).json({
