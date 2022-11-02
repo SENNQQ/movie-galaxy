@@ -3,6 +3,7 @@ import st from './sidebar.module.scss';
 import {Link} from "react-router-dom";
 import {useAppDispatch, useAppSelector} from "../../../store/hook";
 import {fetchCatalog} from "../../../store/catalog/slice";
+import {toggleSearch} from "../../../store/search/slice";
 
 
 const Sidebar = () => {
@@ -87,7 +88,7 @@ const Sidebar = () => {
                         </li>
                     )}
                     <li>
-                        <button>
+                        <button onClick={()=>dispatch(toggleSearch())}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  data-v-7b357a42="">
                                 <g fill="none" stroke="#fff" strokeWidth="1.5" strokeLinecap="round"

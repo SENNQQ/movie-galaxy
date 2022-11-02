@@ -17,6 +17,7 @@ import {fetchAuth} from "./store/user/slice";
 import PageNotFound from "./components/Global/PageNotFound";
 import Reviews from "./pages/Reviews";
 import RequireAuth from "./hoc/RequireAuth";
+import Search from "./pages/Search";
 
 
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
                 <Route element={<RequireAuth/>}>
                     <Route path="/reviews" element={<Reviews/>}/>
                 </Route>
+                <Route path="/search" element={<Search/>}/>
             </Route>
             <Route path="/login" element={<Authorization/>}/>
             <Route path="/register" element={<Authorization/>}/>

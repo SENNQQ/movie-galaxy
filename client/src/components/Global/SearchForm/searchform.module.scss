@@ -1,0 +1,49 @@
+.search_form {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 10;
+
+  @media (min-width: 1200px) {
+    left: 7rem;
+  }
+
+  input[type='text'] {
+    flex: 1 1;
+    height: 4rem;
+    padding: 2.1rem 1.5rem;
+    font-size: 20px;
+    color: #fff;
+    background: none;
+    border: 0;
+    outline: 0;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 1.5rem;
+    background: none;
+    @media (min-width: 1200px) {
+      padding: 0 5rem;
+    }
+  }
+}
+
+.visuallyhidden {
+  position: absolute;
+  height: 1px;
+  width: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+.form_field {
+  display: flex;
+  background-color: #202124;
+}

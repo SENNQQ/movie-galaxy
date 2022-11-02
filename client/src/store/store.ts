@@ -1,12 +1,14 @@
 import {configureStore} from "@reduxjs/toolkit";
 import userReducer from './user/slice';
 import catalogReducer from './catalog/slice';
+import searchReducer from './search/slice';
 
 
 const store = configureStore({
     reducer: {
         user:userReducer,
-        catalog:catalogReducer
+        catalog:catalogReducer,
+        search:searchReducer
     },
 });
 

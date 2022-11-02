@@ -4,5 +4,6 @@ export interface ListingPropsType {
     items:cinemaProps[],
     title?:string,
     loading?:boolean,
-    loadMore?:()=>void
+    loadMore?:()=>void,
+    closeSearch?:()=>void
 }

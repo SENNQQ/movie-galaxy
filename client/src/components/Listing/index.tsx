@@ -7,18 +7,24 @@ const Listing: FC<ListingPropsType> = ({
                                            items,
                                            title,
                                            loading,
-                                           loadMore
+                                           loadMore,
+                                           closeSearch
                                        }) => {
     return (
         <div className="spacing">
             <div className={st.listing}>
-                {title &&
+                {items.length > 0 && title &&
                     <div className={st.listing__head}>
                         <h2 className={st.listing__title}>{title}</h2>
                     </div>
                 }
                 <div className={st.listing__items}>
-                    {items.map((item, index) => (<Card item={item} key={index}/>))}
+                    {items.length > 0 && items.map((item, index) => (
+                        <Card
+                        item={item}
+                        key={index}
+                        closeSearch={closeSearch}/>
+                    ))}
                 </div>
             </div>
         </div>

@@ -500,3 +500,24 @@ export function getMediaByGenre(media, genre, page = 1) {
         });
     });
 }
+
+/**
+ * Search (searches movies, tv and people)
+ */
+export function search (query, page = 1) {
+    return new Promise((resolve, reject) => {
+        axios.get(`${apiUrl}/search/multi`, {
+            params: {
+                api_key: config.API_KEY,
+                language: config.API_LANG,
+                query,
+                page,
+            },
+        }).then((response) => {
+            resolve(response.data);
+        })
+            .catch((error) => {
+                reject(error);
+            });
+    });
+}
