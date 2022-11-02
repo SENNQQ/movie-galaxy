@@ -51,6 +51,8 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
 
     useEffect(() => {
         setLoading(true);
+        setIsEntry(false);
+        console.log("_id change " + isEntry);
         calcCountEpisodes().then(response=>{
             setCountEpisodes(response)
         });
@@ -92,7 +94,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
 
     const onChangeInput = () => {
         setLoading(true);
-
+        console.log("changeInput " + isEntry);
         let watchedEpCount = refEpisodesCount.current!.value === "" ? "0" : refEpisodesCount.current!.value;
         if (parseInt(watchedEpCount) > countEpisodes)
             watchedEpCount = "0";
@@ -175,7 +177,7 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
 
     const addToCatalog = () => {
         setLoading(true);
-
+        console.log("addToCatalog " + isEntry);
         if (!isEntry) {
             const data = async () => {
                 return await axios.post('/api/catalog/createEntry', {
@@ -244,7 +246,8 @@ const AddToCatalog: FC<AddToCatalogPropsType> = ({
                 :
                 <div className={st.user_status_add_list} onClick={() => addToCatalog()}>
                     Add to Catalog
-                </div>}
+                </div>
+            }
 
             <div className={st.form_user_episode}>
                 <span> Episodes </span>

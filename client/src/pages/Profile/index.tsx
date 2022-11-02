@@ -206,7 +206,11 @@ const Profile:FC = () => {
 
     const fetchHistoryAndCatalog = () => {
         const data = async () => {
-            return await axios.get('/api/profile/getHistory/',)
+            return await axios.get('/api/profile/getHistory/', {
+                params: {
+                    id: params.id
+                }
+            })
         }
         data().then(resolve => {
             if (resolve.status !== 204) {
@@ -235,7 +239,7 @@ const Profile:FC = () => {
 
     const configurationChart = (catalogData: catalogType[]) => {
         let labels: string[] = [];
-
+        console.log(catalogData);
         let catalogDataChart: catalogType[] = [...catalogData];
         catalogDataChart.sort((a: catalogType, b: catalogType): number => {
             if (a.id && b.id) {
@@ -243,14 +247,14 @@ const Profile:FC = () => {
             }
             return 1
         });
-
+        console.log(catalogDataChart)
         let dataWatching = getValues(catalogDataChart, 1);
         let dataCompleted = getValues(catalogDataChart, 2);
         let dataOnHold = getValues(catalogDataChart, 3);
         let dataDropped = getValues(catalogDataChart, 4);
         let dataPlanToWatch = getValues(catalogDataChart, 5);
         let maxLengthData = Math.max(dataWatching.length, dataCompleted.length, dataOnHold.length, dataDropped.length, dataPlanToWatch.length);
-
+        console.log(dataWatching)
         for (let i = 0; i < maxLengthData; i++) {
             labels.push(i.toString());
         }
@@ -661,7 +665,7 @@ const Profile:FC = () => {
                                     Last Updates
                                     {/*<a href="">History</a>*/}
                                 </h5>
-                                {lastUpdate && lastUpdate.map((item) => (
+                                {lastUpdate && lastUpdate.length > 0 ?  lastUpdate.map((item) => (
                                     <div className="last_updates_item"
                                          key={`history-last-${item.id}-${item.name_mt_id}`}>
                                         <Link to={item.type_mt === 'tv' ? `/tv/${item.mt_id}` : `/movie/${item.mt_id}`}
@@ -704,8 +708,9 @@ const Profile:FC = () => {
                                                 <span className="text score_label"> {item.score}</span>
                                             </div>
                                         </div>
-                                    </div>
-                                ))}
+                                    </div>))
+                                    : <h2>No updates yet.</h2>
+                                }
                             </div>
                         </div>
                     </div>

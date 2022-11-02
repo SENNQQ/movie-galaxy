@@ -60,7 +60,7 @@ export const getAllEntryById = async (req, res) => {
 
     try {
         //Выбираем записи и передаем их
-        const data = await pool.query(`SELECT catalog.* FROM clients join "catalog" ON "catalog".clients_id = $1`, [id]);
+        const data = await pool.query(`SELECT catalog.* FROM catalog where clients_id = $1`, [id]);
         const arr = data.rows;
 
         res.status(200).json({

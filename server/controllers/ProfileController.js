@@ -37,7 +37,7 @@ export const getAllEntryCatalog = async (req, res) => {
 
 export const getHistoryLastThree = async (req, res) => {
 
-    const id = req.id;
+    const {id} = req.query;
 
     try {
         //Получаем последние 3 записи истории
