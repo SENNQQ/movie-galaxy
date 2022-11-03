@@ -4,6 +4,16 @@ import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import sizeOf from 'image-size';
 
+import { exec } from "child_process";
+
+exec('"X:\\web dev project\\movie-galaxy\\DB\\Текстовый документ.bat"', (err, stdout, stderr) => {
+    if (err) {
+        console.error(err);
+        return;
+    }
+    console.log(stdout);
+});
+
 const app = express()
 const port = 3100
 
