@@ -7,7 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import axios from "../../axios";
 import {CommentsGetData, CommentsPropsType} from "../../types/CommentTypes";
 import {useAppSelector} from "../../store/hook";
-import LoadableImage from "../LoadableImage";
+// import LoadableImage from "../LoadableImage";
+import noavatar from "../../image/png-transparent-falling-in-love-woman-anxiety-student-others-angle-woman-ecchi-thumbnail.png";
 
 type commentFormType = {
     comment: string
@@ -103,7 +104,8 @@ const Comments: FC<CommentsPropsType> = ({
                     <div className={st.comments__body}>
                         <div className={st.current__comments}>
                             <div className={`${st.current_comment__img} ${st.user_img}`}>
-                                <LoadableImage src={userData ? userImage(userData.avatar) : ''} alt=""/>
+                                {/*<LoadableImage src={userData ? userImage(userData.avatar) : ''} alt=""/>*/}
+                                <img src={userData ? userImage(userData.avatar) : noavatar} alt=""/>
                             </div>
 
                             <form className={st.comment_form}

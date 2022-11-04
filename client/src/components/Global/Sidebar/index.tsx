@@ -22,7 +22,7 @@ const Sidebar = () => {
             <nav className={st.navAside}>
                 <ul className={st.noList}>
                     <li>
-                        <Link to={!load ? "/login" : "/profile"} aria-label="Home">
+                        <Link to={!load ? "/login" : userData ? `/profile/${userData.clients_id}` : "/login"} aria-label="Home">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32"
                                  fill="white">
                                 <path

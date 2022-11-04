@@ -90,7 +90,7 @@
         }
       }
 
-      input, button[type=submit], select {
+      input, button, span.btn, select {
         width: 100%;
         line-height: 1.5;
         padding: 15px 10px;
@@ -98,14 +98,27 @@
         background-color: #242424;
         transition: background-color 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25), transform 0.3s cubic-bezier(0.57, 0.21, 0.69, 1.25);
         color: white;
+        font-family: inherit;
+        cursor: pointer;
+      }
+
+      span.btn{
+        text-align: center;
+        font-size: 14px;
       }
 
       select option {
         border-radius: 0;
       }
 
-      button[type=submit] {
+      button, span.btn {
         width: 30%;
+        font-family: inherit;
+      }
+
+      .block_button{
+        justify-content: inherit;
+        grid-gap: 43px;
       }
 
     }

@@ -11,8 +11,11 @@ import Carousel from "../../Carousel";
 import {TvInfoPropsType} from "./types";
 import AddToCatalog from "../../AddToCatalog";
 import Comments from "../../Comment";
+import {useAppSelector} from "../../../store/hook";
 
 const TvInfo:FC<TvInfoPropsType> = ({item}) => {
+
+    const {load} = useAppSelector(state => state.user);
 
     const poster = () => {
         if (item.poster_path) {
@@ -188,11 +191,11 @@ const TvInfo:FC<TvInfoPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <AddToCatalog _id={item.id}
-                              type={"tv"}
-                              img={posterItem ? item.poster_path : undefined}
-                              name_mt={item.name}
-                />
+                {load && <AddToCatalog _id={item.id}
+                               type={"tv"}
+                               img={posterItem ? item.poster_path : undefined}
+                               name_mt={item.name}
+                />}
                 {(item.external_ids.facebook_id
                         || item.external_ids.imdb_id
                         || item.external_ids.instagram_id

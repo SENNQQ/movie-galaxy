@@ -33,7 +33,7 @@ export const getOneEntry = async (req, res) => {
 }
 
 export const getAllEntry = async (req, res) => {
-    const id = req.id;
+    const id = req.query.id;
 
     try {
         //Выбираем записи и передаем их
@@ -80,7 +80,7 @@ export const getAllEntryById = async (req, res) => {
 
 export const getEntryStatus = async (req, res) => {
 
-    const id = req.id;
+    const id = req.query.id;
     const status = req.query.status;
 
     try {

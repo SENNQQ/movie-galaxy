@@ -3,6 +3,7 @@ import authRoutes from './auth.js'
 import catalogRoutes from './catalog.js'
 import profile from './profile.js'
 import comment from './comment.js'
+import db from './db.js'
 
 const router = Router();
 
@@ -10,5 +11,6 @@ router.use('/auth', authRoutes); // Роуты для авторизации, р
 router.use('/catalog', catalogRoutes); // Получение, обновление и добавление фильмов,тв шоу в каталог юзера
 router.use('/profile', profile); // Получение, обновление и добавление фильмов,тв шоу в каталог юзера
 router.use('/comment', comment); // Получение, добавление фильмов,тв шоу в каталог юзера
+router.use('/db', db); //  Работа с базой данных
 
 export default router;

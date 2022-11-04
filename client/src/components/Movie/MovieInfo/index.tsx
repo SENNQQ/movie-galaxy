@@ -11,8 +11,11 @@ import {cinemaProps} from "../../../types/MainPageTypes";
 import {castProps} from "../../../types/MoviePageTypes";
 import Comments from "../../Comment";
 import AddToCatalog from "../../AddToCatalog";
+import {useAppSelector} from "../../../store/hook";
 
 const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
+
+    const {load} = useAppSelector(state => state.user);
 
     const poster = () => {
         if (item.poster_path) {
@@ -180,11 +183,11 @@ const MovieInfo: FC<InfoOverviewPropsType> = ({item}) => {
                         </ul>
                     </div>
                 </div>
-                <AddToCatalog _id={item.id}
-                              type={"movie"}
-                              img={posterItem ? item.poster_path : undefined}
-                              name_mt={item.name || item.title}
-                />
+                {load && <AddToCatalog _id={item.id}
+                               type={"movie"}
+                               img={posterItem ? item.poster_path : undefined}
+                               name_mt={item.name || item.title}
+                />}
                 {(item.external_ids.facebook_id
                     || item.external_ids.imdb_id
                     || item.external_ids.instagram_id

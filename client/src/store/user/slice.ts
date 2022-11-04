@@ -80,6 +80,11 @@ const userSlice = createSlice({
     name: 'user',
     initialState,
     reducers: {
+        logout(state) {
+            state.load = false
+            state.userData = null;
+            state.error = null;
+        },
         setAvatar(state, {payload}: PayloadAction<string>) {
             state.userData!.avatar = payload;
         },
@@ -142,9 +147,9 @@ const userSlice = createSlice({
     }
 })
 
-function isError(action: AnyAction) {
-    return action.type.endsWith('rejected');
-}
+// function isError(action: AnyAction) {
+//     return action.type.endsWith('rejected');
+// }
 
-export const {setAvatar} = userSlice.actions;
+export const {setAvatar, logout} = userSlice.actions;
 export default userSlice.reducer;

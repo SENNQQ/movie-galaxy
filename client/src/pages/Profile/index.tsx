@@ -6,11 +6,11 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import '../../style/profile.scss';
 import LoadableImage from "../../components/LoadableImage";
 import {useAppDispatch, useAppSelector} from "../../store/hook";
-import {setAvatar, updateUser} from "../../store/user/slice";
+import {logout, setAvatar, updateUser} from "../../store/user/slice";
 import axios from "../../axios";
 import {catalogType} from "../../store/catalog/types";
 import {formatAMPM} from "../../helper/dateFormat";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {apiImgUrl} from "../../api/zxc";
 
 
@@ -28,6 +28,7 @@ import {
 import {UserType} from "../../store/user/types";
 import PageNotFound from "../../components/Global/PageNotFound";
 import Loading from "../../components/Loading";
+import {toast, ToastContainer} from "react-toastify";
 
 ChartJS.register(
     CategoryScale,
@@ -91,12 +92,14 @@ const Profile:FC = () => {
     const userStateData = useAppSelector(state => state.user.userData);
 
     const params = useParams();
+    const navigate = useNavigate();
 
     const [userData, setUserData] = useState<UserType>();
     const [catalogData, setCatalogData] = useState<catalogType[]>();
     const [loadUser, setLoadUser] = useState(false);
     const [loadingPage, setLoadingPage] = useState(true);
     const [selfProfile, setSelfProfile] = useState(false);
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [dataChart, setDataChart] = useState<ChartData<"line">>();
 
@@ -191,6 +194,7 @@ const Profile:FC = () => {
                     setLoadingPage(false);
                     setSelfProfile(true);
                     setLoadUser(true);
+                    setIsAdmin(resolve.data.data.admin);
                 } else {
                     setUserData(resolve.data.data)
                     fetchHistoryAndCatalog();
@@ -239,7 +243,7 @@ const Profile:FC = () => {
 
     const configurationChart = (catalogData: catalogType[]) => {
         let labels: string[] = [];
-        console.log(catalogData);
+
         let catalogDataChart: catalogType[] = [...catalogData];
         catalogDataChart.sort((a: catalogType, b: catalogType): number => {
             if (a.id && b.id) {
@@ -247,14 +251,14 @@ const Profile:FC = () => {
             }
             return 1
         });
-        console.log(catalogDataChart)
+
         let dataWatching = getValues(catalogDataChart, 1);
         let dataCompleted = getValues(catalogDataChart, 2);
         let dataOnHold = getValues(catalogDataChart, 3);
         let dataDropped = getValues(catalogDataChart, 4);
         let dataPlanToWatch = getValues(catalogDataChart, 5);
         let maxLengthData = Math.max(dataWatching.length, dataCompleted.length, dataOnHold.length, dataDropped.length, dataPlanToWatch.length);
-        console.log(dataWatching)
+
         for (let i = 0; i < maxLengthData; i++) {
             labels.push(i.toString());
         }
@@ -321,6 +325,35 @@ const Profile:FC = () => {
         } else {
             return '';
         }
+    };
+
+    const logoutHandler = () => {
+        dispatch(logout());
+        window.localStorage.removeItem('token');
+        navigate('/', {replace:false})
+    };
+
+    const MakeDbBackup = () => {
+        const data = async () => {
+            return await axios.post('/api/db/createBackUp')
+        }
+        data().then(resolve => {
+            console.log(resolve);
+            if (resolve.data.success) {
+                toast.success('Backup is done!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark",
+                });
+            } else {
+                console.log(resolve.data.error)
+            }
+        })
     };
 
     return (
@@ -528,9 +561,12 @@ const Profile:FC = () => {
 
                                         </div>
                                     </div>
-                                    {selfProfile && <div className="form_block">
-                                        <button className="btn" type="submit">Save</button>
-                                    </div>}
+                                   <div className="form_block block_button">
+                                        {selfProfile && <button className="btn" type="submit">Save</button>}
+                                        {selfProfile && <span className="btn" onClick={logoutHandler}>Logout</span>}
+                                        {selfProfile && isAdmin &&  <span className="btn" onClick={MakeDbBackup}>Make a database backup</span>}
+                                   </div>
+
 
                                     {(Object.keys(errors).length > 0 || Object.keys(imageForm.formState.errors).length > 0) &&
                                         <div className="form_group errors">
@@ -611,38 +647,39 @@ const Profile:FC = () => {
                                 </div>
 
                                 <div className="stat_catalog">
-                                    <ul className="stats_status">
+                                    {userData && <ul className="stats_status">
                                         <li className="clearfix">
-                                            <Link to="/catalog/1" className="circle watching">Watching</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/1`}
+                                                  className="circle watching">Watching</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {watching ? watching.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/2" className="circle completed">Completed</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/2`} className="circle completed">Completed</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {completed ? completed.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/3" className="circle on_hold">On-Hold</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/3`} className="circle on_hold">On-Hold</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {on_hold ? on_hold.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/4" className="circle dropped">Dropped</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/4`} className="circle dropped">Dropped</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {dropped ? dropped.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to="/catalog/5" className="circle plan_to_watch">Plan to Watch</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/5`} className="circle plan_to_watch">Plan to Watch</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {plan_to_watch ? plan_to_watch.length : 0}
                                             </span>
                                         </li>
-                                    </ul>
+                                    </ul>}
                                     <ul className="stats_data">
                                         <li className="clearfix">
                                             <span className="stats_data_entries">Total Entries</span>
@@ -723,7 +760,7 @@ const Profile:FC = () => {
                     }
                 </div>
             </div> : <PageNotFound/>}
-
+            <ToastContainer/>
             {/*<h1>YOUR FAVORITES CAROUSEL</h1>*/}
         </div>
     );

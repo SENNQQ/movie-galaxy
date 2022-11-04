@@ -19,17 +19,17 @@ const Catalog = () => {
 
     const changeTab = (nameTab: string): void => {
         if (nameTab === 'currently-watching')
-            redirect('/catalog/1')
+            redirect(`/catalog/${params.id}/1`)
         if (nameTab === 'completed')
-            redirect('/catalog/2')
+            redirect(`/catalog/${params.id}/2`)
         if (nameTab === 'on-hold')
-            redirect('/catalog/3')
+            redirect(`/catalog/${params.id}/3`)
         if (nameTab === 'dropped')
-            redirect('/catalog/4')
+            redirect(`/catalog/${params.id}/4`)
         if (nameTab === 'plan-to-watch')
-            redirect('/catalog/5')
+            redirect(`/catalog/${params.id}/5`)
         if (nameTab === 'all-catalog')
-            redirect('/catalog/6')
+            redirect(`/catalog/${params.id}/6`)
     }
 
     const poster = (item:string) => {
@@ -45,7 +45,8 @@ const Catalog = () => {
             const data = async () => {
                 return await axios.get('/api/catalog/getEntryStatus', {
                     params: {
-                        status: params.status
+                        status: params.status,
+                        id: params.id
                     }
                 })
             }
@@ -58,7 +59,11 @@ const Catalog = () => {
             })
         }else if(params.status === '6'){
             const data = async () => {
-                return await axios.get('/api/catalog/getAllEntry',)
+                return await axios.get('/api/catalog/getAllEntry', {
+                    params:{
+                        id: params.id
+                    }
+                })
             }
             data().then(resolve => {
                 if (resolve.status !== 204) {
