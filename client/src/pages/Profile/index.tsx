@@ -84,11 +84,13 @@ type FormInputs = {
 type FormImage = {
     image: FileList
 }
+type FormDB = {
+    database: FileList
+}
 
 
-const Profile:FC = () => {
+const Profile: FC = () => {
 
-    const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
     const userStateData = useAppSelector(state => state.user.userData);
 
     const params = useParams();
@@ -128,7 +130,21 @@ const Profile:FC = () => {
             }),
     });
 
+    const schemaDB = yup.object().shape({
+        database: yup
+            .mixed()
+            .test('type', 'Допустимые форматы: sql, backup', value => {
+                let typeValue = value[0].name.split('.')[3];
+                console.log(value);
+                return value && (typeValue === "sql" || typeValue === "backup");
+            }),
+    });
+
+    const {register, handleSubmit, setValue, formState: {errors}} = useForm<FormInputs>();
+
     const imageForm = useForm<FormImage>({resolver: yupResolver(schema)});
+
+    const dbRestoreForm = useForm<FormDB>({resolver: yupResolver(schemaDB)});
 
     const onSubmit = async (dataForm: FormInputs) => {
         dispatch(updateUser({...dataForm, id: userData!.clients_id}))
@@ -330,7 +346,7 @@ const Profile:FC = () => {
     const logoutHandler = () => {
         dispatch(logout());
         window.localStorage.removeItem('token');
-        navigate('/', {replace:false})
+        navigate('/', {replace: false})
     };
 
     const MakeDbBackup = () => {
@@ -355,6 +371,30 @@ const Profile:FC = () => {
             }
         })
     };
+
+    const MakeRestoreBackup: SubmitHandler<FormDB> = async ({database}) => {
+        const formData = new FormData();
+        formData.append('database', database[0]);
+
+        const {data} = await axios.post('/api/db/restoreBackUp', formData);
+
+        if (data.success) {
+            toast.success('Restore is done! Refresh page', {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else {
+            console.log(data.error)
+        }
+
+    }
+
 
     return (
         <div className={"spacing"}>
@@ -406,7 +446,7 @@ const Profile:FC = () => {
                                                        type="file"
                                                        id="image"
                                                        hidden={true}
-                                                       {...imageForm.register('image', {disabled:!selfProfile})}/>
+                                                       {...imageForm.register('image', {disabled: !selfProfile})}/>
                                             </>
                                         }
                                     </div>
@@ -439,7 +479,7 @@ const Profile:FC = () => {
                                                            value: 20,
                                                            message: 'Максимальное количество символов - 20',
                                                        },
-                                                       disabled:!selfProfile
+                                                       disabled: !selfProfile
                                                    })}
                                                    autoComplete="off" role={"presentation"}/>
                                         </div>
@@ -457,7 +497,7 @@ const Profile:FC = () => {
                                                                value: 16,
                                                                message: 'Максимальное количество символов - 16',
                                                            },
-                                                           disabled:!selfProfile
+                                                           disabled: !selfProfile
                                                        })} autoComplete="off" role={"presentation"}/>
                                             </div>
                                         </div>
@@ -473,7 +513,7 @@ const Profile:FC = () => {
                                                            value: 16,
                                                            message: 'Максимальное количество символов - 16',
                                                        },
-                                                       disabled:!selfProfile
+                                                       disabled: !selfProfile
                                                    })} autoComplete="off" role={"presentation"}/>
                                         </div>
                                     </div>
@@ -495,7 +535,7 @@ const Profile:FC = () => {
                                                         value: 16,
                                                         message: 'Максимальное количество символов - 16',
                                                     },
-                                                    disabled:!selfProfile
+                                                    disabled: !selfProfile
                                                 })} autoComplete="off" role={"presentation"}/>
                                         </div>
                                         <div className="form_group">
@@ -514,7 +554,7 @@ const Profile:FC = () => {
                                                            value: 12,
                                                            message: 'Максимальная длина номера 12 символов',
                                                        },
-                                                       disabled:!selfProfile
+                                                       disabled: !selfProfile
                                                    })} autoComplete="off" role={"presentation"}/>
 
                                         </div>
@@ -523,7 +563,7 @@ const Profile:FC = () => {
                                         <div className="form_group">
 
 
-                                            <select {...register("sex", {disabled:!selfProfile})}
+                                            <select {...register("sex", {disabled: !selfProfile})}
                                                     className={cn('form_control', {'error': errors.sex})}>
                                                 <option value="true">Man</option>
                                                 <option value="false">Woman</option>
@@ -539,7 +579,7 @@ const Profile:FC = () => {
                                                            value: /^(([0-2]\d)?(3[0-1])?[./-](0(1)?([3-9])?)?(1[0-2])?[./-]\d{4})|^(([0-2]\d)[./-]02[./-]\d{4})$/,
                                                            message: 'Неверный формат даты, пример: 28.06.2020',
                                                        },
-                                                       disabled:!selfProfile
+                                                       disabled: !selfProfile
                                                    })}
                                                    autoComplete="off"/>
                                         </div>
@@ -555,17 +595,19 @@ const Profile:FC = () => {
                                                            value: /^(([^<>()[\]\\.,;:\s@а-яА-ЯA-Z"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}])|(([a-z-]+\.)+[a-z]{2,}))$/,
                                                            message: 'Неверный формат почты, пример: test@test.test',
                                                        },
-                                                       disabled:!selfProfile
+                                                       disabled: !selfProfile
                                                    })}
                                                    autoComplete="off"/>
 
                                         </div>
                                     </div>
-                                   <div className="form_block block_button">
+                                    <div className="form_block block_button">
                                         {selfProfile && <button className="btn" type="submit">Save</button>}
                                         {selfProfile && <span className="btn" onClick={logoutHandler}>Logout</span>}
-                                        {selfProfile && isAdmin &&  <span className="btn" onClick={MakeDbBackup}>Make a database backup</span>}
-                                   </div>
+                                        {selfProfile &&
+                                            isAdmin &&
+                                            <span className="btn" onClick={MakeDbBackup}>Make a database backup</span>}
+                                    </div>
 
 
                                     {(Object.keys(errors).length > 0 || Object.keys(imageForm.formState.errors).length > 0) &&
@@ -601,6 +643,19 @@ const Profile:FC = () => {
                                         </div>}
                                 </div>
                             </form>
+                            {selfProfile && isAdmin &&
+                                <form className="form_database_restore"
+                                      onChange={dbRestoreForm.handleSubmit(MakeRestoreBackup)}>
+                                    <span className="btn btn_input__file">
+                                        <label htmlFor="database"
+                                               className="custom-file-upload">Restore backup</label>
+                                        <input accept=".sql, .backup"
+                                               type="file"
+                                               id='database'
+                                               {...dbRestoreForm.register('database', {disabled: !selfProfile})}/>
+                                    </span>
+                                </form>
+                            }
                         </div>
                     </div>
                     <div className="profile_content profile_stat">
@@ -656,25 +711,29 @@ const Profile:FC = () => {
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to={`/catalog/${userData.clients_id}/2`} className="circle completed">Completed</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/2`}
+                                                  className="circle completed">Completed</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {completed ? completed.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to={`/catalog/${userData.clients_id}/3`} className="circle on_hold">On-Hold</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/3`}
+                                                  className="circle on_hold">On-Hold</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {on_hold ? on_hold.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to={`/catalog/${userData.clients_id}/4`} className="circle dropped">Dropped</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/4`}
+                                                  className="circle dropped">Dropped</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {dropped ? dropped.length : 0}
                                             </span>
                                         </li>
                                         <li className="clearfix">
-                                            <Link to={`/catalog/${userData.clients_id}/5`} className="circle plan_to_watch">Plan to Watch</Link>
+                                            <Link to={`/catalog/${userData.clients_id}/5`}
+                                                  className="circle plan_to_watch">Plan to Watch</Link>
                                             <span className="di-ib fl-r lh10">
                                                 {plan_to_watch ? plan_to_watch.length : 0}
                                             </span>
@@ -702,22 +761,22 @@ const Profile:FC = () => {
                                     Last Updates
                                     {/*<a href="">History</a>*/}
                                 </h5>
-                                {lastUpdate && lastUpdate.length > 0 ?  lastUpdate.map((item) => (
-                                    <div className="last_updates_item"
-                                         key={`history-last-${item.id}-${item.name_mt_id}`}>
-                                        <Link to={item.type_mt === 'tv' ? `/tv/${item.mt_id}` : `/movie/${item.mt_id}`}
-                                              className="history_image">
-                                            <LoadableImage src={poster(item.img_string)} alt=""/>
-                                        </Link>
-                                        <div className="last_updates_item__data">
-                                            <Link
-                                                to={item.type_mt === 'tv'
-                                                    ? `/tv/${item.mt_id}`
-                                                    : `/movie/${item.mt_id}`}>
-                                                {item.name_mt_id}
+                                {lastUpdate && lastUpdate.length > 0 ? lastUpdate.map((item) => (
+                                        <div className="last_updates_item"
+                                             key={`history-last-${item.id}-${item.name_mt_id}`}>
+                                            <Link to={item.type_mt === 'tv' ? `/tv/${item.mt_id}` : `/movie/${item.mt_id}`}
+                                                  className="history_image">
+                                                <LoadableImage src={poster(item.img_string)} alt=""/>
                                             </Link>
-                                            <div className="graph_content">
-                                                <div className="graph">
+                                            <div className="last_updates_item__data">
+                                                <Link
+                                                    to={item.type_mt === 'tv'
+                                                        ? `/tv/${item.mt_id}`
+                                                        : `/movie/${item.mt_id}`}>
+                                                    {item.name_mt_id}
+                                                </Link>
+                                                <div className="graph_content">
+                                                    <div className="graph">
                                                     <span className={cn("graph_inner", {
                                                         'watching': item.status === 1,
                                                         'completed': item.status === 2,
@@ -725,27 +784,27 @@ const Profile:FC = () => {
                                                         'dropped': item.status === 4,
                                                         'plan_to_watch': item.status === 5
                                                     })} style={{width: (350 / item.episodes) * item.watchedep}}></span>
+                                                    </div>
+                                                    <span className="zxc">{formatAMPM(item.last_update)}</span>
                                                 </div>
-                                                <span className="zxc">{formatAMPM(item.last_update)}</span>
+                                                <div className="condition">
+                                                    {item.status === 1 && 'Watching'}
+                                                    {item.status === 2 && 'Completed'}
+                                                    {item.status === 3 && 'On-Hold'}
+                                                    {item.status === 4 && 'Dropped'}
+                                                    {item.status === 5 && 'Plan to Watch'}
+                                                    <span className={cn("text", {
+                                                        'watching': item.status === 1,
+                                                        'completed': item.status === 2,
+                                                        'on_hold': item.status === 3,
+                                                        'dropped': item.status === 4,
+                                                        'plan_to_watch': item.status === 5
+                                                    })}> {item.watchedep}</span>
+                                                    /{item.episodes} · Score
+                                                    <span className="text score_label"> {item.score}</span>
+                                                </div>
                                             </div>
-                                            <div className="condition">
-                                                {item.status === 1 && 'Watching'}
-                                                {item.status === 2 && 'Completed'}
-                                                {item.status === 3 && 'On-Hold'}
-                                                {item.status === 4 && 'Dropped'}
-                                                {item.status === 5 && 'Plan to Watch'}
-                                                <span className={cn("text", {
-                                                    'watching': item.status === 1,
-                                                    'completed': item.status === 2,
-                                                    'on_hold': item.status === 3,
-                                                    'dropped': item.status === 4,
-                                                    'plan_to_watch': item.status === 5
-                                                })}> {item.watchedep}</span>
-                                                /{item.episodes} · Score
-                                                <span className="text score_label"> {item.score}</span>
-                                            </div>
-                                        </div>
-                                    </div>))
+                                        </div>))
                                     : <h2>No updates yet.</h2>
                                 }
                             </div>

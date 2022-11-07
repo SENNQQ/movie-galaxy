@@ -7,6 +7,7 @@ const router = Router();
 
 
 router.post('/createBackUp', checkAuth, DataBaseController.createBackUpDB); //  для создания записи в каталоге
+router.post('/restoreBackUp', checkAuth, DataBaseController.restoreBackUp); //  для загрузки базы данных
 
 
 
