@@ -29,6 +29,7 @@ export const restoreBackUp = async (req, res) => {
         if (req.files.database) {
             let database = req.files.database;
             const filePath = `files\\db\\${new Date().toDateString()}\\${database.name}`;
+            await database.mv(filePath);
 
             exec(`"C:\\Program Files\\PostgreSQL\\14\\bin\\pg_restore.exe"  --host "localhost" --port "5432" --username "postgres" --no-password --dbname "movie-galaxy" --clean --verbose "X:\\web dev project\\movie-galaxy\\server\\${filePath}"`, (err, stdout) => {
                 if (err) {

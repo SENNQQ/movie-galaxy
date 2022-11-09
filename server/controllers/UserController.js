@@ -7,19 +7,13 @@ import {SECRET_KEY} from "../config.js"
 /**
  //  * Обработка запроса на регистрацию нового пользователя*/
 export const register = async (req, res) => {
-
     const {nickname, email, password} = req.body;
-
     try {
-
         const salt = await bcrypt.genSalt(10);
         const passwordHas = await bcrypt.hash(password, salt);
-
         const data = await pool.query(`CALL register_user($1,$2,$3,$4)`, [nickname, email, passwordHas, null]);
         const arr = data.rows;
-
         const {p_status} = arr[0]
-
         if (p_status === null) {
             return res.status(400).json({
                 message: "Email or nickname already there, No need to register again.",

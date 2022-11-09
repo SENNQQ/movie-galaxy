@@ -8,6 +8,7 @@ import {closeSearch} from "../../store/search/slice";
 
 type LocationState = {
     query: string | undefined
+    genre: string | undefined
 }
 
 const Search = () => {
@@ -41,10 +42,16 @@ const Search = () => {
         }
         fetchData().then((response) => {
             if (response) {
-                setSearchItem(response.items.results)
+                if(state.genre && state.genre !== '-'){
+                    let genre = parseInt(state.genre)
+                    setSearchItem(response.items.results.filter((item:any) =>item.genre_ids).filter((item:any) => item.genre_ids.includes(genre)))
+                }
+                else{
+                    setSearchItem(response.items.results)
+                }
             }
         })
-    }, [state.query]);
+    }, [state.query, state.genre]);
 
     return (
         <div style={{paddingTop:"5em"}}>

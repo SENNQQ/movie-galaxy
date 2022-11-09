@@ -20,7 +20,7 @@ const Comments: FC<CommentsPropsType> = ({
                                              type}) => {
 
     const {register, handleSubmit, formState: {errors}, reset} = useForm<commentFormType>();
-    const {userData} = useAppSelector(state => state.user);
+    const {userData, load} = useAppSelector(state => state.user);
     const [allContentComments, setAllContentComments] = useState<CommentsGetData[]>();
 
 
@@ -118,12 +118,13 @@ const Comments: FC<CommentsPropsType> = ({
                                               required: true, minLength: {
                                                   value: 20,
                                                   message: "The minimum comment length is 20 characters."
-                                              }
+                                              },
+                                              disabled:!load
                                           })}>
                                 </textarea>
                                 </div>
                                 <div className={st.comment_form__button}>
-                                    <button className={st.comment_form__send}>
+                                    <button className={st.comment_form__send} disabled={!load}>
                                         <svg width="20" height="20" viewBox="0 0 18 18" fill="none"
                                              xmlns="http://www.w3.org/2000/svg">
                                             <path

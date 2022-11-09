@@ -80,7 +80,6 @@ type FormInputs = {
     birthDate: string;
     sex: boolean;
 }
-
 type FormImage = {
     image: FileList
 }

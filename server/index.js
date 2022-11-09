@@ -3,20 +3,17 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
 import sizeOf from 'image-size';
-
+import routes from './routes/routes.js';
+import checkAuth from "./middleware/checkAuth.js";
 
 const app = express()
 const port = 3100
 
-import routes from './routes/routes.js';
-import checkAuth from "./middleware/checkAuth.js";
 
 app.use(bodyParser.json())
-app.use(
-    bodyParser.urlencoded({
+app.use(bodyParser.urlencoded({
         extended: true,
-    })
-)
+    }))
 
 app.use(cors())
 app.use(fileUpload({
